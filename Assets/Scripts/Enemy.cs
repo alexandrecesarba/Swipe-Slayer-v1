@@ -4,34 +4,32 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 
-public class Enemy : MonoBehaviour {
-
-    public int maxHealth = 10;
-    public int currentHealth;
-
-    public HealthBar healthBar;
+public class Enemy : Damageable {
  
     public GameObject target;
 
-    public void Start() {
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+    protected override void Start() {
+        base.Start();
         target = GameObject.FindWithTag("Player");
-
         GameManager.instance.AddEnemyToList(this);
     }
-    
-    public void TakeDamage (int damage) {
 
-        currentHealth -= damage;
-
-        if (currentHealth <= 0){
-            Destroy (gameObject);
-            GameManager.instance.RemoveEnemyFromList(this);
-        }
-
-        healthBar.SetHealth(currentHealth);
+    protected override void Die() {
+        base.Die();
+        GameManager.instance.RemoveEnemyFromList(this);
     }
+    
+    // public void TakeDamage (int damage) {
+
+    //     currentHealth -= damage;
+
+    //     if (currentHealth <= 0){
+    //         Destroy (gameObject);
+    //         GameManager.instance.RemoveEnemyFromList(this);
+    //     }
+
+    //     healthBar.SetHealth(currentHealth);
+    // }
 
     public void MoveEnemy(Vector3 playerPos) {
 		Vector3 posDif = transform.position - playerPos;
