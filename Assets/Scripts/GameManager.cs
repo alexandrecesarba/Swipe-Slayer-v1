@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
             return;
 
         //Start moving enemies.
-        // StartCoroutine(MoveEnemies());
+        StartCoroutine(MoveEnemies());
         // MoveEnemies();
     }
 
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Coroutine to move enemies in sequence.
-    public void MoveEnemies()
+    public IEnumerator MoveEnemies()
     {
         //While enemiesMoving is true player is unable to move.
         enemiesMoving = true;
@@ -117,21 +117,24 @@ public class GameManager : MonoBehaviour
             //Wait for turnDelay seconds between moves, replaces delay caused by enemies moving when there are none.
             // yield return new WaitForSeconds(turnDelay);
         // }
-
+        // Debug.Log(enemies.Count);
         //Loop through List of Enemy objects.
         for (int i = 0; i < enemies.Count; i++)
         {
-            //Call the MoveEnemy function of Enemy at index i in the enemies List.
-            enemies[i].MoveEnemy(enemies[i].target.transform.position);
-
             //Wait for Enemy's moveTime before moving next Enemy, 
-            // yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f);
+
+            //Call the MoveEnemy function of Enemy at index i in the enemies List.
+            enemies[i].MoveEnemy();
+            // Debug.Log(enemies[i].target.transform.position);
+
+ 
         }
         //Once Enemies are done moving, set playersTurn to true so player can move.
         playersTurn = true;
 
         //Enemies are done moving, set enemiesMoving to false.
         enemiesMoving = false;
-        return;
+        // return;
     }
 }

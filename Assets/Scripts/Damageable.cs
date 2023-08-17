@@ -5,6 +5,8 @@ public class Damageable : MonoBehaviour
     public int maxHealth = 10;
     private int currentHealth;
     public HealthBar healthBar;
+    public delegate void DeathAction();
+    public event DeathAction OnDeath;
 
     protected virtual void Start()
     {
@@ -25,6 +27,7 @@ public class Damageable : MonoBehaviour
 
     protected virtual void Die()
     {
+        OnDeath?.Invoke();
         Destroy(gameObject);
     }
 }

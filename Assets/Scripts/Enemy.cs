@@ -4,74 +4,64 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 
-public class Enemy : Damageable {
+public class Enemy : MonoBehaviour {
  
-    public GameObject target;
+    public Transform target;
+    public MovingObject movement;
+    public GameObject circlePrefab;
+    public int attackPoints = 2;
 
-    protected override void Start() {
-        base.Start();
-        target = GameObject.FindWithTag("Player");
+    void Start() {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         GameManager.instance.AddEnemyToList(this);
+        movement = GetComponent<MovingObject>();
+
+        Damageable damage = GetComponent<Damageable>();
+        damage.OnDeath += HandleEnemyDeath;
     }
 
-    protected override void Die() {
-        base.Die();
-        GameManager.instance.RemoveEnemyFromList(this);
-    }
-    
-    // public void TakeDamage (int damage) {
 
-    //     currentHealth -= damage;
-
-    //     if (currentHealth <= 0){
-    //         Destroy (gameObject);
-    //         GameManager.instance.RemoveEnemyFromList(this);
-    //     }
-
-    //     healthBar.SetHealth(currentHealth);
-    // }
-
-    public void MoveEnemy(Vector3 playerPos) {
-		Vector3 posDif = transform.position - playerPos;
+    public void MoveEnemy() {
+		Vector3 posDif = transform.position - target.position;
         float absX = Mathf.Abs(posDif.x);
         float absY = Mathf.Abs(posDif.y);
+        Vector2 moveDirection;
 
-        if(absX > absY || absY == 0){
+        if (absX > absY || absY == 0)
+        {
             //mover na direção X
-            MoveEnemyInX(posDif);
+            moveDirection = posDif.x < 0 ? Vector2.right : Vector2.left;
         }
 
-        else if(absX < absY || absX == 0){
+        else {
             //mover na direção Y
-            MoveEnemyInY(posDif);
+            moveDirection = posDif.y < 0 ? Vector2.up : Vector2.down;
+        }
+
+        //  _ = Instantiate(circlePrefab, transform.position + (Vector3)moveDirection, Quaternion.identity);
+        GameObject playerObject = movement.Move(moveDirection);
+        // Debug.Log("Entro aqui!!");
+
+        // Se atacou o player, chame a função do script "Damageable"
+        if (playerObject != null && playerObject.GetComponent<Damageable>() != null && playerObject.tag == "Player")
+        {
+            Debug.Log("Entro aqui!!");
+            Damageable playerDamage = playerObject.GetComponent<Damageable>();
+            if (playerDamage != null) 
+            {
+                playerDamage.TakeDamage(attackPoints);
+            } else
+            {
+                Debug.Log("Deu Ruim");
+            }
         }
         GameManager.instance.playersTurn = true;
         
     }
 
-    private void MoveEnemyInX(Vector3 posDif){
-        if (posDif.x < 0){
-            //enemy left of player
-            transform.position += Vector3.right;
-        }
-            
-		
-        else if (posDif.x > 0){
-            //enemy right of player
-            transform.position += Vector3.left;
-        }
+    public void HandleEnemyDeath() 
+    {
+        GameManager.instance.RemoveEnemyFromList(this);
     }
-
-    private void MoveEnemyInY(Vector3 posDif){
-        if (posDif.y < 0){
-            //enemy down of player
-            transform.position += Vector3.up;
-        }
-            
-		
-        else if (posDif.y > 0){
-            //enemy up of player
-            transform.position += Vector3.down;
-        }
-    }
+ 
 }
