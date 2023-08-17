@@ -7,8 +7,10 @@ public class PlayerController : MonoBehaviour
 {
 
     private PlayerMovement controls;
-    private MovingObject movingObject;
-    public int attackPoints = 3;
+    // private MovingObject movingObject;
+    private Melee playerMelee; // Adicione esta linha
+
+    
 
     // Start is called before the first frame update
     void Awake()
@@ -33,29 +35,19 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
-        movingObject = this.GetComponent<MovingObject>();
+        // movingObject = this.GetComponent<MovingObject>();
+        playerMelee = GetComponent<Melee>(); 
     }
 
 
-    private IEnumerator MovePlayer(Vector2 direction) {
-        if (GameManager.instance.playersTurn){
-            GameObject enemyObject = movingObject.Move(direction);
-            // Se atacou um inimigo, chame a função do script "EnemyScript"
-            if (enemyObject != null){
-                Damageable enemyScript = enemyObject.GetComponent<Damageable>();
-                if (enemyScript != null) {
-                    enemyScript.TakeDamage(attackPoints); // Supondo que existe uma função TakeDamage no script do inimigo
-                } else {
-                    Debug.Log("Deu Ruim");
-                }
-            }
-
+   private IEnumerator MovePlayer(Vector2 direction)
+    {
+        if (GameManager.instance.playersTurn)
+        {
+            playerMelee.ExecuteAttack(direction); // Ataque usando o novo componente de ataque
             GameManager.instance.playersTurn = false;
-
             yield return new WaitForSeconds(1f);
-
         }
-        // Debug.Log(GameManager.instance.playersTurn);
     }
 
 
