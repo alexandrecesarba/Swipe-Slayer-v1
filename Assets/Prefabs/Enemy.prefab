@@ -536,6 +536,7 @@ MonoBehaviour:
   target: {fileID: 0}
   movement: {fileID: 0}
   circlePrefab: {fileID: 8985253743109134794, guid: cc54653deee0c4e50b7c537d37e8547b, type: 3}
+  attackPoints: 2
 --- !u!114 &957370064452732058
 MonoBehaviour:
   m_ObjectHideFlags: 0
