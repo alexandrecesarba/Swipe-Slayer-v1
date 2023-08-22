@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonPersistent<GameManager>
 {
+
     //Time to wait before starting level, in seconds.
     public float levelStartDelay = 2f;
     //Delay between each Player turn.
@@ -20,6 +22,7 @@ public class GameManager : MonoBehaviour
     //Boolean to check if enemies are moving.
     private bool enemiesMoving;
 
+    public bool shouldChangeLevel = false;
 
     //Awake is always called before any Start functions
     void Awake()
@@ -46,6 +49,7 @@ public class GameManager : MonoBehaviour
         InitGame();
     }
 
+
     //This is called each time a scene is loaded.
     void OnLevelWasLoaded(int index)
     {
@@ -63,18 +67,23 @@ public class GameManager : MonoBehaviour
     }
 
 
-    //Update is called every frame.
-    void Update()
+  void Update()
     {
-        //Check that playersTurn or enemiesMoving or doingSetup are not currently true.
-        if (playersTurn || enemiesMoving)
+        // Se todos os inimigos foram derrotados, carregue o próximo nível.
+        if (enemies.Count == 0 || shouldChangeLevel)
+        {
+            shouldChangeLevel = false; // reset shoudChangeLevel value 
+            OnLevelWasLoaded(level); 
+            Debug.Log("Terminou o antigo");
+            return;
+        }
 
-            //If any of these are true, return and do not start MoveEnemies.
+
+        if (playersTurn || enemiesMoving)
             return;
 
-        //Start moving enemies.
+        // Comece a mover os inimigos.
         StartCoroutine(MoveEnemies());
-        // MoveEnemies();
     }
 
     //Call this to add the passed in Enemy to the List of Enemy objects.

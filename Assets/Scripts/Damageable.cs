@@ -25,7 +25,7 @@ public class Damageable : MonoBehaviour
         }
     }
 
-    protected virtual void Die()
+    public void Die()
     {
         OnDeath?.Invoke();
         Destroy(gameObject);
