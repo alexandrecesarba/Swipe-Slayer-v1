@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
 
+    public SwipeDetection swipeDetection;
     private PlayerMovement controls;
     private MovingObject movingObject;
     public int attackPoints = 3;
@@ -14,6 +13,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         controls = new PlayerMovement();
+        swipeDetection = swipeDetection.GetComponent<SwipeDetection>();
     }
 
     // This function is called when the object becomes enabled and active.
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
         movingObject = this.GetComponent<MovingObject>();
+        swipeDetection.OnSwipe += HandleSwipe;
     }
 
 
@@ -56,6 +57,11 @@ public class PlayerController : MonoBehaviour
 
         }
         // Debug.Log(GameManager.instance.playersTurn);
+    }
+    
+    public void HandleSwipe(Vector2 direction) {
+        Debug.Log("Handling Swipe on PlayerController...");
+        StartCoroutine(MovePlayer(direction));
     }
 
 

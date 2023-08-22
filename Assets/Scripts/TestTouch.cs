@@ -14,12 +14,12 @@ public class TestTouch : MonoBehaviour
     /// This function is called when the object becomes enabled and active.
     void OnEnable()
     {
-        inputManager.OnStartTouch += Move;
+        // inputManager.OnStartTouch += Move;
     }
 
     void OnDisable()
     {
-        inputManager.OnStartTouch -= Move;
+        // inputManager.OnStartTouch -= Move;
     }
 
     public void Move(Vector2 screenPosition, float time)
