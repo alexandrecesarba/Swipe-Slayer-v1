@@ -50,8 +50,9 @@ public class GameManager : SingletonPersistent<GameManager>
     //This is called each time a scene is loaded.
     void OnLevelWasLoaded(int index)
     {
-        //Add one to our level number.
-        level++;
+        //Add one to our level number. (DESCOMENTAR QUANDO TIVER MAIS UMA SCENE PRONTA)
+        // level++;
+        
         //Call InitGame to initialize our level.
         InitGame();
     }
