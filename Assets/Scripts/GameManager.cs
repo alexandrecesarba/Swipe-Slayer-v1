@@ -2,26 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class GameManager : SingletonPersistent<GameManager>
 {
-
-    //Time to wait before starting level, in seconds.
     public float levelStartDelay = 2f;
-    //Delay between each Player turn.
     public float turnDelay = 0.1f;
-    //Static instance of GameManager which allows it to be accessed by any other script.
     public static GameManager instance = null;
-    //Boolean to check if it's players turn, hidden in inspector but public.
     [HideInInspector] public bool playersTurn = true;
 
-    //Current level number, expressed in game as "Day 1".
+    private Text levelText;
+    public GameObject levelImage;
     private int level = 1;
-    //List of all Enemy units, used to issue them move commands.
-    private List<Enemy> enemies;
-    //Boolean to check if enemies are moving.
     private bool enemiesMoving;
+    private bool doingSetup;
 
+    private List<Enemy> enemies;
     public bool shouldChangeLevel = false;
 
     //Awake is always called before any Start functions
@@ -62,27 +59,46 @@ public class GameManager : SingletonPersistent<GameManager>
     //Initializes the game for each level.
     void InitGame()
     {
-
+        doingSetup = true;
+        // levelImage = GameObject.Find("LevelImage");
+     
+        if (levelImage != null)
+        {
+            levelImage.SetActive(true);
+            levelText = GameObject.Find("LevelText").GetComponent<Text>();
+            levelText.text = "Level " + level;
+        }
+        else
+        {
+            Debug.LogError("LevelImage is not assigned!");
+        }        
+        Invoke("HideLevelImage", levelStartDelay);
 
     }
 
 
+    private void HideLevelImage(){
+        levelImage.SetActive(false);
+        doingSetup = false;
+    
+    }
+
+   
+
   void Update()
     {
-        // Se todos os inimigos foram derrotados, carregue o próximo nível.
         if (enemies.Count == 0 || shouldChangeLevel)
         {
-            shouldChangeLevel = false; // reset shoudChangeLevel value 
+            shouldChangeLevel = false; 
             OnLevelWasLoaded(level); 
             Debug.Log("Terminou o antigo");
             return;
         }
 
 
-        if (playersTurn || enemiesMoving)
+        if (playersTurn || enemiesMoving || doingSetup)
             return;
 
-        // Comece a mover os inimigos.
         StartCoroutine(MoveEnemies());
     }
 
@@ -105,7 +121,8 @@ public class GameManager : SingletonPersistent<GameManager>
     {
 
         //Enable black background image gameObject.
-        // levelImage.SetActive(true);
+        levelText.text = "You Died";
+        levelImage.SetActive(true);
 
         //Disable this GameManager.
         enabled = false;
