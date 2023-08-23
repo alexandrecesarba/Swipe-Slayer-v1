@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GameManager : SingletonPersistent<GameManager>
 {
     public float levelStartDelay = 2f;
-    public float turnDelay = 0.1f;
+    public float turnDelay = 0f;
     public static GameManager instance = null;
     [HideInInspector] public bool playersTurn = true;
 
@@ -61,6 +61,7 @@ public class GameManager : SingletonPersistent<GameManager>
     void InitGame()
     {
         doingSetup = true;
+        enemies.Clear();
         // levelImage = GameObject.Find("LevelImage");
      
         if (levelImage != null)
@@ -137,7 +138,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
         for (int i = 0; i < enemiesCopy.Count; i++)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(turnDelay);
             
             // Verificar se o inimigo ainda está na lista original
             if (enemies.Contains(enemiesCopy[i])) 
