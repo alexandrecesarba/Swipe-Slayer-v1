@@ -9,7 +9,7 @@ public class InputManager : Singleton<InputManager>
     public delegate void StartTouchEvent(Vector2 position, float time);
     public event StartTouchEvent OnStartTouch;
     public delegate void EndTouchEvent(Vector2 position, float time);
-    public event StartTouchEvent OnEndTouch;
+    public event EndTouchEvent OnEndTouch;
     #endregion
 
     private PlayerMovement playerControls;
@@ -51,12 +51,12 @@ public class InputManager : Singleton<InputManager>
     private void StartTouch(InputAction.CallbackContext context)
     {
         OnStartTouch?.Invoke(PrimaryPosition(), (float)context.startTime);
-        Debug.Log("Touch started" + PrimaryPosition());
+        // Debug.Log("TOQUE INICIAL" + PrimaryPosition());
     }
     private void EndTouch(InputAction.CallbackContext context)
     {
         OnEndTouch?.Invoke(PrimaryPosition(), (float)context.time);
-        Debug.Log("Touch ended" + PrimaryPosition());
+        // Debug.Log("TOQUE FINAL" + PrimaryPosition());
     }
 
     // private void FingerDown(Finger finger)
