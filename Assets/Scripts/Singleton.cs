@@ -11,7 +11,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
                 GameObject obj = new()
                 {
                     name = typeof(T).Name,
-                    hideFlags = HideFlags.HideAndDontSave
+                    // hideFlags = HideFlags.HideAndDontSave
                 };
                 _instance = obj.AddComponent<T>();
             }
@@ -38,7 +38,7 @@ public class SingletonPersistent<T> : MonoBehaviour where T : Component
                 GameObject obj = new()
                 {
                     name = typeof(T).Name,
-                    hideFlags = HideFlags.HideAndDontSave
+                    // hideFlags = HideFlags.HideAndDontSave
                 };
                 _instance = obj.AddComponent<T>();
                 SceneManager.SetActiveScene(activeScene);
@@ -53,13 +53,4 @@ public class SingletonPersistent<T> : MonoBehaviour where T : Component
         }
     }
 
-    // public virtual void Awake() {
-    //     if (_instance == null){
-    //             _instance = this as T;
-    //             DontDestroyOnLoad(gameObject);
-    //         }
-    //         else {
-    //             Destroy(this);
-    //         }
-    // }
 }

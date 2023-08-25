@@ -189,7 +189,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""73d43196-5e06-426a-b162-2b0f7dd650df"",
                     ""path"": ""<Touchscreen>/primaryTouch/press"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PrimaryContact"",
@@ -199,7 +199,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e1d3f75d-75d4-4af3-bb18-5722f8157173"",
-                    ""path"": ""<Touchscreen>/touch0/position"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
