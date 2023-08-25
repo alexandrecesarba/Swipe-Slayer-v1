@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 
 public class GameManager : SingletonPersistent<GameManager>
@@ -88,21 +90,25 @@ public class GameManager : SingletonPersistent<GameManager>
    
 
   void Update()
+{
+    if (enemies.Count == 0 || shouldChangeLevel)
     {
-        if (enemies.Count == 0 || shouldChangeLevel)
-        {
-            shouldChangeLevel = false; 
-            OnLevelWasLoaded(level); 
-            Debug.Log("Terminou o antigo");
-            return;
-        }
+        shouldChangeLevel = false;
+        OnLevelWasLoaded(level);
+        Debug.Log("Terminou o antigo");
 
+       // Carregar a próxima cena incrementalmente
+        SceneManager.LoadScene("Fase1");
 
-        if (playersTurn || enemiesMoving || doingSetup)
-            return;
-
-        StartCoroutine(MoveEnemies());
+        return;
     }
+
+    if (playersTurn || enemiesMoving || doingSetup)
+        return;
+
+    StartCoroutine(MoveEnemies());
+}
+
 
     //Call this to add the passed in Enemy to the List of Enemy objects.
     public void AddEnemyToList(Enemy script)
