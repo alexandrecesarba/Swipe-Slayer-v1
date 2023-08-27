@@ -21,6 +21,8 @@ public class GameManager : SingletonPersistent<GameManager>
     private List<Enemy> enemies;
     public bool shouldChangeLevel = false;
 
+    public LevelManager levelManager;
+
     //Awake is always called before any Start functions
     void Awake()
     {
@@ -46,15 +48,18 @@ public class GameManager : SingletonPersistent<GameManager>
         InitGame();
     }
 
+    void Start()
+    {
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        StartCoroutine(levelManager.TurnLoop());
+        Debug.Log("START!!!");
+    }
 
     //This is called each time a scene is loaded.
     void OnLevelWasLoaded(int index)
     {
         //Add one to our level number. (DESCOMENTAR QUANDO TIVER MAIS UMA SCENE PRONTA)
         // level++;
-        
-        //Call InitGame to initialize our level.
-        InitGame();
     }
 
     //Initializes the game for each level.
@@ -73,7 +78,7 @@ public class GameManager : SingletonPersistent<GameManager>
         else
         {
             Debug.LogError("LevelImage is not assigned!");
-        }        
+        }
         Invoke("HideLevelImage", levelStartDelay);
 
     }
@@ -143,7 +148,7 @@ public class GameManager : SingletonPersistent<GameManager>
             // Verificar se o inimigo ainda está na lista original
             if (enemies.Contains(enemiesCopy[i])) 
             {
-                enemiesCopy[i].MoveEnemy();
+                enemiesCopy[i].Play();
             }
         }
         playersTurn = true;

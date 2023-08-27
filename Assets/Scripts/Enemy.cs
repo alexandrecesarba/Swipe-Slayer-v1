@@ -1,34 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
 
-public class Enemy : MonoBehaviour 
+public class Enemy : MonoBehaviour, IUnit
 {
     public Transform target;
     public MovingObject movement;
     public GameObject circlePrefab;
 
-    public Melee meleeComponent;  
+    public Melee meleeComponent;
+
+    public bool IsPlaying {get; set;}
+    public bool CanPlay {get; set;}
 
     void Start() 
     {
-
+        this.CanPlay = true;
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
         GameManager.instance.AddEnemyToList(this);
         movement = GetComponent<MovingObject>();
 
         Damageable damage = GetComponent<Damageable>();
-        damage.OnDeath += HandleEnemyDeath;
+        // damage.OnDeath += HandleEnemyDeath;
 
         meleeComponent = GetComponent<Melee>();  
         if (meleeComponent == null)
             meleeComponent = gameObject.AddComponent<Melee>();
     }
 
-    public void MoveEnemy() 
+    public void Play() 
     {
 		Vector3 posDif = transform.position - target.position;
         float absX = Mathf.Abs(posDif.x);
@@ -50,11 +49,11 @@ public class Enemy : MonoBehaviour
             meleeComponent.ExecuteAttack(moveDirection);
         }
         
-        GameManager.instance.playersTurn = true;
+        IsPlaying = false;
     }
 
-    public void HandleEnemyDeath() 
-    {
-        GameManager.instance.RemoveEnemyFromList(this);
-    }
+    // public void HandleEnemyDeath() 
+    // {
+    //     GameManager.instance.RemoveEnemyFromList(this);
+    // }
 }

@@ -1,15 +1,18 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IUnit
 {
 
     public SwipeDetection swipeDetection;
     private PlayerMovement controls;
+    private Damageable damage;
     // private MovingObject movingObject;
     private Melee playerMelee; // Adicione esta linha
 
-    
+    public bool IsPlaying {get; set;}
+    public bool CanPlay {get; set;}
 
     // Start is called before the first frame update
     void Awake()
@@ -38,15 +41,19 @@ public class PlayerController : MonoBehaviour
         // movingObject = this.GetComponent<MovingObject>();
         swipeDetection.OnSwipe += HandleSwipe;
         playerMelee = GetComponent<Melee>(); 
+        damage = GetComponent<Damageable>();
+        // damage.OnDeath += HandlePlayerDeath;
+        this.CanPlay = true;
     }
 
 
-   private IEnumerator MovePlayer(Vector2 direction)
+    private IEnumerator MovePlayer(Vector2 direction)
     {
-        if (GameManager.instance.playersTurn)
+        Debug.Log("Player IsPlaying:" + IsPlaying);
+        if (IsPlaying)
         {
             playerMelee.ExecuteAttack(direction); // Ataque usando o novo componente de ataque
-            GameManager.instance.playersTurn = false;
+            IsPlaying = false;
             yield return new WaitForSeconds(1f);
         }
     
@@ -57,5 +64,14 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(MovePlayer(direction));
     }
 
+    public void Play()
+    {
+        //implementar lógica para quando estiver na vez do jogador
+    }
+
+    // private void HandlePlayerDeath(IUnit unit)
+    // {
+        
+    // }
 
 }
