@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class GameManager : SingletonPersistent<GameManager>
 {
-    public float levelStartDelay = 2f;
+    public float levelStartDelay = .5f;
     public float turnDelay = 0f;
     public static GameManager instance = null;
     [HideInInspector] public bool playersTurn = true;

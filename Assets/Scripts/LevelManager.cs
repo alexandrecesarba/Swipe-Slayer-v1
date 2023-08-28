@@ -12,15 +12,18 @@ public class LevelManager : MonoBehaviour
     public bool gameOver = false;
     [SerializeField]
     public Material highlightMaterial;
+    public HealthBar timeSlider;
+    public float maxTime = 5;
 
 
     void Start()
     {
+        timeSlider.SetMaxHealth(maxTime);
         currentUnitIndex = 0;
         
         units.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IUnit>());
         Debug.Log(units.Count);
-        // currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
+        currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
 
         foreach (IUnit unit in units)
         {
@@ -48,15 +51,18 @@ public class LevelManager : MonoBehaviour
             if (currentUnit.CanPlay)
             {
                 currentUnit.IsPlaying = true;
-                unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 1);
+                unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 100);
                 StartCoroutine(currentUnit.Play(turnTime));
                 float startTime = Time.time;
+                timeSlider.SetHealth(maxTime);
 
                 // Espera até que a unidade termine de jogar ou após um tempo limite de 10 segundos
-                while (currentUnit.IsPlaying && Time.time - startTime < 5f)
+                while (currentUnit.IsPlaying && Time.time - startTime < maxTime)
                 {
+                    timeSlider.SetHealth(maxTime-(Time.time - startTime));
                     yield return null; // Aguarda um frame antes de verificar novamente
                 }
+                currentUnit.IsPlaying = false;
             }
             // yield return new WaitForSeconds(turnTime);
             unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 0);
