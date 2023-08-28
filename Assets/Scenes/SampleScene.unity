@@ -287,6 +287,10 @@ PrefabInstance:
       propertyPath: m_DrawMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6031115040997342841, guid: 1986ffa70ad4848f08f393e6d829d965, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6205516812331322964, guid: 1986ffa70ad4848f08f393e6d829d965, type: 3}
       propertyPath: m_LocalPosition.z
       value: -3
@@ -1901,7 +1905,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_TargetDisplay: 0
 --- !u!224 &1163258590
 RectTransform:
@@ -2253,7 +2257,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!1 &1474807965
 GameObject:
@@ -4138,6 +4142,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 6271683671276059257, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6541973296368030275, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

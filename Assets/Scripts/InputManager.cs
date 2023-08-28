@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -48,8 +49,9 @@ public class InputManager : Singleton<InputManager>
 
     }
 
-    private void StartTouch(InputAction.CallbackContext context)
+    private async void StartTouch(InputAction.CallbackContext context)
     {
+        await Task.Delay(50);
         OnStartTouch?.Invoke(PrimaryPosition(), (float)context.startTime);
         // Debug.Log("TOQUE INICIAL" + PrimaryPosition());
     }
