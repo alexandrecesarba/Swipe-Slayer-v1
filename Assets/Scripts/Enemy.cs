@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Enemy : MonoBehaviour, IUnit
 {
@@ -27,8 +28,9 @@ public class Enemy : MonoBehaviour, IUnit
             meleeComponent = gameObject.AddComponent<Melee>();
     }
 
-    public void Play() 
+    public IEnumerator Play(float time) 
     {
+        yield return new WaitForSeconds(time/2);
 		Vector3 posDif = transform.position - target.position;
         float absX = Mathf.Abs(posDif.x);
         float absY = Mathf.Abs(posDif.y);
@@ -48,7 +50,7 @@ public class Enemy : MonoBehaviour, IUnit
         {
             meleeComponent.ExecuteAttack(moveDirection);
         }
-        
+        yield return new WaitForSeconds(time/2);
         IsPlaying = false;
     }
 

@@ -6,10 +6,12 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public List<IUnit> units = new();
-    public float turnTime = 1f;
+    public float turnTime = .5f;
     private int currentUnitIndex;
     private int playCount = 0;
     public bool gameOver = false;
+    [SerializeField]
+    public Material highlightMaterial;
 
 
     void Start()
@@ -24,6 +26,7 @@ public class LevelManager : MonoBehaviour
         {
             if (unit is MonoBehaviour unitBehaviour)
             {
+                unitBehaviour.GetComponent<Renderer>().material = highlightMaterial;
                 if (unitBehaviour.TryGetComponent(out Damageable damageable))
                 {
                     damageable.OnDeath += HandleUnitDied;
@@ -38,13 +41,15 @@ public class LevelManager : MonoBehaviour
         while (!gameOver)
         {
             IUnit currentUnit = units[currentUnitIndex];
+            MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
             Debug.Log("CURRENT UNIT: " + currentUnit);
             
 
             if (currentUnit.CanPlay)
             {
                 currentUnit.IsPlaying = true;
-                currentUnit.Play();
+                unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 1);
+                StartCoroutine(currentUnit.Play(turnTime));
                 float startTime = Time.time;
 
                 // Espera até que a unidade termine de jogar ou após um tempo limite de 10 segundos
@@ -53,7 +58,8 @@ public class LevelManager : MonoBehaviour
                     yield return null; // Aguarda um frame antes de verificar novamente
                 }
             }
-            yield return new WaitForSeconds(turnTime);
+            // yield return new WaitForSeconds(turnTime);
+            unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 0);
             currentUnitIndex++;
             if (currentUnitIndex >= units.Count)
             {

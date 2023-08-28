@@ -94,19 +94,19 @@ public class GameManager : SingletonPersistent<GameManager>
 
   void Update()
     {
-        if (enemies.Count == 0 || shouldChangeLevel)
-        {
-            shouldChangeLevel = false; 
-            OnLevelWasLoaded(level); 
-            Debug.Log("Terminou o antigo");
-            return;
-        }
+        // if (enemies.Count == 0 || shouldChangeLevel)
+        // {
+        //     shouldChangeLevel = false; 
+        //     OnLevelWasLoaded(level); 
+        //     Debug.Log("Terminou o antigo");
+        //     return;
+        // }
 
 
-        if (playersTurn || enemiesMoving || doingSetup)
-            return;
+        // if (playersTurn || enemiesMoving || doingSetup)
+        //     return;
 
-        StartCoroutine(MoveEnemies());
+        // StartCoroutine(MoveEnemies());
     }
 
     //Call this to add the passed in Enemy to the List of Enemy objects.
@@ -136,23 +136,23 @@ public class GameManager : SingletonPersistent<GameManager>
     }
 
     //Coroutine to move enemies in sequence.
- public IEnumerator MoveEnemies()
-    {
-        enemiesMoving = true;
-        List<Enemy> enemiesCopy = new List<Enemy>(enemies);
+//  public IEnumerator MoveEnemies()
+//     {
+//         enemiesMoving = true;
+//         List<Enemy> enemiesCopy = new List<Enemy>(enemies);
 
-        for (int i = 0; i < enemiesCopy.Count; i++)
-        {
-            yield return new WaitForSeconds(turnDelay);
+//         for (int i = 0; i < enemiesCopy.Count; i++)
+//         {
+//             yield return new WaitForSeconds(turnDelay);
             
-            // Verificar se o inimigo ainda está na lista original
-            if (enemies.Contains(enemiesCopy[i])) 
-            {
-                enemiesCopy[i].Play();
-            }
-        }
-        playersTurn = true;
-        enemiesMoving = false;
-    }
+//             // Verificar se o inimigo ainda está na lista original
+//             if (enemies.Contains(enemiesCopy[i])) 
+//             {
+//                 enemiesCopy[i].Play();
+//             }
+//         }
+//         playersTurn = true;
+//         enemiesMoving = false;
+//     }
 
 }

@@ -64,8 +64,9 @@ public class PlayerController : MonoBehaviour, IUnit
         StartCoroutine(MovePlayer(direction));
     }
 
-    public void Play()
+    public IEnumerator Play(float time)
     {
+        yield return null;
         //implementar lógica para quando estiver na vez do jogador
     }
 
