@@ -280,11 +280,23 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5279911184125700566, guid: 1986ffa70ad4848f08f393e6d829d965, type: 3}
+      propertyPath: m_Size.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279911184125700566, guid: 1986ffa70ad4848f08f393e6d829d965, type: 3}
+      propertyPath: m_Size.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279911184125700566, guid: 1986ffa70ad4848f08f393e6d829d965, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2feedafc4f098427aba35023b00c0c5d, type: 3}
+      objectReference: {fileID: 21300000, guid: 7c4f87dc29e3342969cf8d0a20e12530, type: 3}
     - target: {fileID: 5279911184125700566, guid: 1986ffa70ad4848f08f393e6d829d965, type: 3}
       propertyPath: m_DrawMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5279911184125700566, guid: 1986ffa70ad4848f08f393e6d829d965, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6031115040997342841, guid: 1986ffa70ad4848f08f393e6d829d965, type: 3}
@@ -1535,7 +1547,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: ea038ae579a9343938dc87016cb6e1b3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: da4df52fe39344b3bb6052b85e1b6d1c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4137,11 +4149,23 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5619840334885498326, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
+      propertyPath: m_Size.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619840334885498326, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
+      propertyPath: m_Size.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619840334885498326, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2feedafc4f098427aba35023b00c0c5d, type: 3}
+      objectReference: {fileID: 21300000, guid: 31e6aa549965945ce8a3caf99b70a551, type: 3}
     - target: {fileID: 5619840334885498326, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: m_DrawMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619840334885498326, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5955377826681490004, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
