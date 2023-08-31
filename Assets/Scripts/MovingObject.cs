@@ -27,7 +27,7 @@ public class MovingObject : MonoBehaviour
 
     private Vector3 movePoint;
     public bool isMoving;
-    private GameObject circleRedGO;
+    // private GameObject circleRedGO;
 
 
     public MovementResult AttemptMove(Vector2 direction){
@@ -115,7 +115,7 @@ public class MovingObject : MonoBehaviour
             }
         }
         isMoving = true;
-        circleRedGO.transform.position = targetPosition;
+        // circleRedGO.transform.position = targetPosition;
         return moveCondition;
 
     }
@@ -171,9 +171,9 @@ public class MovingObject : MonoBehaviour
             if (transform.position == movePoint)
                 isMoving = false;
     }
-   void Start()
-    {
-        circleRedGO = GameObject.Find("CircleRed");
-    }
+//    void Start()
+//     {
+//         circleRedGO = GameObject.Find("CircleRed");
+//     }
 
 }
