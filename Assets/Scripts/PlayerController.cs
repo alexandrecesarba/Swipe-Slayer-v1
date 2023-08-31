@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour, IUnit
     public SwipeDetection swipeDetection;
     private PlayerMovement controls;
     private Damageable damage;
-    // private MovingObject movingObject;
+    private MovingObject movement;
     private Melee playerMelee; // Adicione esta linha
 
     public bool IsPlaying {get; set;}
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour, IUnit
     void Start()
     {
         controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
-        // movingObject = this.GetComponent<MovingObject>();
+        movement = this.GetComponent<MovingObject>();
         swipeDetection.OnSwipe += HandleSwipe;
         playerMelee = GetComponent<Melee>(); 
         damage = GetComponent<Damageable>();
@@ -52,8 +52,9 @@ public class PlayerController : MonoBehaviour, IUnit
         Debug.Log("Player IsPlaying:" + IsPlaying);
         if (IsPlaying)
         {
-            playerMelee.ExecuteAttack(direction); // Ataque usando o novo componente de ataque
+            movement.AttemptMoveInTiles(direction, 3, out _);
             IsPlaying = false;
+            
             yield return new WaitForSeconds(1f);
         }
     

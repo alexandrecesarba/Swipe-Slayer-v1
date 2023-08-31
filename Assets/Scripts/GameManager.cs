@@ -52,7 +52,6 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         StartCoroutine(levelManager.TurnLoop());
-        Debug.Log("START!!!");
     }
 
     //This is called each time a scene is loaded.

@@ -14,7 +14,7 @@ public class SwipeDetection : MonoBehaviour
     [SerializeField]
     private float maximumTime = 10f;
     [SerializeField, Range(0f, 1f)]
-    private float directionThreshold = .9f;
+    private float directionThreshold = .93f;
     [SerializeField]
     private GameObject trail;
 
@@ -112,10 +112,30 @@ public class SwipeDetection : MonoBehaviour
             Debug.Log("Swipe Down");
             return Vector2.down;
         }
+        else if (Vector2.Dot(new Vector2(-1,1).normalized, direction) > directionThreshold)
+        {
+            Debug.Log("Swipe UpLeft");
+            return new Vector2(-1,1);
+        }
+        else if (Vector2.Dot(new Vector2(1,1).normalized, direction) > directionThreshold)
+        {
+            Debug.Log("Swipe UpRight");
+            return new Vector2(1,1);
+        }
+        else if (Vector2.Dot(new Vector2(-1,-1).normalized, direction) > directionThreshold)
+        {
+            Debug.Log("Swipe DownLeft");
+            return new Vector2(-1,-1);
+        }
+        else if (Vector2.Dot(new Vector2(1,-1).normalized, direction) > directionThreshold)
+        {
+            Debug.Log("Swipe DownRight");
+            return new Vector2(1,-1);
+        }
         else
         {
             Debug.Log("NO DIRECTION");
-            return new Vector2(0,0);
+            return Vector2.zero;
         }
     }
 }

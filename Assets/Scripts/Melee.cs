@@ -9,12 +9,11 @@ public class Melee : MonoBehaviour
     private void Start()
     {
         movingObject = GetComponent<MovingObject>();
+        movingObject.OnHit += ExecuteAttack;
     }
 
-    public void ExecuteAttack(Vector2 direction)
+    public void ExecuteAttack(GameObject targetObject)
     {
-        GameObject targetObject = movingObject.Move(direction);
-
         if (targetObject != null)
         {
             Damageable damageableComponent = targetObject.GetComponent<Damageable>();

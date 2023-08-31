@@ -45,11 +45,7 @@ public class Enemy : MonoBehaviour, IUnit
             moveDirection = posDif.y < 0 ? Vector2.up : Vector2.down;
         }
 
-        GameObject targetObject = movement.Move(moveDirection);
-        if (targetObject != null)
-        {
-            meleeComponent.ExecuteAttack(moveDirection);
-        }
+        movement.AttemptMove(moveDirection);
         yield return new WaitForSeconds(time/2);
         IsPlaying = false;
     }

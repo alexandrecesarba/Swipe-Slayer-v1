@@ -8,19 +8,25 @@ public class LevelManager : MonoBehaviour
     public List<IUnit> units = new();
     public float turnTime = .5f;
     private int currentUnitIndex;
+    private int playerUnitIndex;
     private int playCount = 0;
     public bool gameOver = false;
     [SerializeField]
     public Material highlightMaterial;
+    [SerializeField]
+    public float maxTurnTime;
+    [SerializeField]
+    public TimeBar timeBar;
+    private int kills;
 
 
     void Start()
     {
         currentUnitIndex = 0;
-        
+        timeBar.SetMaxTime(maxTurnTime);
         units.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IUnit>());
-        Debug.Log(units.Count);
-        // currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
+        currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
+        playerUnitIndex = currentUnitIndex;
 
         foreach (IUnit unit in units)
         {
@@ -42,7 +48,6 @@ public class LevelManager : MonoBehaviour
         {
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
-            Debug.Log("CURRENT UNIT: " + currentUnit);
             
 
             if (currentUnit.CanPlay)
@@ -51,11 +56,19 @@ public class LevelManager : MonoBehaviour
                 unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 1);
                 StartCoroutine(currentUnit.Play(turnTime));
                 float startTime = Time.time;
+                if (currentUnitIndex == playerUnitIndex){
+                    timeBar.gameObject.SetActive(true);
+                }
 
                 // Espera até que a unidade termine de jogar ou após um tempo limite de 10 segundos
-                while (currentUnit.IsPlaying && Time.time - startTime < 5f)
+                while (currentUnit.IsPlaying && Time.time - startTime < maxTurnTime)
                 {
+                    timeBar.SetTime(maxTurnTime - (Time.time - startTime));
                     yield return null; // Aguarda um frame antes de verificar novamente
+                }
+                currentUnit.IsPlaying = false;
+                if (currentUnitIndex == playerUnitIndex){
+                    timeBar.gameObject.SetActive(false);
                 }
             }
             // yield return new WaitForSeconds(turnTime);
