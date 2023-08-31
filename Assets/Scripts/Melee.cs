@@ -9,22 +9,21 @@ public class Melee : MonoBehaviour
     private void Start()
     {
         movingObject = GetComponent<MovingObject>();
+        movingObject.OnHit += ExecuteAttack;
     }
 
-    public void ExecuteAttack(Vector2 direction)
+    public void ExecuteAttack(GameObject targetObject)
     {
-        GameObject enemyObject = movingObject.Move(direction);
-        // Se atacou um inimigo, chame a função do script "Damageable"
-        if (enemyObject != null)
+        if (targetObject != null)
         {
-            Damageable enemyScript = enemyObject.GetComponent<Damageable>();
-            if (enemyScript != null)
+            Damageable damageableComponent = targetObject.GetComponent<Damageable>();
+            if (damageableComponent != null && targetObject.tag != gameObject.tag)  // Evite atacar objetos com a mesma tag
             {
-                enemyScript.TakeDamage(attackPoints);
+                damageableComponent.TakeDamage(attackPoints);
             }
             else
             {
-                Debug.Log("Erro: Não foi possível acessar o script Damageable");
+                Debug.Log("Erro: Não foi possível acessar o script Damageable ou tentando atacar objeto com a mesma tag");
             }
         }
     }

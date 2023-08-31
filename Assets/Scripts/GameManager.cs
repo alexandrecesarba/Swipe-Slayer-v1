@@ -1,25 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+
+public class GameManager : SingletonPersistent<GameManager>
 {
-    //Time to wait before starting level, in seconds.
     public float levelStartDelay = 2f;
-    //Delay between each Player turn.
-    public float turnDelay = 0.1f;
-    //Static instance of GameManager which allows it to be accessed by any other script.
+    public float turnDelay = 0f;
     public static GameManager instance = null;
-    //Boolean to check if it's players turn, hidden in inspector but public.
     [HideInInspector] public bool playersTurn = true;
 
-    //Current level number, expressed in game as "Day 1".
+    private Text levelText;
+    public GameObject levelImage;
     private int level = 1;
-    //List of all Enemy units, used to issue them move commands.
-    private List<Enemy> enemies;
-    //Boolean to check if enemies are moving.
     private bool enemiesMoving;
+    private bool doingSetup;
 
+    private List<Enemy> enemies;
+    public bool shouldChangeLevel = false;
+
+    public LevelManager levelManager;
 
     //Awake is always called before any Start functions
     void Awake()
@@ -46,35 +48,64 @@ public class GameManager : MonoBehaviour
         InitGame();
     }
 
+    void Start()
+    {
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        StartCoroutine(levelManager.TurnLoop());
+    }
+
     //This is called each time a scene is loaded.
     void OnLevelWasLoaded(int index)
     {
-        //Add one to our level number.
-        level++;
-        //Call InitGame to initialize our level.
-        InitGame();
+        //Add one to our level number. (DESCOMENTAR QUANDO TIVER MAIS UMA SCENE PRONTA)
+        // level++;
     }
 
     //Initializes the game for each level.
     void InitGame()
     {
-
+        doingSetup = true;
+        enemies.Clear();
+        // levelImage = GameObject.Find("LevelImage");
+     
+        if (levelImage != null)
+        {
+            levelImage.SetActive(true);
+            levelText = GameObject.Find("LevelText").GetComponent<Text>();
+            levelText.text = "Level " + level;
+        }
+        else
+        {
+            Debug.LogError("LevelImage is not assigned!");
+        }
+        Invoke("HideLevelImage", levelStartDelay);
 
     }
 
 
-    //Update is called every frame.
-    void Update()
+    private void HideLevelImage(){
+        levelImage.SetActive(false);
+        doingSetup = false;
+    
+    }
+
+   
+
+  void Update()
     {
-        //Check that playersTurn or enemiesMoving or doingSetup are not currently true.
-        if (playersTurn || enemiesMoving)
+        // if (enemies.Count == 0 || shouldChangeLevel)
+        // {
+        //     shouldChangeLevel = false; 
+        //     OnLevelWasLoaded(level); 
+        //     Debug.Log("Terminou o antigo");
+        //     return;
+        // }
 
-            //If any of these are true, return and do not start MoveEnemies.
-            return;
 
-        //Start moving enemies.
-        StartCoroutine(MoveEnemies());
-        // MoveEnemies();
+        // if (playersTurn || enemiesMoving || doingSetup)
+        //     return;
+
+        // StartCoroutine(MoveEnemies());
     }
 
     //Call this to add the passed in Enemy to the List of Enemy objects.
@@ -96,45 +127,31 @@ public class GameManager : MonoBehaviour
     {
 
         //Enable black background image gameObject.
-        // levelImage.SetActive(true);
+        levelText.text = "You Died";
+        levelImage.SetActive(true);
 
         //Disable this GameManager.
         enabled = false;
     }
 
     //Coroutine to move enemies in sequence.
-    public IEnumerator MoveEnemies()
-    {
-        //While enemiesMoving is true player is unable to move.
-        enemiesMoving = true;
+//  public IEnumerator MoveEnemies()
+//     {
+//         enemiesMoving = true;
+//         List<Enemy> enemiesCopy = new List<Enemy>(enemies);
 
-        //Wait for turnDelay seconds, defaults to .1 (100 ms).
-        // yield return new WaitForSeconds(turnDelay);
+//         for (int i = 0; i < enemiesCopy.Count; i++)
+//         {
+//             yield return new WaitForSeconds(turnDelay);
+            
+//             // Verificar se o inimigo ainda está na lista original
+//             if (enemies.Contains(enemiesCopy[i])) 
+//             {
+//                 enemiesCopy[i].Play();
+//             }
+//         }
+//         playersTurn = true;
+//         enemiesMoving = false;
+//     }
 
-        //If there are no enemies spawned (IE in first level):
-        // if (enemies.Count == 0)
-        // {
-            //Wait for turnDelay seconds between moves, replaces delay caused by enemies moving when there are none.
-            // yield return new WaitForSeconds(turnDelay);
-        // }
-        // Debug.Log(enemies.Count);
-        //Loop through List of Enemy objects.
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            //Wait for Enemy's moveTime before moving next Enemy, 
-            yield return new WaitForSeconds(1f);
-
-            //Call the MoveEnemy function of Enemy at index i in the enemies List.
-            enemies[i].MoveEnemy();
-            // Debug.Log(enemies[i].target.transform.position);
-
- 
-        }
-        //Once Enemies are done moving, set playersTurn to true so player can move.
-        playersTurn = true;
-
-        //Enemies are done moving, set enemiesMoving to false.
-        enemiesMoving = false;
-        // return;
-    }
 }
