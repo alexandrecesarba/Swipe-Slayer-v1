@@ -46,6 +46,8 @@ public class LevelManager : MonoBehaviour
     {
         while (!gameOver)
         {
+            Debug.Log("Units Count: " + units.Count);
+            Debug.Log("Current Index: " + currentUnitIndex);
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
             
@@ -53,7 +55,7 @@ public class LevelManager : MonoBehaviour
             if (currentUnit.CanPlay)
             {
                 currentUnit.IsPlaying = true;
-                unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 1);
+                unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 100);
                 StartCoroutine(currentUnit.Play(turnTime));
                 float startTime = Time.time;
                 if (currentUnitIndex == playerUnitIndex){

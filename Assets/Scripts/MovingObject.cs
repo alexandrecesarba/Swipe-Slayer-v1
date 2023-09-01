@@ -41,6 +41,7 @@ public class MovingObject : MonoBehaviour
         }
         else if (hitObject != null)
         {
+            Debug.Log("HIT: " + hitObject.name);
             OnHit?.Invoke(hitObject);
             return MovementResult.Hit;
         }
@@ -128,7 +129,8 @@ public class MovingObject : MonoBehaviour
         }
         else if (hitObject != null)
         {
-            // Você pode fazer algo em relação ao objeto atingido, se necessário.
+            // Podemos fazer algo em relação ao objeto atingido, se necessário.
+            Debug.Log("HIT: " + hitObject.name);
             OnHit?.Invoke(hitObject);
             return MovementResult.Hit;
         }
@@ -171,9 +173,9 @@ public class MovingObject : MonoBehaviour
             if (transform.position == movePoint)
                 isMoving = false;
     }
-//    void Start()
-//     {
-//         circleRedGO = GameObject.Find("CircleRed");
-//     }
+   void Start()
+    {
+        // circleRedGO = GameObject.Find("CircleRed");
+    }
 
 }

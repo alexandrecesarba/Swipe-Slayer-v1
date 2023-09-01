@@ -20,6 +20,7 @@ public class Melee : MonoBehaviour
             if (damageableComponent != null && targetObject.tag != gameObject.tag)  // Evite atacar objetos com a mesma tag
             {
                 damageableComponent.TakeDamage(attackPoints);
+                Debug.Log(targetObject.name + " foi atacado!");
             }
             else
             {

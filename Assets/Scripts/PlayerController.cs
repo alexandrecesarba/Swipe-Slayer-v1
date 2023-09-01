@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour, IUnit
         Debug.Log("Player IsPlaying:" + IsPlaying);
         if (IsPlaying)
         {
-            movement.AttemptMoveInTiles(direction, 3, out _);
+            movement.AttemptMoveInTiles(direction, 1, out _);
             IsPlaying = false;
             
             yield return new WaitForSeconds(1f);
