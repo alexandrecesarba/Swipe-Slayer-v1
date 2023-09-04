@@ -12,8 +12,8 @@ public class GameManager : SingletonPersistent<GameManager>
     public static GameManager instance = null;
     [HideInInspector] public bool playersTurn = true;
 
-    private Text levelText;
-    public GameObject levelImage;
+    // private Text levelText;
+    // public GameObject levelImage;
     private int level = 1;
     private bool enemiesMoving;
     private bool doingSetup;
@@ -68,26 +68,26 @@ public class GameManager : SingletonPersistent<GameManager>
         enemies.Clear();
         // levelImage = GameObject.Find("LevelImage");
      
-        if (levelImage != null)
-        {
-            levelImage.SetActive(true);
-            levelText = GameObject.Find("LevelText").GetComponent<Text>();
-            levelText.text = "Level " + level;
-        }
-        else
-        {
-            Debug.LogError("LevelImage is not assigned!");
-        }
-        Invoke("HideLevelImage", levelStartDelay);
+        // if (levelImage != null)
+        // {
+        //     levelImage.SetActive(true);
+        //     levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        //     levelText.text = "Level " + level;
+        // }
+        // else
+        // {
+        //     Debug.LogError("LevelImage is not assigned!");
+        // }
+        // Invoke("HideLevelImage", levelStartDelay);
 
     }
 
 
-    private void HideLevelImage(){
-        levelImage.SetActive(false);
-        doingSetup = false;
+    // private void HideLevelImage(){
+    //     levelImage.SetActive(false);
+    //     doingSetup = false;
     
-    }
+    // }
 
    
 
@@ -126,9 +126,9 @@ public class GameManager : SingletonPersistent<GameManager>
     public void GameOver()
     {
 
-        //Enable black background image gameObject.
-        levelText.text = "You Died";
-        levelImage.SetActive(true);
+        // //Enable black background image gameObject.
+        // levelText.text = "You Died";
+        // levelImage.SetActive(true);
 
         //Disable this GameManager.
         enabled = false;

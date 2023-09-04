@@ -19,11 +19,19 @@ public class LevelManager : MonoBehaviour
     public TimeBar timeBar;
     private int kills;
 
-
     void Start()
     {
         currentUnitIndex = 0;
-        timeBar.SetMaxTime(maxTurnTime);
+
+        if (timeBar != null)
+        {
+            timeBar.SetMaxTime(maxTurnTime);
+        }
+        else
+        {
+            Debug.LogWarning("TimeBar is null.");
+        }
+
         units.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IUnit>());
         currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
         playerUnitIndex = currentUnitIndex;
@@ -41,40 +49,52 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-
     public IEnumerator TurnLoop()
     {
         while (!gameOver)
         {
             Debug.Log("Units Count: " + units.Count);
             Debug.Log("Current Index: " + currentUnitIndex);
+
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
-            
 
             if (currentUnit.CanPlay)
             {
                 currentUnit.IsPlaying = true;
                 unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 100);
+
                 StartCoroutine(currentUnit.Play(turnTime));
                 float startTime = Time.time;
-                if (currentUnitIndex == playerUnitIndex){
-                    timeBar.gameObject.SetActive(true);
+
+                if (timeBar != null)
+                {
+                    if (currentUnitIndex == playerUnitIndex)
+                    {
+                        timeBar.gameObject.SetActive(true);
+                    }
+
+                    while (currentUnit.IsPlaying && Time.time - startTime < maxTurnTime)
+                    {
+                        timeBar.SetTime(maxTurnTime - (Time.time - startTime));
+                        yield return null;
+                    }
+
+                    if (currentUnitIndex == playerUnitIndex)
+                    {
+                        timeBar.gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("TimeBar is null.");
                 }
 
-                // Espera até que a unidade termine de jogar ou após um tempo limite de 10 segundos
-                while (currentUnit.IsPlaying && Time.time - startTime < maxTurnTime)
-                {
-                    timeBar.SetTime(maxTurnTime - (Time.time - startTime));
-                    yield return null; // Aguarda um frame antes de verificar novamente
-                }
                 currentUnit.IsPlaying = false;
-                if (currentUnitIndex == playerUnitIndex){
-                    timeBar.gameObject.SetActive(false);
-                }
             }
-            // yield return new WaitForSeconds(turnTime);
+
             unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 0);
+
             currentUnitIndex++;
             if (currentUnitIndex >= units.Count)
             {
@@ -83,12 +103,12 @@ public class LevelManager : MonoBehaviour
             playCount++;
         }
 
-        // Game over logic
+        // Game over logic here
     }
 
     private void HandleUnitDied(IUnit unit)
     {
-        if (currentUnitIndex > units.IndexOf(unit)) 
+        if (currentUnitIndex > units.IndexOf(unit))
         {
             currentUnitIndex--;
         }
@@ -97,15 +117,12 @@ public class LevelManager : MonoBehaviour
         {
             gameOver = true;
         }
-        
     }
 
     public bool IsGameOver()
     {
-        // Implementar a lógica para verificar se o jogo terminou.
-        // Isso pode ser quando não há mais inimigos, o jogador foi derrotado, etc.
+        // Implement game over logic here.
+        // This can be when there are no more enemies, the player has been defeated, etc.
         return false;
     }
-
-
 }

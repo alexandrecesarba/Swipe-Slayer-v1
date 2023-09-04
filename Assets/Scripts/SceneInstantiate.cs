@@ -11,4 +11,10 @@ public class SceneInstantiate : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(persistentScene.name, LoadSceneMode.Additive);
     }
+
+    [ContextMenu("ChangeScene")]
+    public void NextScene(){
+        SceneManager.UnloadSceneAsync("Fase1");
+        SceneManager.LoadSceneAsync("Fase2", LoadSceneMode.Additive);
+    }
 }
