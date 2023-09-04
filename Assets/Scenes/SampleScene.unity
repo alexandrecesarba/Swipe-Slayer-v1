@@ -989,6 +989,17 @@ Transform:
   - {fileID: 1394088622}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &876510761 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7079024604281448936, guid: 79c0b8397df0f4dbd8d039f2e725770c, type: 3}
+  m_PrefabInstance: {fileID: 2934107781947376836}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8955d6ae0cb41298ca9a0358380d4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &916954154 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3728770158125364999, guid: 27d19e2a8f2d645d0a6ba70fd192dead, type: 3}
@@ -1948,7 +1959,7 @@ MonoBehaviour:
   playersTurn: 1
   levelImage: {fileID: 916954154}
   shouldChangeLevel: 0
-  levelManager: {fileID: 0}
+  levelManager: {fileID: 876510761}
 --- !u!4 &1730377311
 Transform:
   m_ObjectHideFlags: 0
