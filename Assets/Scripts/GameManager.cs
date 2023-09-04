@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-
 
 
 public class GameManager : SingletonPersistent<GameManager>
 {
-    public float levelStartDelay = .5f;
+    public float levelStartDelay = 2f;
     public float turnDelay = 0f;
     public static GameManager instance = null;
     [HideInInspector] public bool playersTurn = true;
@@ -54,7 +52,6 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         StartCoroutine(levelManager.TurnLoop());
-        Debug.Log("START!!!");
     }
 
     //This is called each time a scene is loaded.
@@ -96,8 +93,20 @@ public class GameManager : SingletonPersistent<GameManager>
 
   void Update()
     {
-    }
+        // if (enemies.Count == 0 || shouldChangeLevel)
+        // {
+        //     shouldChangeLevel = false; 
+        //     OnLevelWasLoaded(level); 
+        //     Debug.Log("Terminou o antigo");
+        //     return;
+        // }
 
+
+        // if (playersTurn || enemiesMoving || doingSetup)
+        //     return;
+
+        // StartCoroutine(MoveEnemies());
+    }
 
     //Call this to add the passed in Enemy to the List of Enemy objects.
     public void AddEnemyToList(Enemy script)
@@ -110,33 +119,7 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         //Add Enemy to List enemies.
         enemies.Remove(script);
-
     }
-
-
-
-    public void LoadNextLevel()
-    {
-
-        // Descarrega a cena atual
-        SceneManager.UnloadSceneAsync("Fase1");
-
-        // Incrementa o índice da fase
-        level++;
-
-        // Carrega a próxima fase
-        SceneManager.LoadSceneAsync("Fase2", LoadSceneMode.Additive);
-    }
-
-    public void CheckEnemiesDefeated()
-    {
-        if(enemies.Count == 0)
-        {
-            LoadNextLevel();
-        }
-    }
-
-
 
 
     //GameOver is called when the player reaches 0 food points
@@ -151,5 +134,24 @@ public class GameManager : SingletonPersistent<GameManager>
         enabled = false;
     }
 
+    //Coroutine to move enemies in sequence.
+//  public IEnumerator MoveEnemies()
+//     {
+//         enemiesMoving = true;
+//         List<Enemy> enemiesCopy = new List<Enemy>(enemies);
+
+//         for (int i = 0; i < enemiesCopy.Count; i++)
+//         {
+//             yield return new WaitForSeconds(turnDelay);
+            
+//             // Verificar se o inimigo ainda está na lista original
+//             if (enemies.Contains(enemiesCopy[i])) 
+//             {
+//                 enemiesCopy[i].Play();
+//             }
+//         }
+//         playersTurn = true;
+//         enemiesMoving = false;
+//     }
 
 }
