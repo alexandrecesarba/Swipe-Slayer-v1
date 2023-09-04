@@ -1,32 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
     public List<IUnit> units = new();
     public float turnTime = .5f;
     private int currentUnitIndex;
-    private int playerUnitIndex;
     private int playCount = 0;
     public bool gameOver = false;
     [SerializeField]
     public Material highlightMaterial;
-    [SerializeField]
-    public float maxTurnTime;
-    [SerializeField]
-    public TimeBar timeBar;
-    private int kills;
+    public HealthBar timeSlider;
+    public float maxTime = 5;
 
 
     void Start()
     {
+        timeSlider.SetMaxHealth(maxTime);
         currentUnitIndex = 0;
-        timeBar.SetMaxTime(maxTurnTime);
+        
         units.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IUnit>());
+        Debug.Log(units.Count);
         currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
-        playerUnitIndex = currentUnitIndex;
 
         foreach (IUnit unit in units)
         {
@@ -46,10 +45,9 @@ public class LevelManager : MonoBehaviour
     {
         while (!gameOver)
         {
-            Debug.Log("Units Count: " + units.Count);
-            Debug.Log("Current Index: " + currentUnitIndex);
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
+            Debug.Log("CURRENT UNIT: " + currentUnit);
             
 
             if (currentUnit.CanPlay)
@@ -58,20 +56,15 @@ public class LevelManager : MonoBehaviour
                 unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 100);
                 StartCoroutine(currentUnit.Play(turnTime));
                 float startTime = Time.time;
-                if (currentUnitIndex == playerUnitIndex){
-                    timeBar.gameObject.SetActive(true);
-                }
+                timeSlider.SetHealth(maxTime);
 
                 // Espera até que a unidade termine de jogar ou após um tempo limite de 10 segundos
-                while (currentUnit.IsPlaying && Time.time - startTime < maxTurnTime)
+                while (currentUnit.IsPlaying && Time.time - startTime < maxTime)
                 {
-                    timeBar.SetTime(maxTurnTime - (Time.time - startTime));
+                    timeSlider.SetHealth(maxTime-(Time.time - startTime));
                     yield return null; // Aguarda um frame antes de verificar novamente
                 }
                 currentUnit.IsPlaying = false;
-                if (currentUnitIndex == playerUnitIndex){
-                    timeBar.gameObject.SetActive(false);
-                }
             }
             // yield return new WaitForSeconds(turnTime);
             unitMB.GetComponent<Renderer>().material.SetFloat("_Outline_Thickness", 0);
@@ -97,8 +90,11 @@ public class LevelManager : MonoBehaviour
         {
             gameOver = true;
         }
-        
+
+        GameManager.instance.CheckEnemiesDefeated();
+
     }
+
 
     public bool IsGameOver()
     {
