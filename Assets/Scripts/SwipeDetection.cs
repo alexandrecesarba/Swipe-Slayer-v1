@@ -90,6 +90,14 @@ public class SwipeDetection : MonoBehaviour
         }
     }
 
+        public void ReactivateEvents()
+    {
+        inputManager = InputManager.Instance;
+        inputManager.OnStartTouch += SwipeStart;
+        inputManager.OnEndTouch += SwipeEnd;
+    }
+
+
     private Vector2 SwipeDirection(Vector2 direction) 
     {
         if (Vector2.Dot(Vector2.up, direction) > directionThreshold)

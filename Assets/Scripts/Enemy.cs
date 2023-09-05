@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour, IUnit
         this.CanPlay = true;
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        GameManager.instance.AddEnemyToList(this);
+        // GameManager.Instance.AddEnemyToList(this);
         movement = GetComponent<MovingObject>();
 
         Damageable damage = GetComponent<Damageable>();

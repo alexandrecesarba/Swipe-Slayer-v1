@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour, IUnit
     void OnEnable()
     {
         controls.Enable();
+        this.CanPlay = true; // Mover para aqui.
     }
 
     // This function is called when the behaviour becomes disabled or inactive.
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour, IUnit
         playerMelee = GetComponent<Melee>(); 
         damage = GetComponent<Damageable>();
         // damage.OnDeath += HandlePlayerDeath;
-        this.CanPlay = true;
+        // this.CanPlay = true;
     }
 
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneInstantiate : MonoBehaviour
+public class SceneInstantiate : SingletonPersistent<SceneInstantiate>
 {
 
     [SerializeField]
@@ -14,6 +14,8 @@ public class SceneInstantiate : MonoBehaviour
 
     [ContextMenu("ChangeScene")]
     public void NextScene(){
+        // GameManager.Instance.LevelEnded();
+
         SceneManager.UnloadSceneAsync("Fase1");
         SceneManager.LoadSceneAsync("Fase2", LoadSceneMode.Additive);
     }

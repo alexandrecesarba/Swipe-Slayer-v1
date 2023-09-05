@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public List<IUnit> units = new();
+    public List<IUnit> units = new List<IUnit>();
     public float turnTime = .5f;
     private int currentUnitIndex;
     private int playerUnitIndex;
@@ -21,17 +21,14 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        currentUnitIndex = 0;
+        Reinitialize();
+        // DontDestroyOnLoad(gameObject);
 
-        if (timeBar != null)
-        {
-            timeBar.SetMaxTime(maxTurnTime);
-        }
-        else
-        {
-            Debug.LogWarning("TimeBar is null.");
-        }
+    }
 
+    public void Reinitialize()
+    {
+        units.Clear();
         units.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IUnit>());
         currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
         playerUnitIndex = currentUnitIndex;
@@ -46,6 +43,15 @@ public class LevelManager : MonoBehaviour
                     damageable.OnDeath += HandleUnitDied;
                 }
             }
+        }
+
+        if (timeBar != null)
+        {
+            timeBar.SetMaxTime(maxTurnTime);
+        }
+        else
+        {
+            Debug.LogWarning("TimeBar is null.");
         }
     }
 
