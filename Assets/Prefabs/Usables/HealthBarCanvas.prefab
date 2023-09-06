@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4588107643255224163}
   - component: {fileID: 1785741738042092057}
   m_Layer: 5
-  m_Name: HealthBar
+  m_Name: HealthBarCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -129,8 +129,8 @@ RectTransform:
   m_GameObject: {fileID: 1889420159972027860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.7312, y: 3.7312, z: 3.7312}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 4.36, y: 4.36, z: 4.36}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 79535414592991386}
   - {fileID: 2739633758282870554}
@@ -139,7 +139,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -276, y: 869}
+  m_AnchoredPosition: {x: -276.3, y: 766.1}
   m_SizeDelta: {x: 115.82, y: 8.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &758718551477119113
