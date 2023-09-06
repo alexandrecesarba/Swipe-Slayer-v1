@@ -77,4 +77,20 @@ public class PlayerController : MonoBehaviour, IUnit
         
     // }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Power Picked Up!");
+
+        if (other.CompareTag("Collectible"))
+        {
+            PowerUp powerUp = other.GetComponent<PowerUp>();
+            powerUp?.Pickup(gameObject);
+
+        }
+        // if (other.CompareTag("Exit"))
+        // {
+        //     LevelManager.Instance.unlocked?.ChangeScene();
+        // }
+    }
+
 }

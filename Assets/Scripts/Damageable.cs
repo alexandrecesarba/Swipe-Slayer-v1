@@ -25,6 +25,21 @@ public class Damageable : MonoBehaviour
         }
     }
 
+    public void RestoreHealth(int amount)
+    {
+        if (currentHealth + amount <= maxHealth){
+            currentHealth += amount;
+        } else {
+            currentHealth = maxHealth;
+        }
+        healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
     public void Die()
     {
         OnDeath?.Invoke(this.GetComponent<IUnit>());

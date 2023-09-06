@@ -1383,11 +1383,11 @@ PrefabInstance:
     - target: {fileID: 957370064452732058, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: groundTilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1985875985}
     - target: {fileID: 957370064452732058, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: collisionTilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 153220497}
     - target: {fileID: 1105271902994175179, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1599,11 +1599,11 @@ PrefabInstance:
     - target: {fileID: 957370064452732058, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: groundTilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1985875985}
     - target: {fileID: 957370064452732058, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: collisionTilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 153220497}
     - target: {fileID: 1105271902994175179, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -3335,8 +3335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d8c5a4762ff4437ad19c31f4073228, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundTilemap: {fileID: 0}
-  collisionTilemap: {fileID: 0}
+  groundTilemap: {fileID: 1985875985}
+  collisionTilemap: {fileID: 153220497}
   moveSpeed: 10
   isMoving: 0
 --- !u!114 &1472021644
@@ -5854,11 +5854,11 @@ PrefabInstance:
     - target: {fileID: 957370064452732058, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: groundTilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1985875985}
     - target: {fileID: 957370064452732058, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: collisionTilemap
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 153220497}
     - target: {fileID: 1105271902994175179, guid: 43cc91b3c637846d9a0b0cf408ec9985, type: 3}
       propertyPath: m_Enabled
       value: 1

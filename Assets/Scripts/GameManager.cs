@@ -21,7 +21,6 @@ public class GameManager : SingletonPersistent<GameManager>
 
     void Awake()
     {
-     
     }
 
     void Start()

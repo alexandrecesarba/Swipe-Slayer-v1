@@ -158,8 +158,11 @@ public class MovingObject : MonoBehaviour
 
         foreach (Collider2D collider in colliders) {
                 // Retorna o GameObject do inimigo e impede o movimento depois de atacar
-                hit = collider.gameObject;
-                return false;
+                if (collider.CompareTag("BlocksMovement") || collider.CompareTag("Player") || collider.CompareTag("Enemy"))
+                {
+                    hit = collider.gameObject;
+                    return false;
+                }
             
         }
 
