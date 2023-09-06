@@ -17,18 +17,11 @@ public class GameManager : SingletonPersistent<GameManager>
     public bool shouldChangeLevel = false;
 
     public LevelManager levelManager;
+    
 
     void Awake()
     {
-        // if (instance == null)
-        //     instance = this;
-        // else if (instance != this)
-        //     Destroy(gameObject);
-
-        // DontDestroyOnLoad(gameObject);
-        // enemies = new List<Enemy>();
-        // InitGame();
-        // SceneManager.sceneLoaded += OnSceneLoaded;
+     
     }
 
     void Start()
@@ -37,7 +30,7 @@ public class GameManager : SingletonPersistent<GameManager>
         StartCoroutine(levelManager.TurnLoop());
     }
 
-    void OnLevelWasLoaded(int index)
+    void OnLevelWasLoaded()
     {
         //level++; // Uncomment when you have more than one scene
         levelManager = FindObjectOfType<LevelManager>();
@@ -67,27 +60,12 @@ public class GameManager : SingletonPersistent<GameManager>
         StartCoroutine(levelManager.TurnLoop());
     }
 
-    // void InitGame()
-    // {
-    //     doingSetup = true;
-    //     // enemies.Clear();
-    //     // Initialization logic here
-    // }
 
     void Update()
     {
         // Game update logic here
     }
 
-    // public void AddEnemyToList(Enemy script)
-    // {
-    //     enemies.Add(script);
-    // }
-
-    // public void RemoveEnemyFromList(Enemy script)
-    // {
-    //     enemies.Remove(script);
-    // }
 
     public void GameOver()
     {
