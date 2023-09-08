@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: tile pular
+  m_Name: corner2
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: cff6cf58118094c8a9ee8775477fba85, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fb5b67b3d49df44bf978f9e5da03fe53, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

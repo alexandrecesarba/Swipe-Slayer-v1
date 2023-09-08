@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -84.9, y: 684.1}
+  m_AnchoredPosition: {x: -84.9, y: 793}
   m_SizeDelta: {x: 200, y: 9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &357312926866179112
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 6672413628077882125}
   - component: {fileID: 5206762512908641047}
   m_Layer: 5
-  m_Name: TimeBarCanvas 1
+  m_Name: TimeBarCanvas
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
