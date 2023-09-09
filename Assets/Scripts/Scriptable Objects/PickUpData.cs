@@ -1,6 +1,6 @@
 using UnityEngine;
-[CreateAssetMenu(fileName = "pickupBuffs", menuName = "Pickup/New")]
-public class PickUp : ScriptableObject
+[CreateAssetMenu(fileName = "powerUps", menuName = "PowerUp/New")]
+public class PowerUpData : ScriptableObject
 {
     public float heal;
     public float maxHealth;

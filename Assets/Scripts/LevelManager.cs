@@ -59,9 +59,6 @@ public class LevelManager : MonoBehaviour
     {
         while (!gameOver)
         {
-            Debug.Log("Units Count: " + units.Count);
-            Debug.Log("Current Index: " + currentUnitIndex);
-
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
 

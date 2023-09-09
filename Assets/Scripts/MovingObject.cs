@@ -85,46 +85,44 @@ public class MovingObject : MonoBehaviour
 
         // Verificar se o movimento é válido
         Vector3 targetPosition = transform.position + (Vector3)moveVector;
-        return EvaluateMove(targetPosition);
+        return EvaluateMove(targetPosition, out _);
         
     }
 
-    public MovementResult AttemptMoveInTiles(Vector2 directionVector, int numberOfTiles, out int tilesMoved)
+    public GameObject AttemptMoveInTiles(Vector2 directionVector, int numberOfTiles, out int tilesMoved)
     {
         Vector2 tilemapCellSize = groundTilemap.cellSize;
-        
         Vector3 targetPosition = transform.position;
 
         MovementResult moveCondition = MovementResult.Blocked;
         
+        GameObject hitObject = null;
         tilesMoved = 0;
 
         // Verificar se o movimento é válido
         for (int i = 0; i < numberOfTiles; i++){
             targetPosition += (Vector3)(directionVector * tilemapCellSize);
-            Debug.Log("targetPosition + 1 ->" + i); 
-            moveCondition = EvaluateMove(targetPosition);
+            moveCondition = EvaluateMove(targetPosition, out hitObject);
             Debug.Log(moveCondition);
             if (moveCondition == MovementResult.Moved){
                 movePoint = targetPosition;
                 tilesMoved++;
-                Debug.Log("CHECKED, NEXT TILE");
             }
             else{
-                Debug.Log("CANT MOVE ANYMORE, i = " + i);
                 break;
             }
         }
         isMoving = true;
         // circleRedGO.transform.position = targetPosition;
-        return moveCondition;
+        return hitObject;
 
     }
 
-    public MovementResult EvaluateMove(Vector3 targetPosition)
+    public MovementResult EvaluateMove(Vector3 targetPosition, out GameObject hit)
     {
         if (CanMove(targetPosition, out GameObject hitObject))
         {
+            hit = null;
             return MovementResult.Moved;
         }
         else if (hitObject != null)
@@ -132,8 +130,11 @@ public class MovingObject : MonoBehaviour
             // Podemos fazer algo em relação ao objeto atingido, se necessário.
             Debug.Log("HIT: " + hitObject.name);
             OnHit?.Invoke(hitObject);
+            hit = hitObject;
+
             return MovementResult.Hit;
         }
+        hit = null;
         return MovementResult.Blocked;
     }
 

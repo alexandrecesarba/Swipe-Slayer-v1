@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour, IUnit
         Debug.Log("Player IsPlaying:" + IsPlaying);
         if (IsPlaying)
         {
-            movement.AttemptMoveInTiles(direction, 1, out _);
+            GameObject hit = movement.AttemptMoveInTiles(direction, 1, out _);
             IsPlaying = false;
             
             yield return new WaitForSeconds(1f);
@@ -83,9 +83,8 @@ public class PlayerController : MonoBehaviour, IUnit
 
         if (other.CompareTag("Collectible"))
         {
-            PowerUp powerUp = other.GetComponent<PowerUp>();
-            powerUp?.Pickup(gameObject);
-
+            IPickup pickUp = other.GetComponent<IPickup>();
+            pickUp?.Activate(gameObject);
         }
         // if (other.CompareTag("Exit"))
         // {
