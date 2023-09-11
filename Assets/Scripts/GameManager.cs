@@ -17,6 +17,9 @@ public class GameManager : SingletonPersistent<GameManager>
     public bool shouldChangeLevel = false;
 
     public LevelManager levelManager;
+    public LevelLoader levelLoader;
+
+    private Coroutine turnLoop;
     
 
     void Awake()
@@ -26,18 +29,23 @@ public class GameManager : SingletonPersistent<GameManager>
     void Start()
     {
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        StartCoroutine(levelManager.TurnLoop());
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        // levelLoader = GetComponent<LevelLoader>();
+        turnLoop = StartCoroutine(levelManager.TurnLoop());
+        Debug.Log("StartCoroutine(levelManager.Turnloop())");
     }
 
-    void OnLevelWasLoaded()
+    public void SetUpNewLevel()
     {
+        levelManager.levelOver = false;
+        Debug.Log("OnLevelWasLoaded");
         //level++; // Uncomment when you have more than one scene
-        levelManager = FindObjectOfType<LevelManager>();
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 
         if (levelManager != null)
-        {
-            levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-            StartCoroutine(levelManager.TurnLoop());
+        {   
+            turnLoop = StartCoroutine(levelManager.TurnLoop());
+            Debug.Log("StartCoroutine(levelManager.Turnloop())");
         }
         else
         {
@@ -53,16 +61,7 @@ public class GameManager : SingletonPersistent<GameManager>
         {
             Debug.LogError("SwipeDetection not found");
         }
-
-        // Reinitialize LevelManager
-        levelManager.Reinitialize();
-        StartCoroutine(levelManager.TurnLoop());
-    }
-
-
-    void Update()
-    {
-        // Game update logic here
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
     }
 
 
@@ -74,6 +73,9 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public void LevelEnded()
     {
-        StopCoroutine(levelManager.TurnLoop());
+        levelManager.EndLevel();
+        Debug.Log("Ending level");
+        StopCoroutine(turnLoop);
+        Debug.Log("Stopping Coroutine");
     }
 }

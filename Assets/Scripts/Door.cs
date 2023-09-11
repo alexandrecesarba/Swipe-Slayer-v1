@@ -25,6 +25,13 @@ public class Door : MonoBehaviour, IInteractable {
     {
         if (isOpen){
             Debug.Log("Porta Aberta! Entrando...");
+            // LevelLoader.Instance.LoadNextLevel();
+            if (GameManager.Instance.levelLoader == null) {
+                Debug.Log("GameManager.Instance.levelLoader is NULL");
+            } else {
+                GameManager.Instance.LevelEnded();
+                GameManager.Instance.levelLoader.LoadNextLevel();
+            };
         } else {
             Debug.Log("Porta Trancada!");
         }

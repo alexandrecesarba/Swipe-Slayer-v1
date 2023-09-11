@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour, IUnit
     private Damageable damage;
     private MovingObject movement;
     private Melee playerMelee; // Adicione esta linha
+    private Interacts interaction;
 
     public bool IsPlaying {get; set;}
     public bool CanPlay {get; set;}
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour, IUnit
         swipeDetection.OnSwipe += HandleSwipe;
         playerMelee = GetComponent<Melee>(); 
         damage = GetComponent<Damageable>();
+        interaction = GetComponent<Interacts>();
         // damage.OnDeath += HandlePlayerDeath;
         // this.CanPlay = true;
     }
@@ -50,7 +52,6 @@ public class PlayerController : MonoBehaviour, IUnit
 
     private IEnumerator MovePlayer(Vector2 direction)
     {
-        Debug.Log("Player IsPlaying:" + IsPlaying);
         if (IsPlaying)
         {
             GameObject hit = movement.AttemptMoveInTiles(direction, 1, out _);
@@ -81,10 +82,19 @@ public class PlayerController : MonoBehaviour, IUnit
     {
         Debug.Log("Power Picked Up!");
 
-        if (other.CompareTag("Collectible"))
-        {
-            IPickup pickUp = other.GetComponent<IPickup>();
-            pickUp?.Activate(gameObject);
+        switch (other.tag)
+        {  
+            case "Collectible":
+                IPickup pickUp = other.GetComponent<IPickup>();
+                pickUp?.Activate(gameObject);
+                break;
+            case "Interactable":
+                interaction?.Interact(other.gameObject);
+                Debug.Log("Interacting with "+ other.gameObject.name);
+                break;
+            default:
+            Debug.Log("NO TAG MATCH: " + other.tag);
+                break;
         }
         // if (other.CompareTag("Exit"))
         // {

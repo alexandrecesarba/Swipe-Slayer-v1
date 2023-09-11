@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class LevelManager : MonoBehaviour
     private int currentUnitIndex;
     private int playerUnitIndex;
     private int playCount = 0;
-    public bool gameOver = false;
+    public bool levelOver = false;
     [SerializeField]
     public Material highlightMaterial;
     [SerializeField]
@@ -19,10 +20,9 @@ public class LevelManager : MonoBehaviour
     public TimeBar timeBar;
     private int kills;
 
-    void Start()
+    void Awake()
     {
         Reinitialize();
-        // DontDestroyOnLoad(gameObject);
 
     }
 
@@ -57,8 +57,12 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator TurnLoop()
     {
-        while (!gameOver)
+        Debug.Log("levelOver: " + levelOver);
+        yield return new WaitForSeconds(1f);
+        while (!levelOver)
         {
+            Debug.Log("levelOver: " + levelOver + "| currentUnitIndex: "+currentUnitIndex+ "units count: " + units.Count + "| currentSceneIndex: " 
+            + SceneManager.GetActiveScene().buildIndex);
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
 
@@ -118,14 +122,12 @@ public class LevelManager : MonoBehaviour
         units.Remove(unit);
         if (unit is PlayerController)
         {
-            gameOver = true;
+            levelOver = true;
         }
     }
 
-    public bool IsGameOver()
+    public void EndLevel()
     {
-        // Implement game over logic here.
-        // This can be when there are no more enemies, the player has been defeated, etc.
-        return false;
+        levelOver = true;
     }
 }
