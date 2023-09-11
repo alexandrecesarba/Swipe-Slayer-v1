@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour, IUnit
     /// any of the Update methods is called the first time.
     void Start()
     {
+        // DontDestroyOnLoad(gameObject);
         controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
         movement = this.GetComponent<MovingObject>();
         swipeDetection.OnSwipe += HandleSwipe;

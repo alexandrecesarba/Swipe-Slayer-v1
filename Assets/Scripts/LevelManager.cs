@@ -6,24 +6,29 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    public List<IUnit> units = new List<IUnit>();
-    public float turnTime = .5f;
+    private List<IUnit> units = new List<IUnit>();
     private int currentUnitIndex;
     private int playerUnitIndex;
     private int playCount = 0;
+    private int kills;
+    private Transform player;
+ 
     public bool levelOver = false;
+
+    [SerializeField]
+    private Vector3 playerSpawn = Vector3.zero;
+    [SerializeField]
+    public float turnTime = .5f;
     [SerializeField]
     public Material highlightMaterial;
     [SerializeField]
     public float maxTurnTime;
     [SerializeField]
     public TimeBar timeBar;
-    private int kills;
 
-    void Awake()
+    void Start()
     {
         Reinitialize();
-
     }
 
     public void Reinitialize()
@@ -32,6 +37,18 @@ public class LevelManager : MonoBehaviour
         units.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IUnit>());
         currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
         playerUnitIndex = currentUnitIndex;
+        try
+        {
+            player = GameManager.Instance.player.transform;
+
+            // tilemaps do player para os existentes
+
+            // inimigos tem que target o player
+        }
+        catch
+        {
+            Debug.LogWarning("Não foi possível localizar o player do GameObject");
+        }
 
         foreach (IUnit unit in units)
         {

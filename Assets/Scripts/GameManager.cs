@@ -8,10 +8,9 @@ public class GameManager : SingletonPersistent<GameManager>
     public float levelStartDelay = 2f;
     public float turnDelay = 0f;
     [HideInInspector] public bool playersTurn = true;
+    public GameObject player;
 
     private int level = 1;
-    private bool enemiesMoving;
-    private bool doingSetup;
 
     private List<Enemy> enemies;
     public bool shouldChangeLevel = false;
@@ -33,6 +32,8 @@ public class GameManager : SingletonPersistent<GameManager>
         // levelLoader = GetComponent<LevelLoader>();
         turnLoop = StartCoroutine(levelManager.TurnLoop());
         Debug.Log("StartCoroutine(levelManager.Turnloop())");
+
+        player = GameObject.FindWithTag("Player");
     }
 
     public void SetUpNewLevel()
