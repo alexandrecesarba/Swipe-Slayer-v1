@@ -37,6 +37,7 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public void SetUpNewLevel()
     {
+        InputManager.Instance.Reload();
         levelManager.levelOver = false;
         Debug.Log("OnLevelWasLoaded");
         //level++; // Uncomment when you have more than one scene

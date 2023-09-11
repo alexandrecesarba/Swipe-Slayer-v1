@@ -48,6 +48,10 @@ public class InputManager : Singleton<InputManager>
         playerControls.Touch.PrimaryContact.canceled += ctx => EndTouch(ctx);
 
     }
+    public void Reload()
+    {
+        mainCamera = Camera.main;
+    }
 
     private async void StartTouch(InputAction.CallbackContext context)
     {
@@ -55,8 +59,9 @@ public class InputManager : Singleton<InputManager>
         OnStartTouch?.Invoke(PrimaryPosition(), (float)context.startTime);
         // Debug.Log("TOQUE INICIAL" + PrimaryPosition());
     }
-    private void EndTouch(InputAction.CallbackContext context)
+    private async void EndTouch(InputAction.CallbackContext context)
     {
+        await Task.Delay(50);
         OnEndTouch?.Invoke(PrimaryPosition(), (float)context.time);
         // Debug.Log("TOQUE FINAL" + PrimaryPosition());
     }

@@ -8,6 +8,8 @@ public class LevelLoader : MonoBehaviour {
 
     public Animator transition;
     public float transitionTime = 3f;
+    public int currentBuildIndex = 0;
+    private int lastSceneBuildIndex = 0;
 
     #endregion
 
@@ -22,7 +24,18 @@ public class LevelLoader : MonoBehaviour {
 
     public void LoadNextLevel()
     {
-        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+        lastSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
+        currentBuildIndex = lastSceneBuildIndex + 1;
+        Debug.Log("Current Scene: "+SceneManager.GetActiveScene().name+". Loading: " + currentBuildIndex);
+        if (currentBuildIndex > 4)
+        {
+            currentBuildIndex = 0;
+        }
+        if (lastSceneBuildIndex > 4)
+        {
+            lastSceneBuildIndex = 0;
+        }
+        StartCoroutine(LoadLevel(currentBuildIndex));
     }
 
     IEnumerator LoadLevel(int levelIndex)
@@ -33,8 +46,8 @@ public class LevelLoader : MonoBehaviour {
         yield return new WaitForSeconds(transitionTime);
 
         GameManager.Instance.LevelEnded();
-        SceneManager.UnloadSceneAsync(levelIndex - 1);
-        Debug.Log("Unloading scene, Index: " + (levelIndex - 1));
+        Debug.Log("Unloading scene, Index: " + (lastSceneBuildIndex));
+        SceneManager.UnloadSceneAsync(lastSceneBuildIndex);
         var asyncLoadLevel = SceneManager.LoadSceneAsync(levelIndex, LoadSceneMode.Additive);
         while (!asyncLoadLevel.isDone){
             Debug.Log("Loading scene, Index: " + levelIndex);
