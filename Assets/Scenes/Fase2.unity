@@ -143,6 +143,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2345657044601512421, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345657044601512421, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: groundTilemap
       value: 
       objectReference: {fileID: 908927163}
@@ -156,6 +160,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3730944948247090789, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167931471570040097, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6224762791936352981, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}

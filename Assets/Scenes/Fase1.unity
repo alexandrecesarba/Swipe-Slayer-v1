@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7727770107863164233, guid: 38fed2d8e5912497cb7f3c5fac8eb7cd, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8009360602137702781, guid: 38fed2d8e5912497cb7f3c5fac8eb7cd, type: 3}
       propertyPath: m_Name
       value: ExitDoor
@@ -201,9 +205,29 @@ PrefabInstance:
       propertyPath: doors.Array.data[0]
       value: 
       objectReference: {fileID: 944187644}
+    - target: {fileID: 3760539175476413158, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
+      propertyPath: m_Size.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760539175476413158, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
+      propertyPath: m_Size.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3760539175476413158, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
+      propertyPath: m_DrawMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4405692036996832858, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
       propertyPath: m_Name
       value: Key
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241359071160097365, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241359071160097365, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5241359071160097365, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
       propertyPath: m_LocalPosition.x

@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6498fa92a38b94b6bbce4356e3766c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 9
   healthBar: {fileID: 0}
 --- !u!61 &2489309903588138792
 BoxCollider2D:
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13d5bdc1f34f478d9f2b51102c57149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPoints: 3
+  attackPoints: 1
 --- !u!114 &1437933547768172276
 MonoBehaviour:
   m_ObjectHideFlags: 0
