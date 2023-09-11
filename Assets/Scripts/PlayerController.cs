@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour, IUnit
     void Awake()
     {
         controls = new PlayerMovement();
-        swipeDetection = swipeDetection.GetComponent<SwipeDetection>();
+        // swipeDetection = swipeDetection.GetComponent<SwipeDetection>();
     }
 
     // This function is called when the object becomes enabled and active.
@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour, IUnit
     // This function is called when the behaviour becomes disabled or inactive.
     void OnDisable()
     {
+        swipeDetection.OnSwipe -= HandleSwipe;
         controls.Disable();
     }
 
@@ -39,12 +40,24 @@ public class PlayerController : MonoBehaviour, IUnit
     /// any of the Update methods is called the first time.
     void Start()
     {
+        try
+        {
+            // swipeDetection = GameObject.Find("SwipeDetection").GetComponent<SwipeDetection>();
+            swipeDetection = SwipeDetection.Instance;
+        }
+        catch
+        {
+            Debug.LogWarning("Não foi possível carregar o swipe detection");
+        }
+        swipeDetection.OnSwipe += HandleSwipe;
         controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
         movement = this.GetComponent<MovingObject>();
-        swipeDetection.OnSwipe += HandleSwipe;
+        
         playerMelee = GetComponent<Melee>(); 
         damage = GetComponent<Damageable>();
         interaction = GetComponent<Interacts>();
+        // swipeDetection = SwipeDetection.Instance;
+
         // damage.OnDeath += HandlePlayerDeath;
         // this.CanPlay = true;
     }

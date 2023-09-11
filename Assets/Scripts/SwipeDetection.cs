@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-[DefaultExecutionOrder(-1)]
-public class SwipeDetection : MonoBehaviour
+// [DefaultExecutionOrder(-1)]
+public class SwipeDetection : SingletonPersistent<SwipeDetection>
 {
     #region Events
     public delegate void SwipeHandler(Vector2 direction);
@@ -16,7 +16,7 @@ public class SwipeDetection : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float directionThreshold = .93f;
     [SerializeField]
-    private GameObject trail;
+    // private GameObject trail;
 
     private InputManager inputManager;
 
@@ -29,19 +29,30 @@ public class SwipeDetection : MonoBehaviour
     
     private Coroutine coroutine;
 
-    void Awake()
+    void Start()
     {
-        inputManager = InputManager.Instance;
+        // DontDestroyOnLoad(gameObject);
+        Debug.LogWarning("NEW SWIPE DETECTION");
     }
 
     void OnEnable ()
     {
+        try
+        {
+            inputManager = InputManager.Instance;
+        }
+        catch
+        {
+            Debug.LogWarning("Instancia de inputManager inalcançável");
+        }
+        Debug.LogWarning("Enabling Swipe Detection. inputManager: " + inputManager.name);
         inputManager.OnStartTouch += SwipeStart;
         inputManager.OnEndTouch += SwipeEnd;
     }
 
     void OnDisable()
     {
+        Debug.LogWarning("Disabling Swipe Detection");
         inputManager.OnStartTouch -= SwipeStart;
         inputManager.OnEndTouch -= SwipeEnd;
     }
@@ -50,28 +61,28 @@ public class SwipeDetection : MonoBehaviour
     {
         startPosition = position;
         startTime = time;
-        // Debug.Log("TOQUE INICIAL: " + position + "| TIME: " + time);
-        trail.SetActive(true);
-        trail.transform.position = position;
-        coroutine = StartCoroutine(Trail());
+        Debug.Log("TOQUE INICIAL: " + position + "| TIME: " + time);
+        // trail.SetActive(true);
+        // trail.transform.position = position;
+        // coroutine = StartCoroutine(Trail());
     }
 
-    private IEnumerator Trail() 
-    {
-        while(true)
-        {
-            trail.transform.position = new Vector3(inputManager.PrimaryPosition().x, inputManager.PrimaryPosition().y, Camera.main.transform.position.z+1);
-            yield return null;
-        }
-    }
+    // private IEnumerator Trail() 
+    // {
+    //     while(true)
+    //     {
+    //         trail.transform.position = new Vector3(inputManager.PrimaryPosition().x, inputManager.PrimaryPosition().y, Camera.main.transform.position.z+1);
+    //         yield return null;
+    //     }
+    // }
     
     private void SwipeEnd(Vector2 position, float time)
     {
-        trail.SetActive(false);
-        StopCoroutine(coroutine);
+        // trail.SetActive(false);
+        // StopCoroutine(coroutine);
         endPosition = position;
         endTime = time;
-        // Debug.Log("TOQUE FINAL: " + position + "| TIME: " + time);
+        Debug.Log("TOQUE FINAL: " + position + "| TIME: " + time);
 
         DetectSwipe();
     }
@@ -82,7 +93,7 @@ public class SwipeDetection : MonoBehaviour
         // Debug.Log("DIST : (" + endPosition + " - " + startPosition + " = " + (float)swipeDistance + "| TIME : (" + endTime + " - " + startTime + " = " + swipeTime);
         if (swipeDistance >= minimumDistance &&
          swipeTime <= maximumTime) {
-            // Debug.Log("LINE START: " + startPosition + "LINE END: " + endPosition);
+            Debug.Log("LINE START: " + startPosition + "LINE END: " + endPosition);
             Debug.DrawLine(startPosition, endPosition, Color.red, 5f);
             Vector3 direction = endPosition - startPosition;
             Vector2 direction2D = new Vector2(direction.x, direction.y).normalized;

@@ -9,12 +9,6 @@ public class SceneInstantiate : MonoBehaviour
 
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
         SceneManager.LoadSceneAsync(persistentScene.name, LoadSceneMode.Additive);
-    }
-
-    void Start() 
-    {
-        _ = GameManager.Instance;
     }
 }
