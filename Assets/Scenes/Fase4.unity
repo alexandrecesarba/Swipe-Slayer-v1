@@ -3051,6 +3051,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6194078905372406111, guid: 38fed2d8e5912497cb7f3c5fac8eb7cd, type: 3}
   m_PrefabInstance: {fileID: 855027316}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &855027318 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4156915700079750236, guid: 38fed2d8e5912497cb7f3c5fac8eb7cd, type: 3}
+  m_PrefabInstance: {fileID: 855027316}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f081dee2550d2401fb2ffbdd5587f614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &908927157
 GameObject:
   m_ObjectHideFlags: 0
@@ -4690,6 +4701,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1606086399223763452, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
+      propertyPath: doors.Array.data[0]
+      value: 
+      objectReference: {fileID: 855027318}
+    - target: {fileID: 3217522025459595580, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
+      propertyPath: m_Size.x
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4405692036996832858, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
       propertyPath: m_Name
       value: Key

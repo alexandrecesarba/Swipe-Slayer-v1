@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8955d6ae0cb41298ca9a0358380d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnTime: 0.5
-  gameOver: 0
+  turnTime: 0.2
+  levelOver: 0
   highlightMaterial: {fileID: 2100000, guid: a11a5329a76f94428b07f077e08ec4c3, type: 2}
   maxTurnTime: 5
   timeBar: {fileID: 8689001269960157094, guid: a26a2cdd5b7e44b839055b6ef215c83d, type: 3}

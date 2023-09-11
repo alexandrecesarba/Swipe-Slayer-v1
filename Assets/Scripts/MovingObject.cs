@@ -6,7 +6,8 @@ public enum MovementResult
 {
     Moved,
     Blocked,
-    Hit
+    Hit,
+    Unable
 }
 
 public class MovingObject : MonoBehaviour
@@ -135,25 +136,26 @@ public class MovingObject : MonoBehaviour
             return MovementResult.Hit;
         }
         hit = null;
-        return MovementResult.Blocked;
+        return MovementResult.Unable;
     }
 
     public bool CanMove(Vector3 targetPosition, out GameObject hit) {
-        
         hit = null; // Inicializa o parâmetro de saída
+        
+        // Se já estiver movendo, não poderá mover
+        if (isMoving) {
+            return false;
+        }
 
         Vector3Int targetGridPosition = groundTilemap.WorldToCell(targetPosition);
         TileBase targetGroundTile = groundTilemap.GetTile(targetGridPosition);
         TileBase targetCollisionTile = collisionTilemap.GetTile(targetGridPosition);
         
-
+        // Se não tiver chão, ou houver algum tile da camada de colisão, retorna falso
         if (targetGroundTile == null || targetCollisionTile != null){
             return false;
         }
 
-        if (groundTilemap.GetTile(targetGridPosition) == null){
-            return true;
-        }
         // Verifique se há um inimigo no tile para onde o jogador está se movendo
         Collider2D[] colliders = Physics2D.OverlapCircleAll(targetPosition, 0.2f);
 
