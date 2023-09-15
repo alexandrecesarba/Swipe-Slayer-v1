@@ -9,6 +9,7 @@ public class SceneInstantiate : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("persistentScene.name = " + persistentScene.name);
         SceneManager.LoadSceneAsync(persistentScene.name, LoadSceneMode.Additive);
     }
 }

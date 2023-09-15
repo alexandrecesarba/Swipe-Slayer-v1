@@ -28,20 +28,22 @@ public class GameManager : SingletonPersistent<GameManager>
 
     void Start()
     {
-        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
-        // levelLoader = GetComponent<LevelLoader>();
-        turnLoop = StartCoroutine(levelManager.TurnLoop());
-        Debug.Log("StartCoroutine(levelManager.Turnloop())");
+        // Debug.LogWarning("Active scene: " + SceneManager.GetActiveScene().name);
+        // levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        // levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        // // levelLoader = GetComponent<LevelLoader>();
+        // turnLoop = StartCoroutine(levelManager.TurnLoop());
+        // Debug.Log("StartCoroutine(levelManager.Turnloop())");
     }
 
     public void SetUpNewLevel()
     {
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+
         InputManager.Instance.Reload();
         levelManager.levelOver = false;
         Debug.Log("OnLevelWasLoaded");
         //level++; // Uncomment when you have more than one scene
-        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 
         if (levelManager != null)
         {   
@@ -52,17 +54,6 @@ public class GameManager : SingletonPersistent<GameManager>
         {
             Debug.Log("LevelManager not Found!");
         }
-        // Reactivate events
-        SwipeDetection swipeDetection = FindObjectOfType<SwipeDetection>();
-        if (swipeDetection != null)
-        {
-            //swipeDetection.ReactivateEvents();
-        }
-        else
-        {
-            Debug.LogError("SwipeDetection not found");
-        }
-        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
     }
 
 
@@ -74,9 +65,12 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public void LevelEnded()
     {
+        if (levelManager != null)
+        {
         levelManager.EndLevel();
         Debug.Log("Ending level");
         StopCoroutine(turnLoop);
         Debug.Log("Stopping Coroutine");
+        }
     }
 }

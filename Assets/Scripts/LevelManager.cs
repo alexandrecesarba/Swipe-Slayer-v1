@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
     void Awake()
     {
         Reinitialize();
+        GameManager.Instance.SetUpNewLevel();
 
     }
 

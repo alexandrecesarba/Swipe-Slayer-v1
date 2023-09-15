@@ -4,7 +4,7 @@ public class ManagersInstantiate : MonoBehaviour {
 
     #region Unity Methods
 
-    void Start() 
+    void Awake() 
     {
         Debug.LogWarning("Loading Managers.");
         _ = GameManager.Instance;

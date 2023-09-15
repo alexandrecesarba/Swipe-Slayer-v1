@@ -8,8 +8,10 @@ public class LevelLoader : MonoBehaviour {
 
     public Animator transition;
     public float transitionTime = 3f;
-    public int currentBuildIndex = 0;
+    public int currentBuildIndex = 1;
     private int lastSceneBuildIndex = 0;
+    private int levelCount = 5;
+    private int firstLevelBuildIndex = 1;
 
     #endregion
 
@@ -24,28 +26,29 @@ public class LevelLoader : MonoBehaviour {
 
     public void LoadNextLevel()
     {
+        LevelManager levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         lastSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
         currentBuildIndex = lastSceneBuildIndex + 1;
         Debug.Log("Current Scene: "+SceneManager.GetActiveScene().name+". Loading: " + currentBuildIndex);
-        if (currentBuildIndex > 4)
+        if (currentBuildIndex > levelCount)
         {
-            currentBuildIndex = 0;
+            currentBuildIndex = firstLevelBuildIndex;
         }
-        if (lastSceneBuildIndex > 4)
+        if (lastSceneBuildIndex > levelCount)
         {
-            lastSceneBuildIndex = 0;
+            lastSceneBuildIndex = firstLevelBuildIndex;
         }
         StartCoroutine(LoadLevel(currentBuildIndex));
     }
 
     IEnumerator LoadLevel(int levelIndex)
     {
+        GameManager.Instance.LevelEnded();
         transition.SetTrigger("Start");
         Debug.Log("Loading Next Level...");
 
         yield return new WaitForSeconds(transitionTime);
 
-        GameManager.Instance.LevelEnded();
         Debug.Log("Unloading scene, Index: " + (lastSceneBuildIndex));
         SceneManager.UnloadSceneAsync(lastSceneBuildIndex);
         var asyncLoadLevel = SceneManager.LoadSceneAsync(levelIndex, LoadSceneMode.Additive);
@@ -56,6 +59,38 @@ public class LevelLoader : MonoBehaviour {
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(levelIndex));
         GameManager.Instance.SetUpNewLevel();
         transition.SetTrigger("End");
+
+    }
+
+    public void LoadGame (int sceneIndex)
+    {
+        StartCoroutine(LoadAsynchronously(sceneIndex));
+    }
+
+    IEnumerator LoadAsynchronously (int sceneIndex)
+    {
+        {
+        transition.SetTrigger("Start");
+        Debug.Log("Loading Next Level...");
+
+        yield return new WaitForSeconds(transitionTime);
+
+        Debug.Log("Unloading scene, Index: " + (lastSceneBuildIndex));
+        SceneManager.UnloadSceneAsync(lastSceneBuildIndex);
+
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
+        while (!operation.isDone)
+        {
+            Debug.Log(operation.progress);
+
+            yield return null;
+        }
+
+        Debug.Log("Setting active scene: " + sceneIndex);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(sceneIndex));
+        transition.SetTrigger("End");
+
+    }
 
     }
 }

@@ -44,12 +44,12 @@ public class PlayerController : MonoBehaviour, IUnit
         {
             // swipeDetection = GameObject.Find("SwipeDetection").GetComponent<SwipeDetection>();
             swipeDetection = SwipeDetection.Instance;
+            swipeDetection.OnSwipe += HandleSwipe;
         }
         catch
         {
             Debug.LogWarning("Não foi possível carregar o swipe detection");
         }
-        swipeDetection.OnSwipe += HandleSwipe;
         controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
         movement = this.GetComponent<MovingObject>();
         
