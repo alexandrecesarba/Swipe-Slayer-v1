@@ -17,9 +17,9 @@ public class MovingObject : MonoBehaviour
     public event HitHandler OnHit;
     #endregion
 
-    [SerializeField] 
+    [SerializeField]
     public Tilemap groundTilemap;
-    [SerializeField] 
+    [SerializeField]
     public Tilemap collisionTilemap;
 
     [SerializeField] 
@@ -29,6 +29,20 @@ public class MovingObject : MonoBehaviour
     public bool isMoving;
     // private GameObject circleRedGO;
 
+    #region Unity Methods
+    void Update()
+    {
+        if (isMoving)
+            transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
+            if (transform.position == movePoint)
+                isMoving = false;
+    }
+
+    void Start()
+    {
+        // circleRedGO = GameObject.Find("CircleRed");
+    }
+    #endregion
 
     public MovementResult AttemptMove(Vector2 direction){
         Vector3Int gridPosition = groundTilemap.WorldToCell(transform.position);
@@ -170,16 +184,11 @@ public class MovingObject : MonoBehaviour
         return true;
     }
 
-    void Update()
+    public void SetGround(Tilemap ground, Tilemap collision)
     {
-        if (isMoving)
-            transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
-            if (transform.position == movePoint)
-                isMoving = false;
-    }
-   void Start()
-    {
-        // circleRedGO = GameObject.Find("CircleRed");
+        groundTilemap = ground;
+        collisionTilemap = collision;
+
     }
 
 }

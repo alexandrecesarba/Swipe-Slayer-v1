@@ -9,6 +9,8 @@ TagManager:
   - BlocksMovement
   - Collectible
   - Interactable
+  - Ground
+  - Collision
   layers:
   - Default
   - TransparentFX

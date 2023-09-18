@@ -10,10 +10,8 @@ public class GameManager : SingletonPersistent<GameManager>
     [HideInInspector] public bool playersTurn = true;
 
     private int level = 1;
-    private bool enemiesMoving;
-    private bool doingSetup;
+    public GameObject player;
 
-    private List<Enemy> enemies;
     public bool shouldChangeLevel = false;
 
     public LevelManager levelManager;
@@ -24,10 +22,13 @@ public class GameManager : SingletonPersistent<GameManager>
 
     void Awake()
     {
+        player = GameObject.FindWithTag("Player");
     }
 
     void Start()
     {
+        if (player == null)
+            Debug.LogWarning("Não foi possível encontrar o Player no GameManager");
         // Debug.LogWarning("Active scene: " + SceneManager.GetActiveScene().name);
         // levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         // levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();

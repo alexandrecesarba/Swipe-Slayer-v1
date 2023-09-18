@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 
 [DefaultExecutionOrder(-1)]
-public class InputManager : Singleton<InputManager>
+public class InputManager : SingletonPersistent<InputManager>
 {
     #region Events
     public delegate void StartTouchEvent(Vector2 position, float time);

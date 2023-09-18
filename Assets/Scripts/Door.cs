@@ -40,7 +40,7 @@ public class Door : MonoBehaviour, IInteractable {
             if (levelLoader == null) {
                 Debug.Log("GameManager.Instance.levelLoader is NULL");
             } else {
-                GameManager.Instance.LevelEnded();
+                // GameManager.Instance.LevelEnded();
                 levelLoader.LoadNextLevel();
             };
         } else {

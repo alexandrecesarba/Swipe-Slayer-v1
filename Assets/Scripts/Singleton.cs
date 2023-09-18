@@ -38,10 +38,11 @@ public class SingletonPersistent<T> : MonoBehaviour where T : Component
                 SceneManager.SetActiveScene(SceneManager.GetSceneByName("Managers"));
                 GameObject obj = new()
                 {
-                    name = typeof(T).Name,
+                    name = typeof(T).Name
                     // hideFlags = HideFlags.HideAndDontSave
                 };
                 _instance = obj.AddComponent<T>();
+                Debug.LogWarning("Manager created: " + obj.name + " on " + SceneManager.GetActiveScene());
                 Debug.Log("Setting (" + activeScene + ") as Active Scene");
                 SceneManager.SetActiveScene(activeScene);
             }

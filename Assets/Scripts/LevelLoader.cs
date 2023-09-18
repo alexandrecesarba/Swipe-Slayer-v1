@@ -57,7 +57,7 @@ public class LevelLoader : MonoBehaviour {
             yield return null;
         }
         SceneManager.SetActiveScene(SceneManager.GetSceneByBuildIndex(levelIndex));
-        GameManager.Instance.SetUpNewLevel();
+        // GameManager.Instance.SetUpNewLevel();
         transition.SetTrigger("End");
 
     }

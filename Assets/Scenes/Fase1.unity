@@ -4831,6 +4831,14 @@ PrefabInstance:
       propertyPath: timeBar
       value: 
       objectReference: {fileID: 4671848427853436584}
+    - target: {fileID: 7079024604281448936, guid: 79c0b8397df0f4dbd8d039f2e725770c, type: 3}
+      propertyPath: groundTileMap
+      value: 
+      objectReference: {fileID: 908927163}
+    - target: {fileID: 7079024604281448936, guid: 79c0b8397df0f4dbd8d039f2e725770c, type: 3}
+      propertyPath: collisionTileMap
+      value: 
+      objectReference: {fileID: 594767422}
     - target: {fileID: 7757099633099382864, guid: 79c0b8397df0f4dbd8d039f2e725770c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.11977589

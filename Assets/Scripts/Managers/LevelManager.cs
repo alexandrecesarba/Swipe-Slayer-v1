@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
@@ -18,17 +20,26 @@ public class LevelManager : MonoBehaviour
     public float maxTurnTime;
     [SerializeField]
     public TimeBar timeBar;
+    [SerializeField]
+    private Vector3 playerSpawn;
+    [SerializeField]
+    private Tilemap groundTileMap;
+    [SerializeField]
+    private Tilemap collisionTileMap;
+
     private int kills;
+
 
     void Awake()
     {
-        Reinitialize();
+        Initialize();
         GameManager.Instance.SetUpNewLevel();
 
     }
 
-    public void Reinitialize()
+    public void Initialize()
     {
+        GameManager.Instance.player.transform.position = playerSpawn;
         units.Clear();
         units.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IUnit>());
         currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
@@ -38,6 +49,7 @@ public class LevelManager : MonoBehaviour
         {
             if (unit is MonoBehaviour unitBehaviour)
             {
+                unitBehaviour.GetComponent<MovingObject>().SetGround(groundTileMap, collisionTileMap);
                 unitBehaviour.GetComponent<Renderer>().material = highlightMaterial;
                 if (unitBehaviour.TryGetComponent(out Damageable damageable))
                 {
@@ -62,8 +74,7 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         while (!levelOver)
         {
-            Debug.Log("levelOver: " + levelOver + "| currentUnitIndex: "+currentUnitIndex+ "units count: " + units.Count + "| currentSceneIndex: " 
-            + SceneManager.GetActiveScene().buildIndex);
+            Debug.Log("currentUnitIndex: " + currentUnitIndex + "| units count: " + units.Count);
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
 

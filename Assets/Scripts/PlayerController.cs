@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour, IUnit
 {
-
+    #region Variables
     public SwipeDetection swipeDetection;
     private PlayerMovement controls;
     private Damageable damage;
@@ -14,11 +15,14 @@ public class PlayerController : MonoBehaviour, IUnit
 
     public bool IsPlaying {get; set;}
     public bool CanPlay {get; set;}
+    #endregion
 
+    #region Unity Methods
     // Start is called before the first frame update
     void Awake()
     {
         controls = new PlayerMovement();
+        DontDestroyOnLoad(this);
         // swipeDetection = swipeDetection.GetComponent<SwipeDetection>();
     }
 
@@ -53,7 +57,7 @@ public class PlayerController : MonoBehaviour, IUnit
         controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
         movement = this.GetComponent<MovingObject>();
         
-        playerMelee = GetComponent<Melee>(); 
+        playerMelee = GetComponent<Melee>();
         damage = GetComponent<Damageable>();
         interaction = GetComponent<Interacts>();
         // swipeDetection = SwipeDetection.Instance;
@@ -63,28 +67,6 @@ public class PlayerController : MonoBehaviour, IUnit
     }
 
 
-    private IEnumerator MovePlayer(Vector2 direction)
-    {
-        if (IsPlaying)
-        {
-            GameObject hit = movement.AttemptMoveInTiles(direction, 1, out _);
-            IsPlaying = false;
-            
-            yield return new WaitForSeconds(1f);
-        }
-    
-    }
-    
-    public void HandleSwipe(Vector2 direction) {
-        Debug.Log("Handling Swipe on PlayerController...");
-        StartCoroutine(MovePlayer(direction));
-    }
-
-    public IEnumerator Play(float time)
-    {
-        yield return null;
-        //implementar lógica para quando estiver na vez do jogador
-    }
 
     // private void HandlePlayerDeath(IUnit unit)
     // {
@@ -113,6 +95,30 @@ public class PlayerController : MonoBehaviour, IUnit
         // {
         //     LevelManager.Instance.unlocked?.ChangeScene();
         // }
+    }
+    #endregion
+    
+    private IEnumerator MovePlayer(Vector2 direction)
+    {
+        if (IsPlaying)
+        {
+            GameObject hit = movement.AttemptMoveInTiles(direction, 1, out _);
+            IsPlaying = false;
+            
+            yield return new WaitForSeconds(1f);
+        }
+    
+    }
+    
+    public void HandleSwipe(Vector2 direction) {
+        Debug.Log("Handling Swipe on PlayerController...");
+        StartCoroutine(MovePlayer(direction));
+    }
+
+    public IEnumerator Play(float time)
+    {
+        yield return null;
+        //implementar lógica para quando estiver na vez do jogador
     }
 
 }
