@@ -9,29 +9,85 @@ public class Enemy : MonoBehaviour, IUnit
 
     public Melee meleeComponent;
 
-    public bool IsPlaying {get; set;}
-    public bool CanPlay {get; set;}
+    private bool hasLineOfSight = false;
 
-    void Start() 
+    public GameObject bullet;
+    private float shotCooldown;
+    public float startShotCooldown;
+    public Transform attackPlayer;
+
+    public bool IsPlaying { get; set; }
+    public bool CanPlay { get; set; }
+
+    void Start()
     {
         this.CanPlay = true;
 
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        // GameManager.Instance.AddEnemyToList(this);
         movement = GetComponent<MovingObject>();
 
-        Damageable damage = GetComponent<Damageable>();
-        // damage.OnDeath += HandleEnemyDeath;
+        shotCooldown = startShotCooldown;
 
-        meleeComponent = GetComponent<Melee>();  
+        Damageable damage = GetComponent<Damageable>();
+
+        meleeComponent = GetComponent<Melee>();
         if (meleeComponent == null)
             meleeComponent = gameObject.AddComponent<Melee>();
     }
 
-    public IEnumerator Play(float time) 
+    private void FixedUpdate()
     {
-        yield return new WaitForSeconds(time/2);
-		Vector3 posDif = transform.position - target.position;
+        hasLineOfSight = CheckLineOfSight();
+    }
+
+    private bool CheckLineOfSight()
+    {
+        if (target == null)
+            return false;
+
+    Vector2 direction = (target.transform.position - transform.position);
+    RaycastHit2D ray = Physics2D.Raycast(transform.position, direction);
+
+    if (ray.collider != null)
+    {
+        Debug.Log("Ray hit: " + ray.collider.gameObject.name);  // Debugging line
+
+        if (ray.collider.CompareTag("Player"))
+        {
+            Debug.DrawRay(transform.position, direction, Color.green);
+            return true;
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, direction, Color.red);
+        }
+    }
+    return false;
+    }
+
+
+   private void Shoot(Vector2 direction)
+{
+    if (shotCooldown <= 0)
+    {
+        GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
+        EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
+        bulletScript.SetDirection(direction.normalized);
+        shotCooldown = startShotCooldown;
+    }
+    else
+    {
+        shotCooldown -= Time.deltaTime;
+    }
+}
+
+    public IEnumerator Play(float time)
+    {
+        yield return new WaitForSeconds(time / 2);
+        
+		Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
+        // transform.up = posDif; 
+         
         float absX = Mathf.Abs(posDif.x);
         float absY = Mathf.Abs(posDif.y);
         Vector2 moveDirection;
@@ -48,10 +104,14 @@ public class Enemy : MonoBehaviour, IUnit
         movement.AttemptMove(moveDirection);
         yield return new WaitForSeconds(time/2);
         IsPlaying = false;
+
+        if (hasLineOfSight)
+        {
+            Shoot(posDif);
+        }
     }
 
-    // public void HandleEnemyDeath() 
-    // {
-    //     GameManager.instance.RemoveEnemyFromList(this);
-    // }
 }
+
+
+    

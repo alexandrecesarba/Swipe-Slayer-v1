@@ -86,11 +86,6 @@ public class PlayerController : MonoBehaviour, IUnit
         //implementar lógica para quando estiver na vez do jogador
     }
 
-    // private void HandlePlayerDeath(IUnit unit)
-    // {
-        
-    // }
-
     void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Power Picked Up!");
@@ -109,10 +104,6 @@ public class PlayerController : MonoBehaviour, IUnit
             Debug.Log("NO TAG MATCH: " + other.tag);
                 break;
         }
-        // if (other.CompareTag("Exit"))
-        // {
-        //     LevelManager.Instance.unlocked?.ChangeScene();
-        // }
     }
 
 }

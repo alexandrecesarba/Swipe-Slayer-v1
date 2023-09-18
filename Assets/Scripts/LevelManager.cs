@@ -57,12 +57,12 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator TurnLoop()
     {
-        Debug.Log("levelOver: " + levelOver);
+        // Debug.Log("levelOver: " + levelOver);
         yield return new WaitForSeconds(1f);
         while (!levelOver)
         {
-            Debug.Log("levelOver: " + levelOver + "| currentUnitIndex: "+currentUnitIndex+ "units count: " + units.Count + "| currentSceneIndex: " 
-            + SceneManager.GetActiveScene().buildIndex);
+            // Debug.Log("levelOver: " + levelOver + "| currentUnitIndex: "+currentUnitIndex+ "units count: " + units.Count + "| currentSceneIndex: " 
+            // + SceneManager.GetActiveScene().buildIndex);
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
 
