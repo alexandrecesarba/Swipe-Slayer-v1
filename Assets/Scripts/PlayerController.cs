@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour, IUnit
     void Awake()
     {
         controls = new PlayerMovement();
+        GameManager.Instance.player = gameObject;
         DontDestroyOnLoad(this);
         // swipeDetection = swipeDetection.GetComponent<SwipeDetection>();
     }
@@ -75,8 +76,6 @@ public class PlayerController : MonoBehaviour, IUnit
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Power Picked Up!");
-
         switch (other.tag)
         {  
             case "Collectible":

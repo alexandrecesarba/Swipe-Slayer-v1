@@ -35,7 +35,7 @@ public class Melee : MonoBehaviour
             }
             else
             {
-                Debug.Log("Erro: Não foi possível acessar o script Damageable ou tentando atacar objeto com a mesma tag");
+                Debug.LogWarning("Não foi possível acessar o script Damageable ou tentando atacar objeto com a mesma tag");
             }
         }
     }

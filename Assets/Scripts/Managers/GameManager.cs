@@ -43,17 +43,15 @@ public class GameManager : SingletonPersistent<GameManager>
 
         InputManager.Instance.Reload();
         levelManager.levelOver = false;
-        Debug.Log("OnLevelWasLoaded");
         //level++; // Uncomment when you have more than one scene
 
         if (levelManager != null)
         {   
             turnLoop = StartCoroutine(levelManager.TurnLoop());
-            Debug.Log("StartCoroutine(levelManager.Turnloop())");
         }
         else
         {
-            Debug.Log("LevelManager not Found!");
+            Debug.LogWarning("LevelManager not Found!");
         }
     }
 

@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour
     private int kills;
 
 
-    void Awake()
+    void Start()
     {
         Initialize();
         GameManager.Instance.SetUpNewLevel();
@@ -70,11 +70,9 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator TurnLoop()
     {
-        Debug.Log("levelOver: " + levelOver);
         yield return new WaitForSeconds(1f);
         while (!levelOver)
         {
-            Debug.Log("currentUnitIndex: " + currentUnitIndex + "| units count: " + units.Count);
             IUnit currentUnit = units[currentUnitIndex];
             MonoBehaviour unitMB = (MonoBehaviour) units[currentUnitIndex];
 

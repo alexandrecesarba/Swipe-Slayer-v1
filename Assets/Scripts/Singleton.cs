@@ -42,8 +42,8 @@ public class SingletonPersistent<T> : MonoBehaviour where T : Component
                     // hideFlags = HideFlags.HideAndDontSave
                 };
                 _instance = obj.AddComponent<T>();
-                Debug.LogWarning("Manager created: " + obj.name + " on " + SceneManager.GetActiveScene());
-                Debug.Log("Setting (" + activeScene + ") as Active Scene");
+                Debug.LogWarning("Manager created: " + obj.name + " on " + obj.scene.name);
+                Debug.Log("Setting (" + activeScene.name + ") as Active Scene");
                 SceneManager.SetActiveScene(activeScene);
             }
             return _instance;

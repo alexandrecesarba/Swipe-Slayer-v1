@@ -117,7 +117,6 @@ public class MovingObject : MonoBehaviour
         for (int i = 0; i < numberOfTiles; i++){
             targetPosition += (Vector3)(directionVector * tilemapCellSize);
             moveCondition = EvaluateMove(targetPosition, out hitObject);
-            Debug.Log(moveCondition);
             if (moveCondition == MovementResult.Moved){
                 movePoint = targetPosition;
                 tilesMoved++;
@@ -132,7 +131,7 @@ public class MovingObject : MonoBehaviour
 
     }
 
-    public MovementResult EvaluateMove(Vector3 targetPosition, out GameObject hit)
+    private MovementResult EvaluateMove(Vector3 targetPosition, out GameObject hit)
     {
         if (CanMove(targetPosition, out GameObject hitObject))
         {
@@ -151,8 +150,8 @@ public class MovingObject : MonoBehaviour
         hit = null;
         return MovementResult.Blocked;
     }
-
-    public bool CanMove(Vector3 targetPosition, out GameObject hit) {
+    
+    private bool CanMove(Vector3 targetPosition, out GameObject hit) {
         
         hit = null; // Inicializa o parâmetro de saída
 
@@ -168,7 +167,7 @@ public class MovingObject : MonoBehaviour
         if (groundTilemap.GetTile(targetGridPosition) == null){
             return true;
         }
-        // Verifique se há um inimigo no tile para onde o jogador está se movendo
+
         Collider2D[] colliders = Physics2D.OverlapCircleAll(targetPosition, 0.2f);
 
         foreach (Collider2D collider in colliders) {
