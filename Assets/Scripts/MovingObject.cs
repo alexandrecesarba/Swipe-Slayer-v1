@@ -150,7 +150,7 @@ public class MovingObject : MonoBehaviour
         hit = null;
         return MovementResult.Blocked;
     }
-    
+
     private bool CanMove(Vector3 targetPosition, out GameObject hit) {
         
         hit = null; // Inicializa o parâmetro de saída
@@ -161,11 +161,8 @@ public class MovingObject : MonoBehaviour
         
 
         if (targetGroundTile == null || targetCollisionTile != null){
+            Debug.Log("Não tem ground");
             return false;
-        }
-
-        if (groundTilemap.GetTile(targetGridPosition) == null){
-            return true;
         }
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(targetPosition, 0.2f);

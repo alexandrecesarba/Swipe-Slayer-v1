@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour, IUnit
     public IEnumerator Play(float time) 
     {
         yield return new WaitForSeconds(time/2);
+        
 		Vector3 posDif = transform.position - target.position;
         float absX = Mathf.Abs(posDif.x);
         float absY = Mathf.Abs(posDif.y);
@@ -46,6 +47,7 @@ public class Enemy : MonoBehaviour, IUnit
         }
 
         movement.AttemptMove(moveDirection);
+
         yield return new WaitForSeconds(time/2);
         IsPlaying = false;
     }

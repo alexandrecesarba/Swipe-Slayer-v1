@@ -3130,6 +3130,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 908927163}
     - target: {fileID: 7079024604281448936, guid: 79c0b8397df0f4dbd8d039f2e725770c, type: 3}
+      propertyPath: playerSpawn.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7079024604281448936, guid: 79c0b8397df0f4dbd8d039f2e725770c, type: 3}
       propertyPath: collisionTileMap
       value: 
       objectReference: {fileID: 594767422}

@@ -4,6 +4,7 @@ public class PlayerHealthBar : MonoBehaviour {
 
     #region Variables
     private Damageable playerDamageable;
+    private HealthBar healthBar;
     #endregion
 
     #region Unity Methods
@@ -11,14 +12,11 @@ public class PlayerHealthBar : MonoBehaviour {
     void Start()
     {
         playerDamageable = GameObject.FindWithTag("Player").GetComponent<Damageable>();
-        if (playerDamageable != null) {
+        healthBar = GetComponent<HealthBar>();
+        if (playerDamageable != null && healthBar != null) {
             playerDamageable.healthBar = GetComponent<HealthBar>();
+            healthBar.SetHealth(playerDamageable.CurrentHealth);
         }
-    }
-
-    void Update()
-    {
-        
     }
 
     #endregion
