@@ -3,91 +3,76 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour, IUnit
 {
+    // Variáveis públicas para configuração no Editor
     public Transform target;
     public MovingObject movement;
     public GameObject circlePrefab;
-
-    public Melee meleeComponent;
-
-    private bool hasLineOfSight = false;
-
     public GameObject bullet;
-    private float shotCooldown;
     public float startShotCooldown;
     public Transform attackPlayer;
 
+    // Variáveis privadas para controle interno
+    private bool hasLineOfSight = false;
+    private float shotCooldown;
+    private RaycastHandler raycastHandler; // Referência para o script RaycastHandler
+
+    // Propriedades para controle de estado
     public bool IsPlaying { get; set; }
     public bool CanPlay { get; set; }
 
+    // Inicializa variáveis e componentes
     void Start()
     {
         this.CanPlay = true;
-
         target = GameObject.FindGameObjectWithTag("Player").transform;
         movement = GetComponent<MovingObject>();
-
         shotCooldown = startShotCooldown;
 
-        Damageable damage = GetComponent<Damageable>();
-
-        meleeComponent = GetComponent<Melee>();
+        // Inicializa o componente Melee se ele não existir
+        Melee meleeComponent = GetComponent<Melee>();
         if (meleeComponent == null)
             meleeComponent = gameObject.AddComponent<Melee>();
+
+        // Inicializa a referência para o script RaycastHandler
+        raycastHandler = GetComponent<RaycastHandler>();
+        if (raycastHandler == null)
+            raycastHandler = gameObject.AddComponent<RaycastHandler>();
     }
 
+    // Atualiza a variável hasLineOfSight a cada FixedUpdate
     private void FixedUpdate()
     {
-        hasLineOfSight = CheckLineOfSight();
+        hasLineOfSight = raycastHandler.CheckLineOfSight(target);
     }
 
+    // Verifica se tem linha de visão para o alvo
     private bool CheckLineOfSight()
     {
-        if (target == null)
-            return false;
+        return raycastHandler.CheckLineOfSight(target);
+    }
 
-    Vector2 direction = (target.transform.position - transform.position);
-    RaycastHit2D ray = Physics2D.Raycast(transform.position, direction);
-
-    if (ray.collider != null)
+    // Atira na direção especificada
+    private void Shoot(Vector2 direction)
     {
-        Debug.Log("Ray hit: " + ray.collider.gameObject.name);  // Debugging line
-
-        if (ray.collider.CompareTag("Player"))
+        if (shotCooldown <= 0)
         {
-            Debug.DrawRay(transform.position, direction, Color.green);
-            return true;
+            GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
+            EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
+            bulletScript.SetDirection(direction.normalized);
+            shotCooldown = startShotCooldown;
         }
         else
         {
-            Debug.DrawRay(transform.position, direction, Color.red);
+            shotCooldown -= Time.deltaTime;
         }
     }
-    return false;
-    }
 
-
-   private void Shoot(Vector2 direction)
-{
-    if (shotCooldown <= 0)
-    {
-        GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
-        EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
-        bulletScript.SetDirection(direction.normalized);
-        shotCooldown = startShotCooldown;
-    }
-    else
-    {
-        shotCooldown -= Time.deltaTime;
-    }
-}
-
+    // Controla o comportamento do inimigo durante sua "jogada"
     public IEnumerator Play(float time)
     {
         yield return new WaitForSeconds(time / 2);
-        
-		Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
-        // transform.up = posDif; 
-         
+
+        Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
         float absX = Mathf.Abs(posDif.x);
         float absY = Mathf.Abs(posDif.y);
         Vector2 moveDirection;
@@ -96,13 +81,13 @@ public class Enemy : MonoBehaviour, IUnit
         {
             moveDirection = posDif.x < 0 ? Vector2.right : Vector2.left;
         }
-        else 
+        else
         {
             moveDirection = posDif.y < 0 ? Vector2.up : Vector2.down;
         }
 
         movement.AttemptMove(moveDirection);
-        yield return new WaitForSeconds(time/2);
+        yield return new WaitForSeconds(time / 2);
         IsPlaying = false;
 
         if (hasLineOfSight)
@@ -110,8 +95,4 @@ public class Enemy : MonoBehaviour, IUnit
             Shoot(posDif);
         }
     }
-
 }
-
-
-    

@@ -1178,9 +1178,9 @@ GameObject:
   - component: {fileID: 749005031}
   - component: {fileID: 749005030}
   - component: {fileID: 749005029}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ground 2
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2213,9 +2213,9 @@ GameObject:
   - component: {fileID: 908927161}
   - component: {fileID: 908927160}
   - component: {fileID: 908927159}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
