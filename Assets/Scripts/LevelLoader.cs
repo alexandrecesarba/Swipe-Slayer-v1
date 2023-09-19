@@ -7,7 +7,7 @@ public class LevelLoader : MonoBehaviour {
     #region Variables
 
     public Animator transition;
-    public float transitionTime = 3f;
+    public float transitionTime = 10f;
     public int currentBuildIndex = 0;
     private int lastSceneBuildIndex = 0;
     private int levelCount = 5;

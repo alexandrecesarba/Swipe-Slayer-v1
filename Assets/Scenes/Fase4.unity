@@ -191,6 +191,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7232769480708214956, guid: f99940abbfb7f4b37a41edf5f8f9a1cc, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7876581759378586577, guid: f99940abbfb7f4b37a41edf5f8f9a1cc, type: 3}
       propertyPath: m_Name
       value: KiwiRed
@@ -383,7 +387,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 7.5, y: 7.5, z: 0}
   m_MaxChunkCount: 16
@@ -1736,7 +1740,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 7.5, y: 7.5, z: 0}
   m_MaxChunkCount: 16
@@ -4533,6 +4537,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7232769480708214956, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7876581759378586577, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: m_Name
       value: Kiwi
@@ -4747,6 +4755,10 @@ PrefabInstance:
       propertyPath: doors.Array.data[0]
       value: 
       objectReference: {fileID: 855027318}
+    - target: {fileID: 3760539175476413158, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4405692036996832858, guid: c1e1344686f9549ef9d469dfa931f023, type: 3}
       propertyPath: m_Name
       value: Key
