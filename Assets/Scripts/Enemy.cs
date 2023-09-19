@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour, IUnit
     // Variáveis privadas para controle interno
     private bool hasLineOfSight = false;
     private float shotCooldown;
-    private RaycastHandler raycastHandler; // Referência para o script RaycastHandler
+    private RaycastHandler raycastHandler; 
 
     // Propriedades para controle de estado
     public bool IsPlaying { get; set; }
@@ -87,12 +87,15 @@ public class Enemy : MonoBehaviour, IUnit
         }
 
         movement.AttemptMove(moveDirection);
+
+
         yield return new WaitForSeconds(time / 2);
         IsPlaying = false;
 
         if (hasLineOfSight)
         {
-            Shoot(posDif);
+            Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
+            Shoot(raycastDirection); // invertido, pois é do inimigo ao jogador
         }
     }
 }

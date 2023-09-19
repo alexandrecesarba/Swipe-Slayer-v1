@@ -4,6 +4,8 @@ public class RaycastHandler : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask;
 
+    [HideInInspector] public Vector2 LastRaycastDirection {get; private set;}
+
     public bool CheckLineOfSight(Transform target)
     {
         if (target == null)
@@ -11,6 +13,10 @@ public class RaycastHandler : MonoBehaviour
 
         Vector2 direction = (target.position - transform.position);
         RaycastHit2D ray = Physics2D.Raycast(transform.position, direction, Mathf.Infinity, layerMask);
+
+        
+        // Armazena a ultima posição do raycast
+        LastRaycastDirection = direction;
 
         if (ray.collider != null)
         {
