@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2152266859385388251, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2345657044601512421, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -143,6 +147,14 @@ PrefabInstance:
       propertyPath: collisionTilemap
       value: 
       objectReference: {fileID: 594767422}
+    - target: {fileID: 2449137619452842399, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2581962360789423484, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3730944948247090789, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -150,6 +162,10 @@ PrefabInstance:
     - target: {fileID: 3730944948247090789, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861108133458418354, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5167931471570040097, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: target
@@ -207,6 +223,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7093737912843291239, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7232769480708214956, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: m_SortingOrder
       value: 2
@@ -214,6 +234,10 @@ PrefabInstance:
     - target: {fileID: 7876581759378586577, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
       propertyPath: m_Name
       value: Kiwi
+      objectReference: {fileID: 0}
+    - target: {fileID: 7876581759378586577, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5167931471570040097, guid: 947650363c8d046a787dcb35f9b4fe69, type: 3}
