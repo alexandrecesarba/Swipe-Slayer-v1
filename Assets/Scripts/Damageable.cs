@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Damageable : MonoBehaviour
 {
-    public int maxHealth = 9; // temporari
+    public int maxHealth;
     [HideInInspector]
     public int CurrentHealth {get; private set;}
     public HealthBar healthBar;
