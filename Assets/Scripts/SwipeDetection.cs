@@ -16,7 +16,6 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
     [SerializeField, Range(0f, 1f)]
     private float directionThreshold = .93f;
     [SerializeField]
-    // private GameObject trail;
 
     private InputManager inputManager;
 
@@ -31,7 +30,6 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
 
     void Start()
     {
-        // DontDestroyOnLoad(gameObject);
         Debug.LogWarning("NEW SWIPE DETECTION");
     }
 
@@ -62,24 +60,12 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
         startPosition = position;
         startTime = time;
         Debug.Log("TOQUE INICIAL: " + position + "| TIME: " + time);
-        // trail.SetActive(true);
-        // trail.transform.position = position;
-        // coroutine = StartCoroutine(Trail());
+    
     }
-
-    // private IEnumerator Trail() 
-    // {
-    //     while(true)
-    //     {
-    //         trail.transform.position = new Vector3(inputManager.PrimaryPosition().x, inputManager.PrimaryPosition().y, Camera.main.transform.position.z+1);
-    //         yield return null;
-    //     }
-    // }
     
     private void SwipeEnd(Vector2 position, float time)
     {
-        // trail.SetActive(false);
-        // StopCoroutine(coroutine);
+  
         endPosition = position;
         endTime = time;
         Debug.Log("TOQUE FINAL: " + position + "| TIME: " + time);
@@ -90,7 +76,7 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
     private void DetectSwipe() {
         swipeDistance = Vector3.Distance(startPosition, endPosition);
         swipeTime = endTime - startTime;
-        // Debug.Log("DIST : (" + endPosition + " - " + startPosition + " = " + (float)swipeDistance + "| TIME : (" + endTime + " - " + startTime + " = " + swipeTime);
+
         if (swipeDistance >= minimumDistance &&
          swipeTime <= maximumTime) {
             Debug.Log("LINE START: " + startPosition + "LINE END: " + endPosition);
