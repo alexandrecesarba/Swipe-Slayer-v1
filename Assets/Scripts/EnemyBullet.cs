@@ -20,6 +20,8 @@ public class EnemyBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+
+        Debug.LogWarning("Está colidndo com alguma desgraça" );
         if (other.gameObject.tag == "Player")
         {
             Destroy(gameObject);
