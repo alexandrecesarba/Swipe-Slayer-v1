@@ -120,4 +120,8 @@ public class PlayerController : MonoBehaviour, IUnit
         //implementar lógica para quando estiver na vez do jogador
     }
 
+    private void OnDrawGizmos()
+    {
+        UnityEditor.Handles.DrawWireCube(transform.position, GetComponent<BoxCollider2D>().size);
+    }
 }

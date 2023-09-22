@@ -54437,6 +54437,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8895879132258749274, guid: fdedd7611fa274c1c9fe85446c750293, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8895879132258749274, guid: fdedd7611fa274c1c9fe85446c750293, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8895879132258749274, guid: fdedd7611fa274c1c9fe85446c750293, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 695271118175029860, guid: fdedd7611fa274c1c9fe85446c750293, type: 3}
       propertyPath: m_SortingOrder
       value: 2
@@ -54484,6 +54496,10 @@ PrefabInstance:
     - target: {fileID: 1575547000340463956, guid: fdedd7611fa274c1c9fe85446c750293, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575547000340463956, guid: fdedd7611fa274c1c9fe85446c750293, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4140059304172466567, guid: fdedd7611fa274c1c9fe85446c750293, type: 3}
       propertyPath: healthBar

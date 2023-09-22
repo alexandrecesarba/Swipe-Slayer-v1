@@ -6,21 +6,22 @@ public class RaycastHandler : MonoBehaviour
 
     [HideInInspector] public Vector2 LastRaycastDirection {get; private set;}
 
+    [HideInInspector] public RaycastHit2D ray {get; private set;}
+
     public bool CheckLineOfSight(Transform target)
     {
         if (target == null)
             return false;
 
         Vector2 direction = (target.position - transform.position);
-        RaycastHit2D ray = Physics2D.Raycast(transform.position, direction, Mathf.Infinity, layerMask);
+        ray = Physics2D.Raycast(transform.position, direction, Mathf.Infinity, layerMask);
 
-        
         // Armazena a ultima posição do raycast
         LastRaycastDirection = direction;
 
         if (ray.collider != null)
         {
-            Debug.Log("Ray hit: " + ray.collider.gameObject.name);
+            // Debug.Log("Ray hit: " + ray.collider.gameObject.name);
 
             if (ray.collider.CompareTag("Player"))
             {

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
 {
     public float speed;
     private Vector2 direction;
+    private RaycastHandler raycastHandler; 
+
 
     public void SetDirection(Vector2 dir)
     {
@@ -15,17 +16,21 @@ public class EnemyBullet : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime);
+        // Move o objeto na direção e velocidade especificadas
+        transform.position += (Vector3)(direction * speed * Time.deltaTime);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    public void OnCollisionEnter2D(Collision2D other)
     {
+        Debug.LogWarning("COLIDIU");
 
-        Debug.LogWarning("Está colidndo com alguma desgraça" );
-        if (other.gameObject.tag == "Player")
+        if (other.collider.CompareTag("Player"))
         {
             Destroy(gameObject);
         }
     }
-}
 
+    private void OnDrawGizmos() {
+        UnityEditor.Handles.DrawWireDisc(transform.position,Vector3.back, GetComponent<CircleCollider2D>().radius);
+    }
+}
