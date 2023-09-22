@@ -34,7 +34,6 @@ public class LevelManager : MonoBehaviour
     {
         Initialize();
         GameManager.Instance.SetUpNewLevel();
-
     }
 
     public void Initialize()

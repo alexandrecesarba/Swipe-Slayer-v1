@@ -10,6 +10,10 @@ public class Enemy : MonoBehaviour, IUnit
     public GameObject bullet;
     public float startShotCooldown;
     public Transform attackPlayer;
+    public int turnsToWait = 0;
+    private int currentTurnsToWait;
+    private int maxTurnsToWait;
+
 
     // Variáveis privadas para controle interno
     private bool hasLineOfSight = false;
@@ -25,6 +29,8 @@ public class Enemy : MonoBehaviour, IUnit
     void Start()
     {
         this.CanPlay = true;
+        currentTurnsToWait = turnsToWait;
+        maxTurnsToWait = turnsToWait;
         target = GameObject.FindGameObjectWithTag("Player").transform;
         movement = GetComponent<MovingObject>();
         shotCooldown = startShotCooldown;
@@ -71,32 +77,39 @@ public class Enemy : MonoBehaviour, IUnit
     // Controla o comportamento do inimigo durante sua "jogada"
     public IEnumerator Play(float time)
     {
-        yield return new WaitForSeconds(time / 2);
 
-        Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
-        float absX = Mathf.Abs(posDif.x);
-        float absY = Mathf.Abs(posDif.y);
-        Vector2 moveDirection;
-
-        if (absX > absY || absY == 0)
-        {
-            moveDirection = posDif.x < 0 ? Vector2.right : Vector2.left;
+        if(currentTurnsToWait >= 1){
+            currentTurnsToWait--;
+   
         }
-        else
-        {
-            moveDirection = posDif.y < 0 ? Vector2.up : Vector2.down;
-        }
+        else {
+            yield return new WaitForSeconds(time / 2);
 
-        movement.AttemptMove(moveDirection);
+            Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
+            float absX = Mathf.Abs(posDif.x);
+            float absY = Mathf.Abs(posDif.y);
+            Vector2 moveDirection;
 
+            if (absX > absY || absY == 0)
+            {
+                moveDirection = posDif.x < 0 ? Vector2.right : Vector2.left;
+            }
+            else
+            {
+                moveDirection = posDif.y < 0 ? Vector2.up : Vector2.down;
+            }
 
+            movement.AttemptMove(moveDirection);
+
+            if (hasLineOfSight)
+            {
+                Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
+                Shoot(raycastDirection); // invertido, pois é do inimigo ao jogador
+            }
+
+            currentTurnsToWait = maxTurnsToWait;
+    }
         yield return new WaitForSeconds(time / 2);
         IsPlaying = false;
-
-        if (hasLineOfSight)
-        {
-            Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
-            Shoot(raycastDirection); // invertido, pois é do inimigo ao jogador
-        }
     }
 }

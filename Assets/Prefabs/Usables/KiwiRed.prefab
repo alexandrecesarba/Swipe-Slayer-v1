@@ -612,7 +612,11 @@ MonoBehaviour:
   target: {fileID: 0}
   movement: {fileID: 0}
   circlePrefab: {fileID: 8985253743109134794, guid: cc54653deee0c4e50b7c537d37e8547b, type: 3}
-  meleeComponent: {fileID: 0}
+  bullet: {fileID: 0}
+  startShotCooldown: 0
+  attackPlayer: {fileID: 0}
+  turnsToWait: 0
+  rangedAttackPoints: 0
 --- !u!114 &2345657044601512421
 MonoBehaviour:
   m_ObjectHideFlags: 0
