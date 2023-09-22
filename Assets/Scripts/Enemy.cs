@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour, IUnit
     private bool hasLineOfSight = false;
     private float shotCooldown;
     private RaycastHandler raycastHandler; 
+    public int rangedAttackPoints;
 
     // Propriedades para controle de estado
     public bool IsPlaying { get; set; }

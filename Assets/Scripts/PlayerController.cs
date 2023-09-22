@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour, IUnit
     {
         try
         {
-            // swipeDetection = GameObject.Find("SwipeDetection").GetComponent<SwipeDetection>();
+            
             swipeDetection = SwipeDetection.Instance;
             swipeDetection.OnSwipe += HandleSwipe;
         }
@@ -61,18 +61,9 @@ public class PlayerController : MonoBehaviour, IUnit
         playerMelee = GetComponent<Melee>();
         damage = GetComponent<Damageable>();
         interaction = GetComponent<Interacts>();
-        // swipeDetection = SwipeDetection.Instance;
-
-        // damage.OnDeath += HandlePlayerDeath;
-        // this.CanPlay = true;
+       
     }
 
-
-
-    // private void HandlePlayerDeath(IUnit unit)
-    // {
-        
-    // }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -90,10 +81,7 @@ public class PlayerController : MonoBehaviour, IUnit
             Debug.Log("NO TAG MATCH: " + other.tag);
                 break;
         }
-        // if (other.CompareTag("Exit"))
-        // {
-        //     LevelManager.Instance.unlocked?.ChangeScene();
-        // }
+      
     }
     #endregion
     

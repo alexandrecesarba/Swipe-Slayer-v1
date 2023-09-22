@@ -6,8 +6,7 @@ public class EnemyBullet : MonoBehaviour
 {
     public float speed;
     private Vector2 direction;
-    private RaycastHandler raycastHandler; 
-
+    public int damageAmount; 
 
     public void SetDirection(Vector2 dir)
     {
@@ -26,11 +25,14 @@ public class EnemyBullet : MonoBehaviour
 
         if (other.collider.CompareTag("Player"))
         {
+
+            Damageable damageable = other.gameObject.GetComponent<Damageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(damageAmount);
+            }
             Destroy(gameObject);
         }
     }
 
-    private void OnDrawGizmos() {
-        UnityEditor.Handles.DrawWireDisc(transform.position,Vector3.back, GetComponent<CircleCollider2D>().radius);
-    }
 }
