@@ -46,15 +46,15 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
             Debug.LogWarning("Instancia de inputManager inalcançável");
         }
         Debug.LogWarning("Enabling Swipe Detection. inputManager: " + inputManager.name);
-        inputManager.OnStartTouch += SwipeStart;
-        inputManager.OnEndTouch += SwipeEnd;
+        // inputManager.OnStartTouch += SwipeStart;
+        // inputManager.OnEndTouch += SwipeEnd;
     }
 
     void OnDisable()
     {
         Debug.LogWarning("Disabling Swipe Detection");
-        inputManager.OnStartTouch -= SwipeStart;
-        inputManager.OnEndTouch -= SwipeEnd;
+        // inputManager.OnStartTouch -= SwipeStart;
+        // inputManager.OnEndTouch -= SwipeEnd;
     }
 
     private void SwipeStart(Vector2 position, float time)
@@ -104,8 +104,8 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
         public void ReactivateEvents()
     {
         inputManager = InputManager.Instance;
-        inputManager.OnStartTouch += SwipeStart;
-        inputManager.OnEndTouch += SwipeEnd;
+        // inputManager.OnStartTouch += SwipeStart;
+        // inputManager.OnEndTouch += SwipeEnd;
     }
 
 

@@ -169,7 +169,7 @@ public partial class @PlayerMovement: IInputActionCollection2, IDisposable
                     ""name"": ""PrimaryContact"",
                     ""type"": ""PassThrough"",
                     ""id"": ""5ad4651e-e4d9-4053-b9cc-0e7f7ce3ca60"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
