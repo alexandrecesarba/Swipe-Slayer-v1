@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour, IUnit
     private int currentTurnsToWait;
     private int maxTurnsToWait;
 
-
     // Variáveis privadas para controle interno
     private bool hasLineOfSight = false;
     private float shotCooldown;
@@ -49,13 +48,7 @@ public class Enemy : MonoBehaviour, IUnit
     // Atualiza a variável hasLineOfSight a cada FixedUpdate
     private void FixedUpdate()
     {
-        hasLineOfSight = raycastHandler.CheckLineOfSight(target);
-    }
-
-    // Verifica se tem linha de visão para o alvo
-    private bool CheckLineOfSight()
-    {
-        return raycastHandler.CheckLineOfSight(target);
+        hasLineOfSight = raycastHandler.HasLineOfSightTo(target);
     }
 
     // Atira na direção especificada
@@ -65,7 +58,7 @@ public class Enemy : MonoBehaviour, IUnit
         {
             GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
             EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
-            bulletScript.SetDirection(direction.normalized);
+            bulletScript.SetDirection(direction);
             shotCooldown = startShotCooldown;
         }
         else
@@ -77,12 +70,12 @@ public class Enemy : MonoBehaviour, IUnit
     // Controla o comportamento do inimigo durante sua "jogada"
     public IEnumerator Play(float time)
     {
-
-        if(currentTurnsToWait >= 1){
+        if(currentTurnsToWait >= 1)
+        {
             currentTurnsToWait--;
-   
         }
-        else {
+        else 
+        {
             yield return new WaitForSeconds(time / 2);
 
             Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
@@ -108,7 +101,8 @@ public class Enemy : MonoBehaviour, IUnit
             }
 
             currentTurnsToWait = maxTurnsToWait;
-    }
+        }
+
         yield return new WaitForSeconds(time / 2);
         IsPlaying = false;
     }

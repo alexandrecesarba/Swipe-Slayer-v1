@@ -3,35 +3,32 @@ using UnityEngine;
 public class RaycastHandler : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private string targetTag = "Player"; // Tag do alvo a ser verificado
+    [SerializeField] private bool drawRaycast = true; // Controla se o raycast deve ser desenhado ou não
 
-    [HideInInspector] public Vector2 LastRaycastDirection {get; private set;}
+    public Vector2 LastRaycastDirection { get; private set; }
+    public RaycastHit2D Ray { get; private set; }
 
-    [HideInInspector] public RaycastHit2D ray {get; private set;}
-
-    public bool CheckLineOfSight(Transform target)
+    public bool HasLineOfSightTo(Transform target)
     {
         if (target == null)
             return false;
 
         Vector2 direction = (target.position - transform.position);
-        ray = Physics2D.Raycast(transform.position, direction, Mathf.Infinity, layerMask);
+        Ray = Physics2D.Raycast(transform.position, direction, Mathf.Infinity, layerMask);
 
-        // Armazena a ultima posição do raycast
+        // Armazena a última direção do raycast
         LastRaycastDirection = direction;
 
-        if (ray.collider != null)
+        if (Ray.collider != null)
         {
-            // Debug.Log("Ray hit: " + ray.collider.gameObject.name);
+            if (drawRaycast)
+            {
+                Color rayColor = Ray.collider.CompareTag(targetTag) ? Color.green : Color.red;
+                Debug.DrawRay(transform.position, direction, rayColor);
+            }
 
-            if (ray.collider.CompareTag("Player"))
-            {
-                Debug.DrawRay(transform.position, direction, Color.green);
-                return true;
-            }
-            else
-            {
-                Debug.DrawRay(transform.position, direction, Color.red);
-            }
+            return Ray.collider.CompareTag(targetTag);
         }
         return false;
     }
