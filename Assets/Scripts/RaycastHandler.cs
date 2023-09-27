@@ -1,34 +1,37 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class RaycastHandler : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask;
-    [SerializeField] private string targetTag = "Player"; // Tag do alvo a ser verificado
-    [SerializeField] private bool drawRaycast = true; // Controla se o raycast deve ser desenhado ou não
+    [SerializeField] private Tilemap groundTilemap;
 
-    public Vector2 LastRaycastDirection { get; private set; }
-    public RaycastHit2D Ray { get; private set; }
+    [HideInInspector] public Vector2 LastRaycastDirection { get; private set; }
+    [HideInInspector] public RaycastHit2D ray { get; private set; }
 
-    public bool HasLineOfSightTo(Transform target)
+    public bool HasLineOfSightTo(Transform target, int maxTilesDistance = -1)
     {
         if (target == null)
             return false;
 
         Vector2 direction = (target.position - transform.position);
-        Ray = Physics2D.Raycast(transform.position, direction, Mathf.Infinity, layerMask);
+        float maxDistance = maxTilesDistance > 0 ? groundTilemap.cellSize.x * maxTilesDistance : Mathf.Infinity;
+        ray = Physics2D.Raycast(transform.position, direction, maxDistance, layerMask);
 
-        // Armazena a última direção do raycast
+        // Armazena a última posição do raycast
         LastRaycastDirection = direction;
 
-        if (Ray.collider != null)
+        if (ray.collider != null)
         {
-            if (drawRaycast)
+            if (ray.collider.CompareTag("Player"))
             {
-                Color rayColor = Ray.collider.CompareTag(targetTag) ? Color.green : Color.red;
-                Debug.DrawRay(transform.position, direction, rayColor);
+                Debug.DrawRay(transform.position, direction, Color.green);
+                return true;
             }
-
-            return Ray.collider.CompareTag(targetTag);
+            else
+            {
+                Debug.DrawRay(transform.position, direction, Color.red);
+            }
         }
         return false;
     }
