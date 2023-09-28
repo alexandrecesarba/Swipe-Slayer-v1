@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour, IUnit
     public int turnsToWait = 0;
     private int currentTurnsToWait;
     private int maxTurnsToWait;
+    private bool shouldMove = true; // Começa com movimento
+
 
     // Variáveis privadas para controle interno
     private bool hasLineOfSight = false;
@@ -67,17 +69,21 @@ public class Enemy : MonoBehaviour, IUnit
         }
     }
 
-    // Controla o comportamento do inimigo durante sua "jogada"
-    public IEnumerator Play(float time)
-    {
-        if(currentTurnsToWait >= 1)
-        {
-            currentTurnsToWait--;
-        }
-        else 
-        {
-            yield return new WaitForSeconds(time / 2);
 
+    // Controla o comportamento do inimigo durante sua "jogada"
+   public IEnumerator Play(float time)
+{
+    if(currentTurnsToWait >= 1)
+    {
+        currentTurnsToWait--;
+    }
+    else 
+    {
+        yield return new WaitForSeconds(time / 2);
+
+        if (shouldMove)
+        {
+            // Lógica de movimento
             Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
             float absX = Mathf.Abs(posDif.x);
             float absY = Mathf.Abs(posDif.y);
@@ -93,17 +99,22 @@ public class Enemy : MonoBehaviour, IUnit
             }
 
             movement.AttemptMove(moveDirection);
-
-            if (hasLineOfSight)
-            {
-                Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
-                Shoot(raycastDirection); // invertido, pois é do inimigo ao jogador
-            }
-
-            currentTurnsToWait = maxTurnsToWait;
+        }
+        else if (hasLineOfSight)
+        {
+            // Lógica de ataque
+            Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
+            Shoot(raycastDirection); 
         }
 
-        yield return new WaitForSeconds(time / 2);
-        IsPlaying = false;
+        // Alterna entre movimento e ataque para o próximo turno
+        shouldMove = !shouldMove;
+
+        currentTurnsToWait = maxTurnsToWait;
     }
+
+    yield return new WaitForSeconds(time / 2);
+    IsPlaying = false;
+}
+
 }
