@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 // [DefaultExecutionOrder(-1)]
-public class SwipeDetection : SingletonPersistent<SwipeDetection>
+public class SwipeDetection : MonoBehaviour
 {
     #region Events
     public delegate void SwipeHandler(Vector2 direction);
@@ -16,8 +16,10 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
     [SerializeField, Range(0f, 1f)]
     private float directionThreshold = .93f;
     [SerializeField]
+    private PlayerInputHandler playerInputHandler;
+    // private GameObject trail;
 
-    private InputManager inputManager;
+    // private InputManager inputManager;
 
     private Vector2 startPosition;
     private float startTime;
@@ -25,34 +27,39 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
     private float endTime;
     private float swipeDistance;
     private float swipeTime;
+    private IClickable clickStartObject;
+    private IClickable clickEndObject;
     
     private Coroutine coroutine;
 
     void Start()
     {
+        // DontDestroyOnLoad(gameObject);
         Debug.LogWarning("NEW SWIPE DETECTION");
     }
 
     void OnEnable ()
     {
-        try
-        {
-            inputManager = InputManager.Instance;
-        }
-        catch
-        {
-            Debug.LogWarning("Instancia de inputManager inalcançável");
-        }
-        Debug.LogWarning("Enabling Swipe Detection. inputManager: " + inputManager.name);
-        inputManager.OnStartTouch += SwipeStart;
-        inputManager.OnEndTouch += SwipeEnd;
+        playerInputHandler.TouchStarted += SwipeStart;
+        playerInputHandler.TouchEnded += SwipeEnd;
+        // try
+        // {
+        //     // inputManager = InputManager.Instance;
+        // }
+        // catch
+        // {
+        //     Debug.LogWarning("Instancia de inputManager inalcançável");
+        // }
+        // Debug.LogWarning("Enabling Swipe Detection. inputManager: " + inputManager.name);
+        // inputManager.OnStartTouch += SwipeStart;
+        // inputManager.OnEndTouch += SwipeEnd;
     }
 
     void OnDisable()
     {
         Debug.LogWarning("Disabling Swipe Detection");
-        inputManager.OnStartTouch -= SwipeStart;
-        inputManager.OnEndTouch -= SwipeEnd;
+        // inputManager.OnStartTouch -= SwipeStart;
+        // inputManager.OnEndTouch -= SwipeEnd;
     }
 
     private void SwipeStart(Vector2 position, float time)
@@ -60,23 +67,49 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
         startPosition = position;
         startTime = time;
         Debug.Log("TOQUE INICIAL: " + position + "| TIME: " + time);
-    
+        Collider2D hitColliders = Physics2D.OverlapCircle(position, 0f);
+        if (hitColliders != null){
+            clickStartObject = hitColliders.GetComponent<IClickable>();
+            clickStartObject?.OnClickStart();
+        }
+        // trail.SetActive(true);
+        // trail.transform.position = position;
+        // coroutine = StartCoroutine(Trail());
     }
+
+    // private IEnumerator Trail() 
+    // {
+    //     while(true)
+    //     {
+    //         trail.transform.position = new Vector3(inputManager.PrimaryPosition().x, inputManager.PrimaryPosition().y, Camera.main.transform.position.z+1);
+    //         yield return null;
+    //     }
+    // }
     
     private void SwipeEnd(Vector2 position, float time)
     {
-  
+        // trail.SetActive(false);
+        // StopCoroutine(coroutine);
         endPosition = position;
         endTime = time;
         Debug.Log("TOQUE FINAL: " + position + "| TIME: " + time);
 
-        DetectSwipe();
+        Collider2D hitColliders = Physics2D.OverlapCircle(position, 0f);
+        if (hitColliders != null){
+            clickEndObject = hitColliders.GetComponent<IClickable>();
+            if (clickEndObject != null && clickEndObject == clickStartObject)
+            {
+                clickEndObject.OnClick();
+            } else{
+                DetectSwipe();
+            }
+        }
     }
     
     private void DetectSwipe() {
         swipeDistance = Vector3.Distance(startPosition, endPosition);
         swipeTime = endTime - startTime;
-
+        // Debug.Log("DIST : (" + endPosition + " - " + startPosition + " = " + (float)swipeDistance + "| TIME : (" + endTime + " - " + startTime + " = " + swipeTime);
         if (swipeDistance >= minimumDistance &&
          swipeTime <= maximumTime) {
             Debug.Log("LINE START: " + startPosition + "LINE END: " + endPosition);
@@ -89,9 +122,9 @@ public class SwipeDetection : SingletonPersistent<SwipeDetection>
 
         public void ReactivateEvents()
     {
-        inputManager = InputManager.Instance;
-        inputManager.OnStartTouch += SwipeStart;
-        inputManager.OnEndTouch += SwipeEnd;
+        // inputManager = InputManager.Instance;
+        // inputManager.OnStartTouch += SwipeStart;
+        // inputManager.OnEndTouch += SwipeEnd;
     }
 
 

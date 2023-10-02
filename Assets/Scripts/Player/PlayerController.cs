@@ -6,8 +6,8 @@ using UnityEngine.Tilemaps;
 public class PlayerController : MonoBehaviour, IUnit
 {
     #region Variables
-    public SwipeDetection swipeDetection;
-    private PlayerMovement controls;
+    [SerializeField] private PlayerInputHandler swipeDetection;
+    // private PlayerMovement controls;
     private Damageable damage;
     private MovingObject movement;
     private Melee playerMelee; // Adicione esta linha
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour, IUnit
     // Start is called before the first frame update
     void Awake()
     {
-        controls = new PlayerMovement();
+        // controls = new PlayerMovement();
         GameManager.Instance.player = gameObject;
         DontDestroyOnLoad(this);
         // swipeDetection = swipeDetection.GetComponent<SwipeDetection>();
@@ -30,15 +30,15 @@ public class PlayerController : MonoBehaviour, IUnit
     // This function is called when the object becomes enabled and active.
     void OnEnable()
     {
-        controls.Enable();
+        // controls.Enable();
         this.CanPlay = true; // Mover para aqui.
     }
 
     // This function is called when the behaviour becomes disabled or inactive.
     void OnDisable()
     {
-        swipeDetection.OnSwipe -= HandleSwipe;
-        controls.Disable();
+        // swipeDetection.OnSwipe -= HandleSwipe;
+        // controls.Disable();
     }
 
     /// Start is called on the frame when a script is enabled just before
@@ -47,23 +47,33 @@ public class PlayerController : MonoBehaviour, IUnit
     {
         try
         {
-            
-            swipeDetection = SwipeDetection.Instance;
+            // swipeDetection = GameObject.Find("SwipeDetection").GetComponent<SwipeDetection>();
+            // swipeDetection = SwipeDetection.Instance;
+            swipeDetection = GetComponent<PlayerInputHandler>();
             swipeDetection.OnSwipe += HandleSwipe;
         }
         catch
         {
             Debug.LogWarning("Não foi possível carregar o swipe detection");
         }
-        controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
+        // controls.Main.Movement.performed += ctx => StartCoroutine(MovePlayer(ctx.ReadValue<Vector2>()));
         movement = this.GetComponent<MovingObject>();
         
         playerMelee = GetComponent<Melee>();
         damage = GetComponent<Damageable>();
         interaction = GetComponent<Interacts>();
-       
+        // swipeDetection = SwipeDetection.Instance;
+
+        // damage.OnDeath += HandlePlayerDeath;
+        // this.CanPlay = true;
     }
 
+
+
+    // private void HandlePlayerDeath(IUnit unit)
+    // {
+        
+    // }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -81,8 +91,12 @@ public class PlayerController : MonoBehaviour, IUnit
             Debug.Log("NO TAG MATCH: " + other.tag);
                 break;
         }
-      
+        // if (other.CompareTag("Exit"))
+        // {
+        //     LevelManager.Instance.unlocked?.ChangeScene();
+        // }
     }
+    
     #endregion
     
     private IEnumerator MovePlayer(Vector2 direction)
@@ -108,8 +122,4 @@ public class PlayerController : MonoBehaviour, IUnit
         //implementar lógica para quando estiver na vez do jogador
     }
 
-    private void OnDrawGizmos()
-    {
-        UnityEditor.Handles.DrawWireCube(transform.position, GetComponent<BoxCollider2D>().size);
-    }
 }

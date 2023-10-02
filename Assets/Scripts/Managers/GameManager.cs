@@ -11,6 +11,9 @@ public class GameManager : SingletonPersistent<GameManager>
 
     private int level = 1;
     public GameObject player;
+    public List<Card> deck = new List<Card>();
+    public Transform[] cardSlots;
+    public bool[] availableCardSlots;
 
     public bool shouldChangeLevel = false;
 
@@ -41,7 +44,7 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 
-        InputManager.Instance.Reload();
+        // InputManager.Instance.Reload();
         levelManager.levelOver = false;
         //level++; // Uncomment when you have more than one scene
 
@@ -70,6 +73,22 @@ public class GameManager : SingletonPersistent<GameManager>
         Debug.Log("Ending level");
         StopCoroutine(turnLoop);
         Debug.Log("Stopping Coroutine");
+        }
+    }
+
+    public void DrawCard()
+    {
+        if (deck.Count >= 1)
+        {
+            Card randCard = deck[Random.Range(0, deck.Count)];
+            
+            for (int i = 0; i < availableCardSlots.Length; i++)
+            {
+                if (availableCardSlots[i] == true)
+                {
+                    randCard.gameObject.SetActive(true);
+                }
+            }
         }
     }
 }

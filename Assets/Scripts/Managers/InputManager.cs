@@ -7,10 +7,10 @@ using UnityEngine.InputSystem.EnhancedTouch;
 public class InputManager : SingletonPersistent<InputManager>
 {
     #region Events
-    public delegate void StartTouchEvent(Vector2 position, float time);
-    public event StartTouchEvent OnStartTouch;
-    public delegate void EndTouchEvent(Vector2 position, float time);
-    public event EndTouchEvent OnEndTouch;
+    // public delegate void StartTouchEvent(Vector2 position, float time);S
+    // public event StartTouchEvent OnStartTouch;
+    // public delegate void EndTouchEvent(Vector2 position, float time);
+    // public event EndTouchEvent OnEndTouch;
     #endregion
 
     private PlayerMovement playerControls;
@@ -38,7 +38,7 @@ public class InputManager : SingletonPersistent<InputManager>
 
         playerControls.Disable();
         TouchSimulation.Disable();
-
+ 
         // UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
     }
 
@@ -56,13 +56,13 @@ public class InputManager : SingletonPersistent<InputManager>
     private async void StartTouch(InputAction.CallbackContext context)
     {
         await Task.Delay(50);
-        OnStartTouch?.Invoke(PrimaryPosition(), (float)context.startTime);
+        // OnStartTouch?.Invoke(PrimaryPosition(), (float)context.startTime);
         // Debug.Log("TOQUE INICIAL" + PrimaryPosition());
     }
     private async void EndTouch(InputAction.CallbackContext context)
     {
         await Task.Delay(50);
-        OnEndTouch?.Invoke(PrimaryPosition(), (float)context.time);
+        // OnEndTouch?.Invoke(PrimaryPosition(), (float)context.time);
         // Debug.Log("TOQUE FINAL" + PrimaryPosition());
     }
 

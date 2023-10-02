@@ -39,6 +39,7 @@ public class LevelManager : MonoBehaviour
     public void Initialize()
     {
         GameManager.Instance.player.transform.position = playerSpawn;
+        GameManager.Instance.player.GetComponent<PlayerInputHandler>().Reload();
         units.Clear();
         units.AddRange(FindObjectsOfType<MonoBehaviour>().OfType<IUnit>());
         currentUnitIndex = units.FindIndex(unit => unit is PlayerController);
