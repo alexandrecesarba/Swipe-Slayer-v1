@@ -61,6 +61,10 @@ public class Enemy : MonoBehaviour, IUnit
             GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
             EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
             bulletScript.SetDirection(direction);
+            
+            // Inscreva-se no evento
+            bulletScript.OnMaxDistanceReached += HandleBulletMaxDistanceReached;
+
             shotCooldown = startShotCooldown;
         }
         else
@@ -71,7 +75,7 @@ public class Enemy : MonoBehaviour, IUnit
 
 
     // Controla o comportamento do inimigo durante sua "jogada"
-   public IEnumerator Play(float time)
+public IEnumerator Play(float time)
 {
     if(currentTurnsToWait >= 1)
     {
@@ -80,41 +84,57 @@ public class Enemy : MonoBehaviour, IUnit
     else 
     {
         yield return new WaitForSeconds(time / 2);
-
+        // Verifica se o alvo está dentro da distância máxima do projétil
+        float distanceToTarget = Vector2.Distance(transform.position, target.position);
+        EnemyBullet bulletPrefabScript = bullet.GetComponent<EnemyBullet>();
+        
+        
         if (shouldMove)
         {
-            // Lógica de movimento
-            Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
-            float absX = Mathf.Abs(posDif.x);
-            float absY = Mathf.Abs(posDif.y);
-            Vector2 moveDirection;
+        Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
+        float absX = Mathf.Abs(posDif.x);
+        float absY = Mathf.Abs(posDif.y);
+        Vector2 moveDirection;
 
-            if (absX > absY || absY == 0)
-            {
-                moveDirection = posDif.x < 0 ? Vector2.right : Vector2.left;
-            }
-            else
-            {
-                moveDirection = posDif.y < 0 ? Vector2.up : Vector2.down;
-            }
-
-            movement.AttemptMove(moveDirection);
-        }
-        else if (hasLineOfSight)
+        if (absX > absY || absY == 0)
         {
-            // Lógica de ataque
-            Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
-            Shoot(raycastDirection); 
+            moveDirection = posDif.x < 0 ? Vector2.right : Vector2.left;
+        }
+        else
+        {
+            moveDirection = posDif.y < 0 ? Vector2.up : Vector2.down;
         }
 
-        // Alterna entre movimento e ataque para o próximo turno
-        shouldMove = !shouldMove;
+        movement.AttemptMove(moveDirection);
 
+        }
+
+
+        else if (hasLineOfSight && distanceToTarget <= bulletPrefabScript.MaxDistance)
+        {
+            
+            Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
+            Shoot(raycastDirection); // invertido, pois é do inimigo ao jogador
+        }
+
+
+        shouldMove = !shouldMove;
         currentTurnsToWait = maxTurnsToWait;
     }
 
     yield return new WaitForSeconds(time / 2);
     IsPlaying = false;
 }
+
+    // Método que será chamado quando o projétil atingir sua distância máxima
+    private void HandleBulletMaxDistanceReached()
+    {
+ 
+        Debug.Log("Bullet reached its max distance!");
+
+      
+        EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();
+        bulletScript.OnMaxDistanceReached -= HandleBulletMaxDistanceReached;
+    }
 
 }

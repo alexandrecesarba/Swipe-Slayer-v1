@@ -11,6 +11,13 @@ public class EnemyBullet : MonoBehaviour
     private Enemy enemy;
     public int maxTilesDistance = 2; // Alcance máximo do projétil em tiles
     private Vector3 startingPosition;
+    
+
+// Em EnemyBullet.cs
+    public float MaxDistance { get { return maxTilesDistance; } }
+
+    public delegate void MaxDistanceReachedHandler();
+    public event MaxDistanceReachedHandler OnMaxDistanceReached;
 
    public void SetDirection(Vector2 dir)
 {
@@ -38,19 +45,27 @@ public class EnemyBullet : MonoBehaviour
         // Verifica se o projétil atingiu o alcance máximo
         if (Vector3.Distance(startingPosition, transform.position) >= maxTilesDistance)
         {
-            Debug.LogWarning("Entrou aqui");
+            // Debug.LogWarning("Entrou aqui");
+            OnMaxDistanceReached?.Invoke();
             Destroy(gameObject);
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D other)
+   public void OnCollisionEnter2D(Collision2D other)
+{
+    if (other.collider.CompareTag("Player"))
     {
-        Debug.LogWarning("COLIDIU");
-
-        if (other.collider.CompareTag("Player"))
+        damageable = other.gameObject.GetComponent<Damageable>();
+        if (damageable != null)
         {
-            Destroy(gameObject);
             damageable.TakeDamage(damageAmount);
         }
+        else
+        {
+            Debug.LogError("O objeto Player não tem um componente Damageable!");
+        }
+        Destroy(gameObject);
     }
+}
+
 }
