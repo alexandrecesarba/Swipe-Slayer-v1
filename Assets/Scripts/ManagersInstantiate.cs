@@ -13,8 +13,8 @@ public class ManagersInstantiate : MonoBehaviour {
     {
         Debug.LogWarning("Loading Managers.");
         _ = GameManager.Instance;
-        _ = InputManager.Instance;
-        _ = SwipeDetection.Instance;
+        // _ = InputManager.Instance;
+        // _ = SwipeDetection.Instance;
 
         levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
 

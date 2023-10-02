@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -8895879132258749274}
   - component: {fileID: 954735785180793444}
   - component: {fileID: -295921728011178314}
+  - component: {fileID: -307867401348003879}
   - component: {fileID: -6241144878814901759}
   - component: {fileID: -2602282398468692391}
   m_Layer: 0
@@ -107,7 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 647ca78340ced43eeb7dc329a5357d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swipeDetection: {fileID: 0}
 --- !u!114 &7739684369084558478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,8 +284,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -295921728011178314}
         m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: OnTouchPosition
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -293,7 +293,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 0
+        m_CallState: 2
     m_ActionId: 7321de6e-7ae1-42be-956e-f55318227a86
     m_ActionName: Touch/PrimaryPosition
   m_NeverAutoSwitchControlSchemes: 0
@@ -313,6 +313,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffffe17ef2df84897aa3f9f958a708c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-307867401348003879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575547000340463956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a9bcca9577fa415a9691602da26d2d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimumDistance: 0.2
+  maximumTime: 10
+  directionThreshold: 0.93
+  playerInputHandler: {fileID: -295921728011178314}
 --- !u!95 &-6241144878814901759
 Animator:
   serializedVersion: 5

@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class PlayerController : MonoBehaviour, IUnit
 {
     #region Variables
-    public SwipeDetection swipeDetection;
+    [SerializeField] private PlayerInputHandler swipeDetection;
     // private PlayerMovement controls;
     private Damageable damage;
     private MovingObject movement;
@@ -49,7 +49,8 @@ public class PlayerController : MonoBehaviour, IUnit
         {
             // swipeDetection = GameObject.Find("SwipeDetection").GetComponent<SwipeDetection>();
             // swipeDetection = SwipeDetection.Instance;
-            // swipeDetection.OnSwipe += HandleSwipe;
+            swipeDetection = GetComponent<PlayerInputHandler>();
+            swipeDetection.OnSwipe += HandleSwipe;
         }
         catch
         {
