@@ -32,11 +32,23 @@ public class MovingObject : MonoBehaviour
     #region Unity Methods
     void Update()
     {
-        if (isMoving)
-            transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
-            if (transform.position == movePoint)
-                isMoving = false;
+    if (isMoving)
+    {
+        transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
+        if (transform.position == movePoint)
+        {
+            isMoving = false;
+            AdjustPositionToGridCenter();
+        }
     }
+    }
+
+    private void AdjustPositionToGridCenter()
+    {
+        Vector3Int cellPosition = groundTilemap.WorldToCell(transform.position);
+        transform.position = groundTilemap.GetCellCenterWorld(cellPosition);
+    }
+
 
     void Start()
     {
