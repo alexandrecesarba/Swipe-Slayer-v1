@@ -68,23 +68,26 @@ public class AStar
     {
         List<Node> neighbors = new List<Node>();
 
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                if (x == 0 && y == 0)
-                    continue;
+        // Vizinhos ortogonais
+        Vector3Int[] directions = {
+            new Vector3Int(0, 1, 0),  // Acima
+            new Vector3Int(0, -1, 0), // Abaixo
+            new Vector3Int(1, 0, 0),  // Direita
+            new Vector3Int(-1, 0, 0)  // Esquerda
+        };
 
-                Vector3Int neighborPosition = new Vector3Int(node.Position.x + x, node.Position.y + y, node.Position.z);
-                if (IsWalkable(neighborPosition))
-                {
-                    neighbors.Add(new Node(neighborPosition));
-                }
+        foreach (var direction in directions)
+        {
+            Vector3Int neighborPosition = new Vector3Int(node.Position.x + direction.x, node.Position.y + direction.y, node.Position.z);
+            if (IsWalkable(neighborPosition))
+            {
+                neighbors.Add(new Node(neighborPosition));
             }
         }
 
         return neighbors;
     }
+
 
     private bool IsWalkable(Vector3Int position)
     {
@@ -96,9 +99,7 @@ public class AStar
         int distX = Mathf.Abs(a.Position.x - b.Position.x);
         int distY = Mathf.Abs(a.Position.y - b.Position.y);
 
-        if (distX > distY)
-            return 1.4f * distY + 1.0f * (distX - distY);
-        return 1.4f * distX + 1.0f * (distY - distX);
+        return distX + distY; // Custo de 1 para movimentos ortogonais
     }
 
     private List<Vector3Int> RetracePath(Node start, Node end)
@@ -106,13 +107,26 @@ public class AStar
         List<Vector3Int> path = new List<Vector3Int>();
         Node currentNode = end;
 
+        Node previousNode = null; // Adicionado para rastrear o nó anterior
+
         while (currentNode != start)
         {
             path.Add(currentNode.Position);
+
+            // Se houver um nó anterior, desenhe uma linha entre o nó atual e o nó anterior
+            if (previousNode != null)
+            {
+                Vector3 currentPos = groundTilemap.GetCellCenterWorld(currentNode.Position);
+                Vector3 previousPos = groundTilemap.GetCellCenterWorld(previousNode.Position);
+                Debug.DrawLine(currentPos, previousPos, Color.magenta, 5f); // A linha será vermelha e durará 5 segundos
+            }
+
+            previousNode = currentNode; // Atualize o nó anterior
             currentNode = currentNode.Parent;
         }
 
         path.Reverse();
         return path;
     }
+
 }

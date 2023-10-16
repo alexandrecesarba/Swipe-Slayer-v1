@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour, IUnit
     // Variáveis públicas para configuração no Editor
     public Transform target;
     public MovingObject movement;
+    public GameObject circlePrefab;
     public GameObject bullet;
     public float startShotCooldown;
     public Transform attackPlayer;
@@ -20,10 +21,17 @@ public class Enemy : MonoBehaviour, IUnit
     private AStar pathfinding;
     private List<Vector3Int> path;
     private int pathIndex;
+    private bool shouldMove = true; // Começa com movimento
+    private bool hasLineOfSight = false;
+    public int rangedAttackPoints;
+
 
     // Propriedades para controle de estado
     public bool IsPlaying { get; set; }
     public bool CanPlay { get; set; }
+
+    private Vector3Int lastTargetPosition; // Armazena a última posição do alvo
+
 
     // Inicializa variáveis e componentes
     void Start()
@@ -35,6 +43,11 @@ public class Enemy : MonoBehaviour, IUnit
         movement = GetComponent<MovingObject>();
         shotCooldown = startShotCooldown;
 
+                // Inicializa o componente Melee se ele não existir
+        Melee meleeComponent = GetComponent<Melee>();
+        if (meleeComponent == null)
+            meleeComponent = gameObject.AddComponent<Melee>();
+
         // Inicializa a referência para o script RaycastHandler
         raycastHandler = GetComponent<RaycastHandler>();
         if (raycastHandler == null)
@@ -42,15 +55,25 @@ public class Enemy : MonoBehaviour, IUnit
 
         // Inicializa o sistema de pathfinding
         pathfinding = new AStar(movement.groundTilemap, movement.collisionTilemap);
+
+        lastTargetPosition = movement.groundTilemap.WorldToCell(target.position); // Inicializa com a posição atual do alvo
+
     }
 
     // Atualiza a variável path a cada FixedUpdate
     private void FixedUpdate()
     {
-        Vector3Int start = movement.groundTilemap.WorldToCell(transform.position);
-        Vector3Int end = movement.groundTilemap.WorldToCell(target.position);
-        path = pathfinding.FindPath(start, end);
-        pathIndex = 0;
+        Vector3Int currentTargetPosition = movement.groundTilemap.WorldToCell(target.position);
+
+        // Verifica se o caminho atual terminou ou se o destino mudou
+        if (pathIndex >= path?.Count || currentTargetPosition != lastTargetPosition)
+        {
+            Vector3Int startPos = movement.groundTilemap.WorldToCell(transform.position);
+            Vector3Int targetPos = movement.groundTilemap.WorldToCell(target.position);
+            path = pathfinding.FindPath(startPos, targetPos);
+            pathIndex = 0;
+            lastTargetPosition = currentTargetPosition; // Atualiza a última posição do alvo
+        }
     }
 
     // Atira na direção especificada
@@ -61,6 +84,8 @@ public class Enemy : MonoBehaviour, IUnit
             GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
             EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
             bulletScript.SetDirection(direction);
+
+            bulletScript.OnMaxDistanceReached += HandleBulletMaxDistanceReached;
 
             shotCooldown = startShotCooldown;
         }
@@ -79,30 +104,41 @@ public class Enemy : MonoBehaviour, IUnit
         }
         else
         {
-            yield return new WaitForSeconds(time / 2);
+           yield return new WaitForSeconds(time / 2);
 
-            if (path != null && path.Count > 0 && pathIndex < path.Count)
+            float distanceToTarget = Vector2.Distance(transform.position, target.position);
+            EnemyBullet bulletPrefabScript = bullet.GetComponent<EnemyBullet>();
+
+            // Verifica se o inimigo pode atacar
+            if (hasLineOfSight && distanceToTarget <= bulletPrefabScript.MaxDistance)
+            {
+                Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
+                Shoot(raycastDirection);
+            }
+            // Caso contrário, move o inimigo
+            else if (path != null && path.Count > 0 && pathIndex < path.Count)
             {
                 Vector3 nextStep = movement.groundTilemap.CellToWorld(path[pathIndex]);
                 movement.AttemptMove((nextStep - transform.position).normalized);
                 pathIndex++;
             }
-            else
-            {
-                float distanceToTarget = Vector2.Distance(transform.position, target.position);
-                EnemyBullet bulletPrefabScript = bullet.GetComponent<EnemyBullet>();
-
-                if (raycastHandler.HasLineOfSightTo(target) && distanceToTarget <= bulletPrefabScript.MaxDistance)
-                {
-                    Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
-                    Shoot(raycastDirection);
-                }
-            }
-
+          
             currentTurnsToWait = maxTurnsToWait;
         }
 
         yield return new WaitForSeconds(time / 2);
         IsPlaying = false;
+    }
+
+     // Método que será chamado quando o projétil atingir sua distância máxima
+    private void HandleBulletMaxDistanceReached()
+    {
+ 
+        Debug.Log("Bullet reached its max distance!");
+
+      
+        EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();
+        bulletScript.OnMaxDistanceReached -= HandleBulletMaxDistanceReached;
+     
     }
 }
