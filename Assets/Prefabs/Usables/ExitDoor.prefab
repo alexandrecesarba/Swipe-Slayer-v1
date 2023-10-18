@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 0
-  openSprite: {fileID: 21300000, guid: b1c1406e8f3744597b734de5cbc02c82, type: 3}
-  closedSprite: {fileID: 21300000, guid: c6ac576fea63c4e24b67119fb9f780a4, type: 3}
+  openSprite: {fileID: 21300000, guid: a5b45f72c9e6b48aba780c7bcc313e6e, type: 3}
+  closedSprite: {fileID: 21300000, guid: 6d2e79b765551426aa6904f53b3ee990, type: 3}
   levelLoader: {fileID: 0}
 --- !u!212 &7727770107863164233
 SpriteRenderer:
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: c6ac576fea63c4e24b67119fb9f780a4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6d2e79b765551426aa6904f53b3ee990, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
