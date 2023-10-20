@@ -68,12 +68,26 @@ public class Enemy : MonoBehaviour, IUnit
         // Verifica se o caminho atual terminou ou se o destino mudou
         if (pathIndex >= path?.Count || currentTargetPosition != lastTargetPosition)
         {
-            Vector3Int startPos = movement.groundTilemap.WorldToCell(transform.position);
-            Vector3Int targetPos = movement.groundTilemap.WorldToCell(target.position);
-            path = pathfinding.FindPath(startPos, targetPos);
-            pathIndex = 0;
-            lastTargetPosition = currentTargetPosition; // Atualiza a última posição do alvo
+            StopCoroutine("CalculatePath"); // Pare a corotina anterior se estiver rodando
+            StartCoroutine(CalculatePath(currentTargetPosition)); // Comece a nova corotina
         }
+    }
+
+        private IEnumerator CalculatePath(Vector3Int targetPos)
+    {
+        Vector3Int startPos = movement.groundTilemap.WorldToCell(transform.position);
+        List<Vector3Int> newPath = new List<Vector3Int>();
+
+        // Aqui, você pode dividir o cálculo do caminho conforme necessário.
+        // Por exemplo, você pode calcular uma parte do caminho em cada frame.
+        // Para simplificar, estou apenas calculando o caminho completo, mas você pode dividir conforme necessário.
+        newPath = pathfinding.FindPath(startPos, targetPos);
+
+        yield return null; // Espere um frame
+
+        path = newPath; // Atualize o caminho
+        pathIndex = 0;
+        lastTargetPosition = targetPos; // Atualiza a última posição do alvo
     }
 
     // Atira na direção especificada
