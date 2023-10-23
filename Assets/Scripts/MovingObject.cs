@@ -91,6 +91,7 @@ public class MovingObject : MonoBehaviour
         }
     }
 
+
     public MovementResult AttemptMoveInTiles(GridDirection direction, int numberOfTiles)
     {
         Vector2 tilemapCellSize = groundTilemap.cellSize;

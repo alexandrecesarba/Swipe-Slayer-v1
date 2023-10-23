@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+// AStar.cs
 public class AStar
 {
     private Tilemap groundTilemap;
@@ -13,13 +14,13 @@ public class AStar
         collisionTilemap = collision;
     }
 
-    public List<Vector3Int> FindPath(Vector3Int start, Vector3Int end)
+    public List<Vector2> FindPath(Vector2 start, Vector2 end)
     {
         List<Node> openList = new List<Node>();
         HashSet<Node> closedList = new HashSet<Node>();
 
-        Node startNode = new Node(start);
-        Node endNode = new Node(end);
+        Node startNode = new Node(new Vector3Int((int)start.x, (int)start.y, 0));
+        Node endNode = new Node(new Vector3Int((int)end.x, (int)end.y, 0));
 
         openList.Add(startNode);
 
@@ -68,17 +69,16 @@ public class AStar
     {
         List<Node> neighbors = new List<Node>();
 
-        // Vizinhos ortogonais
         Vector3Int[] directions = {
-            new Vector3Int(0, 1, 0),  // Acima
-            new Vector3Int(0, -1, 0), // Abaixo
-            new Vector3Int(1, 0, 0),  // Direita
-            new Vector3Int(-1, 0, 0)  // Esquerda
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(0, -1, 0),
+            new Vector3Int(1, 0, 0),
+            new Vector3Int(-1, 0, 0)
         };
 
         foreach (var direction in directions)
         {
-            Vector3Int neighborPosition = new Vector3Int(node.Position.x + direction.x, node.Position.y + direction.y, node.Position.z);
+            Vector3Int neighborPosition = node.Position + direction;
             if (IsWalkable(neighborPosition))
             {
                 neighbors.Add(new Node(neighborPosition));
@@ -87,7 +87,6 @@ public class AStar
 
         return neighbors;
     }
-
 
     private bool IsWalkable(Vector3Int position)
     {
@@ -99,34 +98,21 @@ public class AStar
         int distX = Mathf.Abs(a.Position.x - b.Position.x);
         int distY = Mathf.Abs(a.Position.y - b.Position.y);
 
-        return distX + distY; // Custo de 1 para movimentos ortogonais
+        return distX + distY;
     }
 
-    private List<Vector3Int> RetracePath(Node start, Node end)
+    private List<Vector2> RetracePath(Node start, Node end)
     {
-        List<Vector3Int> path = new List<Vector3Int>();
+        List<Vector2> path = new List<Vector2>();
         Node currentNode = end;
-
-        Node previousNode = null; // Adicionado para rastrear o nó anterior
 
         while (currentNode != start)
         {
-            path.Add(currentNode.Position);
-
-            // Se houver um nó anterior, desenhe uma linha entre o nó atual e o nó anterior
-            if (previousNode != null)
-            {
-                Vector3 currentPos = groundTilemap.GetCellCenterWorld(currentNode.Position);
-                Vector3 previousPos = groundTilemap.GetCellCenterWorld(previousNode.Position);
-                Debug.DrawLine(currentPos, previousPos, Color.magenta, 5f); // A linha será vermelha e durará 5 segundos
-            }
-
-            previousNode = currentNode; // Atualize o nó anterior
+            path.Add(new Vector2(currentNode.Position.x, currentNode.Position.y));
             currentNode = currentNode.Parent;
         }
 
         path.Reverse();
         return path;
     }
-
 }

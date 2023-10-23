@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour, IUnit
     private float shotCooldown;
     private RaycastHandler raycastHandler;
     private AStar pathfinding;
-    private List<Vector3Int> path;
+    private List<Vector2> path;
     private int pathIndex;
     private bool shouldMove = true; // Começa com movimento
     private bool hasLineOfSight = false;
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour, IUnit
     public bool IsPlaying { get; set; }
     public bool CanPlay { get; set; }
 
-    private Vector3Int lastTargetPosition; // Armazena a última posição do alvo
+    private Vector2 lastTargetPosition; // Armazena a última posição do alvo
 
 
     // Inicializa variáveis e componentes
@@ -56,38 +56,36 @@ public class Enemy : MonoBehaviour, IUnit
         // Inicializa o sistema de pathfinding
         pathfinding = new AStar(movement.groundTilemap, movement.collisionTilemap);
 
-        lastTargetPosition = movement.groundTilemap.WorldToCell(target.position); // Inicializa com a posição atual do alvo
+        lastTargetPosition = new Vector2(
+            movement.groundTilemap.WorldToCell(target.position).x, 
+            movement.groundTilemap.WorldToCell(target.position).y
+        );
 
     }
 
     // Atualiza a variável path a cada FixedUpdate
-    private void FixedUpdate()
+     private void FixedUpdate()
     {
-        Vector3Int currentTargetPosition = movement.groundTilemap.WorldToCell(target.position);
+        Vector2 currentTargetPosition = new Vector2(target.position.x, target.position.y);
 
-        // Verifica se o caminho atual terminou ou se o destino mudou
         if (pathIndex >= path?.Count || currentTargetPosition != lastTargetPosition)
         {
-            StopCoroutine("CalculatePath"); // Pare a corotina anterior se estiver rodando
-            StartCoroutine(CalculatePath(currentTargetPosition)); // Comece a nova corotina
+            StopCoroutine("CalculatePath");
+            StartCoroutine(CalculatePath(currentTargetPosition));
         }
     }
 
-        private IEnumerator CalculatePath(Vector3Int targetPos)
+
+    private IEnumerator CalculatePath(Vector2 targetPos)
     {
-        Vector3Int startPos = movement.groundTilemap.WorldToCell(transform.position);
-        List<Vector3Int> newPath = new List<Vector3Int>();
+        Vector2 startPos = new Vector2(transform.position.x, transform.position.y);
+        List<Vector2> newPath = pathfinding.FindPath(startPos, targetPos);
 
-        // Aqui, você pode dividir o cálculo do caminho conforme necessário.
-        // Por exemplo, você pode calcular uma parte do caminho em cada frame.
-        // Para simplificar, estou apenas calculando o caminho completo, mas você pode dividir conforme necessário.
-        newPath = pathfinding.FindPath(startPos, targetPos);
+        yield return null;
 
-        yield return null; // Espere um frame
-
-        path = newPath; // Atualize o caminho
+        path = newPath;
         pathIndex = 0;
-        lastTargetPosition = targetPos; // Atualiza a última posição do alvo
+        lastTargetPosition = targetPos;
     }
 
     // Atira na direção especificada
@@ -130,10 +128,10 @@ public class Enemy : MonoBehaviour, IUnit
                 Shoot(raycastDirection);
             }
             // Caso contrário, move o inimigo
-            else if (path != null && path.Count > 0 && pathIndex < path.Count)
+        else if (path != null && path.Count > 0 && pathIndex < path.Count)
             {
-                Vector3 nextStep = movement.groundTilemap.CellToWorld(path[pathIndex]);
-                movement.AttemptMove((nextStep - transform.position).normalized);
+                Vector2 nextStep = path[pathIndex];
+                movement.AttemptMoveInTiles((nextStep - new Vector2(transform.position.x, transform.position.y)).normalized, 1, out _);
                 pathIndex++;
             }
           

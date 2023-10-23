@@ -17,8 +17,8 @@ public class RaycastHandler : MonoBehaviour
         Vector2 direction = (target.position - transform.position);
         float maxDistance = maxTilesDistance > 0 ? groundTilemap.cellSize.x * maxTilesDistance : Mathf.Infinity;
 
-        if (maxDistance == Mathf.Infinity)
-            Debug.Log("INFINITO");
+        // if (maxDistance == Mathf.Infinity)
+        //     Debug.Log("INFINITO");
             
         ray = Physics2D.Raycast(transform.position, direction, maxDistance, layerMask);
 
