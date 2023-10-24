@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
@@ -29,14 +27,23 @@ public class LevelManager : MonoBehaviour
 
     private int kills;
 
+    private bool isInitialized = false;
+
 
     void Start()
     {
-        Initialize();
-        GameManager.Instance.SetUpNewLevel();
+        StartCoroutine(InitializeAndStartLevel());
     }
 
-    public void Initialize()
+    private IEnumerator InitializeAndStartLevel()
+    {
+        yield return StartCoroutine(Initialize());
+        isInitialized = true;
+        GameManager.Instance.SetUpNewLevel();
+        StartCoroutine(TurnLoop());
+    }
+
+    public IEnumerator Initialize()
     {
         GameManager.Instance.player.transform.position = playerSpawn;
         GameManager.Instance.player.GetComponent<PlayerInputHandler>().Reload();
@@ -66,10 +73,19 @@ public class LevelManager : MonoBehaviour
         {
             Debug.LogWarning("TimeBar is null.");
         }
+
+        yield return null; // Pode ser substituído por uma espera específica, se necessário
     }
 
     public IEnumerator TurnLoop()
     {
+         // Aguarde até que a inicialização esteja completa
+        while (!isInitialized)
+        {
+            yield return null;
+        }
+
+
         yield return new WaitForSeconds(1f);
         while (!levelOver)
         {

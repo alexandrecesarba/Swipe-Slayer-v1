@@ -25,13 +25,11 @@ public class Enemy : MonoBehaviour, IUnit
     private bool hasLineOfSight = false;
     public int rangedAttackPoints;
 
-
     // Propriedades para controle de estado
     public bool IsPlaying { get; set; }
     public bool CanPlay { get; set; }
 
     private Vector2 lastTargetPosition; // Armazena a última posição do alvo
-
 
     // Inicializa variáveis e componentes
     void Start()
@@ -43,7 +41,7 @@ public class Enemy : MonoBehaviour, IUnit
         movement = GetComponent<MovingObject>();
         shotCooldown = startShotCooldown;
 
-                // Inicializa o componente Melee se ele não existir
+        // Inicializa o componente Melee se ele não existir
         Melee meleeComponent = GetComponent<Melee>();
         if (meleeComponent == null)
             meleeComponent = gameObject.AddComponent<Melee>();
@@ -60,11 +58,10 @@ public class Enemy : MonoBehaviour, IUnit
             movement.groundTilemap.WorldToCell(target.position).x, 
             movement.groundTilemap.WorldToCell(target.position).y
         );
-
     }
 
     // Atualiza a variável path a cada FixedUpdate
-     private void FixedUpdate()
+    private void FixedUpdate()
     {
         Vector2 currentTargetPosition = new Vector2(target.position.x, target.position.y);
 
@@ -73,8 +70,10 @@ public class Enemy : MonoBehaviour, IUnit
             StopCoroutine("CalculatePath");
             StartCoroutine(CalculatePath(currentTargetPosition));
         }
-    }
 
+        // Atualiza a variável hasLineOfSight
+        hasLineOfSight = raycastHandler.HasLineOfSightTo(target);
+    }
 
     private IEnumerator CalculatePath(Vector2 targetPos)
     {
@@ -116,7 +115,7 @@ public class Enemy : MonoBehaviour, IUnit
         }
         else
         {
-           yield return new WaitForSeconds(time / 2);
+            yield return new WaitForSeconds(time / 2);
 
             float distanceToTarget = Vector2.Distance(transform.position, target.position);
             EnemyBullet bulletPrefabScript = bullet.GetComponent<EnemyBullet>();
@@ -128,13 +127,13 @@ public class Enemy : MonoBehaviour, IUnit
                 Shoot(raycastDirection);
             }
             // Caso contrário, move o inimigo
-        else if (path != null && path.Count > 0 && pathIndex < path.Count)
+            else if (path != null && path.Count > 0 && pathIndex < path.Count)
             {
                 Vector2 nextStep = path[pathIndex];
                 movement.AttemptMoveInTiles((nextStep - new Vector2(transform.position.x, transform.position.y)).normalized, 1, out _);
                 pathIndex++;
             }
-          
+
             currentTurnsToWait = maxTurnsToWait;
         }
 
@@ -142,15 +141,12 @@ public class Enemy : MonoBehaviour, IUnit
         IsPlaying = false;
     }
 
-     // Método que será chamado quando o projétil atingir sua distância máxima
+    // Método que será chamado quando o projétil atingir sua distância máxima
     private void HandleBulletMaxDistanceReached()
     {
- 
         Debug.Log("Bullet reached its max distance!");
 
-      
         EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();
         bulletScript.OnMaxDistanceReached -= HandleBulletMaxDistanceReached;
-     
     }
 }
