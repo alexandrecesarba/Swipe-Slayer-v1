@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class DoubleAttack : MonoBehaviour, IPower
 {
-    public int attackPoints = 5;
+    public int attackPoints = 1;
+    readonly float interval = 1f;
+
+    public float Duration { get; set;} = 2f;
 
     public void Activate(GameObject user, Vector2 direction)
     {
@@ -11,7 +14,7 @@ public class DoubleAttack : MonoBehaviour, IPower
         movement.EvaluateMove((Vector2)user.transform.position + direction, out GameObject hit);
         if (hit != null)
         {
-            StartCoroutine(ExecuteDoubleAttack(1f, hit, user));
+            StartCoroutine(ExecuteDoubleAttack(interval, hit, user));
         }
         else{
             Debug.LogWarning("NO HIT FOUND");

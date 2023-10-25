@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour, IUnit
     public Card cardSelected;
     public bool IsPlaying {get; set;}
     public bool CanPlay {get; set;}
+    public bool IsUsingCard {get; set;}
     #endregion
 
     #region Unity Methods
@@ -118,9 +119,20 @@ public class PlayerController : MonoBehaviour, IUnit
         {
             StartCoroutine(MovePlayer(direction));
         } else {
-            cardSelected.Activate(this.gameObject, direction);
-            cardSelected.UnselectCard();
+            StartCoroutine(PlayCard(cardSelected, direction));
+
         }
+    }
+
+    private IEnumerator PlayCard(Card cardSelected, Vector2 direction)
+    {
+        IsPlaying = false;
+        IsUsingCard = true;
+        cardSelected.Activate(this.gameObject, direction);
+        cardSelected.UnselectCard();
+
+        yield return new WaitForSeconds(cardSelected.power.Duration);
+        IsUsingCard = false;
     }
 
     public IEnumerator Play(float time)

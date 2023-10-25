@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour, IUnit
     // Propriedades para controle de estado
     public bool IsPlaying { get; set; }
     public bool CanPlay { get; set; }
+    public bool IsUsingCard { get ; set; }
 
     // Inicializa variáveis e componentes
     void Start()

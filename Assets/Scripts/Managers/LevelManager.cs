@@ -106,7 +106,13 @@ public class LevelManager : MonoBehaviour
                 {
                     Debug.LogWarning("TimeBar is null.");
                 }
-
+                if (currentUnit.IsUsingCard)
+                {
+                    while (currentUnit.IsUsingCard)
+                    {
+                        yield return null;
+                    }
+                }
                 currentUnit.IsPlaying = false;
             }
 
