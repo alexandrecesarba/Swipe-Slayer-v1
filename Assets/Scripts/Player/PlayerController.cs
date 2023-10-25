@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour, IUnit
     private Melee playerMelee; // Adicione esta linha
     private Interacts interaction;
 
+    public Card cardSelected;
     public bool IsPlaying {get; set;}
     public bool CanPlay {get; set;}
     #endregion
@@ -113,7 +114,13 @@ public class PlayerController : MonoBehaviour, IUnit
     
     public void HandleSwipe(Vector2 direction) {
         Debug.Log("Handling Swipe on PlayerController...");
-        StartCoroutine(MovePlayer(direction));
+        if (cardSelected == null)
+        {
+            StartCoroutine(MovePlayer(direction));
+        } else {
+            cardSelected.Activate(this.gameObject, direction);
+            cardSelected.UnselectCard();
+        }
     }
 
     public IEnumerator Play(float time)

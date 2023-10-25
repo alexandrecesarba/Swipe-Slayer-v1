@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 647ca78340ced43eeb7dc329a5357d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swipeDetection: {fileID: 0}
 --- !u!114 &7739684369084558478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +314,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffffe17ef2df84897aa3f9f958a708c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionThreshold: 0.93
+  swipeMinimumDistance: 0.2
+  swipeMaximumTime: 1
 --- !u!114 &-307867401348003879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,4 +366,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2621703c98e9489cb76faa37383bb54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movingScript: {fileID: 0}
   playerData: {fileID: 0}

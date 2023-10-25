@@ -19,6 +19,8 @@ public class PlayerInputHandler : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float directionThreshold = .93f;
 
+    public Vector2 MovementInput {get; private set;}
+
     private Vector2 touchStartPos;
     private Vector2 touchEndPos;
     private Vector2 touchLastPos;
@@ -103,6 +105,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnTouchPosition(InputAction.CallbackContext context)
     {
+        MovementInput = context.ReadValue<Vector2>();
         if (context.performed)
         {
             touchEndPos = context.ReadValue<Vector2>();

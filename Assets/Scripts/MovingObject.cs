@@ -15,6 +15,10 @@ public class MovingObject : MonoBehaviour
     #region Events
     public delegate void HitHandler(GameObject hitObject);
     public event HitHandler OnHit;
+    public delegate void MoveHandler();
+    public event MoveHandler OnMove;
+    public event MoveHandler OnMoveEnd;
+
     #endregion
 
     [SerializeField]
@@ -33,9 +37,16 @@ public class MovingObject : MonoBehaviour
     void Update()
     {
         if (isMoving)
+        {
+            Debug.Log("isMoving:" + isMoving);
             transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
             if (transform.position == movePoint)
+            {
                 isMoving = false;
+                OnMoveEnd?.Invoke();
+                Debug.Log("OnMoveEnded");
+            }
+        }
     }
 
     void Start()
@@ -126,12 +137,14 @@ public class MovingObject : MonoBehaviour
             }
         }
         isMoving = true;
+        OnMove?.Invoke();
+        Debug.Log("OnMove");
         // circleRedGO.transform.position = targetPosition;
         return hitObject;
 
     }
 
-    private MovementResult EvaluateMove(Vector3 targetPosition, out GameObject hit)
+    public MovementResult EvaluateMove(Vector3 targetPosition, out GameObject hit)
     {
         if (CanMove(targetPosition, out GameObject hitObject))
         {
