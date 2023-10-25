@@ -4,36 +4,44 @@ public class Door : MonoBehaviour, IInteractable {
 
     #region Variables
     public bool isOpen = false;
-    public Sprite openSprite;
-    public Sprite closedSprite;
+    [SerializeField]
+    private Sprite openSprite;
+    [SerializeField]
+    private Sprite closedSprite;
+    [SerializeField]
+    public LevelLoader levelLoader;
+    #endregion
+
+    #region Unity Methods
+    void Start()
+    {
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+    }
     #endregion
 
     public void Open()
     {
         isOpen = true;
         GetComponent<SpriteRenderer>().sprite = openSprite;
-        Debug.Log("Opening Door");
     }
     public void Close()
     {
         isOpen = false;
         GetComponent<SpriteRenderer>().sprite = closedSprite;
-        Debug.Log("Closing Door");
     }
 
     public void Interact(GameObject _)
     {
         if (isOpen){
-            Debug.Log("Porta Aberta! Entrando...");
             // LevelLoader.Instance.LoadNextLevel();
-            if (GameManager.Instance.levelLoader == null) {
-                Debug.Log("GameManager.Instance.levelLoader is NULL");
+            if (levelLoader == null) {
             } else {
-                GameManager.Instance.LevelEnded();
-                GameManager.Instance.levelLoader.LoadNextLevel();
+                // GameManager.Instance.LevelEnded();
+                levelLoader.LoadNextLevel();
             };
         } else {
             Debug.Log("Porta Trancada!");
         }
     }
+
 }

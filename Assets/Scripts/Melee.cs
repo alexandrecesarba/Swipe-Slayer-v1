@@ -6,10 +6,21 @@ public class Melee : MonoBehaviour
     public int attackPoints = 3;
     private MovingObject movingObject;
 
-    private void Start()
+
+    void OnEnable()
     {
         movingObject = GetComponent<MovingObject>();
         // movingObject.OnHit += ExecuteAttack;
+    }
+
+    void OnDisable()
+    {
+        movingObject.OnHit -= ExecuteAttack;
+    }
+
+
+    private void Start()
+    {
     }
 
 <<<<<<< Updated upstream

@@ -540,7 +540,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 08f5c89d530c84433b45d1e13558fc76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -612,7 +612,11 @@ MonoBehaviour:
   target: {fileID: 0}
   movement: {fileID: 0}
   circlePrefab: {fileID: 8985253743109134794, guid: cc54653deee0c4e50b7c537d37e8547b, type: 3}
-  meleeComponent: {fileID: 0}
+  bullet: {fileID: 0}
+  startShotCooldown: 0
+  attackPlayer: {fileID: 0}
+  turnsToWait: 1
+  rangedAttackPoints: 0
 --- !u!114 &2345657044601512421
 MonoBehaviour:
   m_ObjectHideFlags: 0

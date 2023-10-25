@@ -8,10 +8,18 @@ public class Interacts : MonoBehaviour {
 
     #region Unity Methods
 
-    private void Start()
+    void OnEnable()
     {
         movingObject = GetComponent<MovingObject>();
         movingObject.OnHit += Interact;
+    }
+
+    void OnDisable()
+    {
+        movingObject.OnHit -= Interact;
+    }
+    private void Start()
+    {
     }
 
     public void Interact(GameObject targetObject)

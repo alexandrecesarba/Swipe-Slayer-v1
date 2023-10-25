@@ -16,11 +16,15 @@ public class MovingObject : MonoBehaviour
     #region Events
     public delegate void HitHandler(GameObject hitObject);
     public event HitHandler OnHit;
+    public delegate void MoveHandler();
+    public event MoveHandler OnMove;
+    public event MoveHandler OnMoveEnd;
+
     #endregion
 
-    [SerializeField] 
+    [SerializeField]
     public Tilemap groundTilemap;
-    [SerializeField] 
+    [SerializeField]
     public Tilemap collisionTilemap;
 
     [SerializeField] 
@@ -30,6 +34,27 @@ public class MovingObject : MonoBehaviour
     public bool isMoving;
     // private GameObject circleRedGO;
 
+    #region Unity Methods
+    void Update()
+    {
+        if (isMoving)
+        {
+            Debug.Log("isMoving:" + isMoving);
+            transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
+            if (transform.position == movePoint)
+            {
+                isMoving = false;
+                OnMoveEnd?.Invoke();
+                Debug.Log("OnMoveEnded");
+            }
+        }
+    }
+
+    void Start()
+    {
+        // circleRedGO = GameObject.Find("CircleRed");
+    }
+    #endregion
 
     public MovementResult AttemptMove(Vector2 direction){
         Vector3Int gridPosition = groundTilemap.WorldToCell(transform.position);
@@ -104,7 +129,6 @@ public class MovingObject : MonoBehaviour
         for (int i = 0; i < numberOfTiles; i++){
             targetPosition += (Vector3)(directionVector * tilemapCellSize);
             moveCondition = EvaluateMove(targetPosition, out hitObject);
-            Debug.Log(moveCondition);
             if (moveCondition == MovementResult.Moved){
                 movePoint = targetPosition;
                 tilesMoved++;
@@ -114,6 +138,8 @@ public class MovingObject : MonoBehaviour
             }
         }
         isMoving = true;
+        OnMove?.Invoke();
+        Debug.Log("OnMove");
         // circleRedGO.transform.position = targetPosition;
         return hitObject;
 
@@ -153,6 +179,7 @@ public class MovingObject : MonoBehaviour
         
         // Se não tiver chão, ou houver algum tile da camada de colisão, retorna falso
         if (targetGroundTile == null || targetCollisionTile != null){
+            Debug.Log("Não tem ground");
             return false;
         }
 
@@ -172,16 +199,11 @@ public class MovingObject : MonoBehaviour
         return true;
     }
 
-    void Update()
+    public void SetGround(Tilemap ground, Tilemap collision)
     {
-        if (isMoving)
-            transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
-            if (transform.position == movePoint)
-                isMoving = false;
-    }
-   void Start()
-    {
-        // circleRedGO = GameObject.Find("CircleRed");
+        groundTilemap = ground;
+        collisionTilemap = collision;
+
     }
 
 }

@@ -2,24 +2,25 @@ using UnityEngine;
 
 public class Damageable : MonoBehaviour
 {
-    public int maxHealth = 10;
-    private int currentHealth;
+    public int maxHealth;
+    [HideInInspector]
+    public int CurrentHealth {get; private set;}
     public HealthBar healthBar;
     public delegate void DeathAction(IUnit unit);
     public event DeathAction OnDeath;
 
     protected virtual void Start()
     {
-        currentHealth = maxHealth;
+        CurrentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
+        CurrentHealth -= damage;
+        healthBar.SetHealth(CurrentHealth);
 
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }
@@ -27,14 +28,14 @@ public class Damageable : MonoBehaviour
 
     public void RestoreHealth(int amount)
     {
-        if (currentHealth + amount <= maxHealth){
-            currentHealth += amount;
+        if (CurrentHealth + amount <= maxHealth){
+            CurrentHealth += amount;
         } else {
-            currentHealth = maxHealth;
+            CurrentHealth = maxHealth;
         }
-        healthBar.SetHealth(currentHealth);
+        healthBar.SetHealth(CurrentHealth);
 
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }
