@@ -10,9 +10,14 @@ public class LevelManager : MonoBehaviour
     private int currentUnitIndex;
     private int playerUnitIndex;
     private int playCount = 0;
+<<<<<<< Updated upstream:Assets/Scripts/LevelManager.cs
     private int kills;
     private Transform player;
  
+=======
+    private Card cardSelected;
+
+>>>>>>> Stashed changes:Assets/Scripts/Managers/LevelManager.cs
     public bool levelOver = false;
 
     [SerializeField]
