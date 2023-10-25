@@ -93,6 +93,8 @@ public class Enemy : MonoBehaviour, IUnit
         if (shotCooldown <= 0)
         {
             GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
+            Debug.Log("Bullet instantiated"); // Adicionado para depuração
+
             EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
             bulletScript.SetDirection(direction);
 
