@@ -42,9 +42,18 @@ public class GameManager : SingletonPersistent<GameManager>
             Debug.LogWarning("Added card to Deck!  -> " + deck[i]);
         }
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 1; i++)
         {
             GameObject cardObject = Instantiate(Resources.Load<GameObject>("Cards/DoubleAttackCard"));
+            cardObject.SetActive(false);
+            cardObject.name = "Card " + i;
+            deck.Add(cardObject.GetComponent<Card>());
+            Debug.LogWarning("Added card to Deck!  -> " + deck[i]);
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            GameObject cardObject = Instantiate(Resources.Load<GameObject>("Cards/NormalAttackCard"));
             cardObject.SetActive(false);
             cardObject.name = "Card " + i;
             deck.Add(cardObject.GetComponent<Card>());
