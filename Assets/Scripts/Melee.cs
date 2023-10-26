@@ -10,12 +10,7 @@ public class Melee : MonoBehaviour
     void OnEnable()
     {
         movingObject = GetComponent<MovingObject>();
-        movingObject.OnHit += ExecuteAttack;
-    }
-
-    void OnDisable()
-    {
-        movingObject.OnHit -= ExecuteAttack;
+        // movingObject.OnHit += ExecuteAttack;
     }
 
 
@@ -23,20 +18,29 @@ public class Melee : MonoBehaviour
     {
     }
 
+    void OnDisable()
+    {
+        // movingObject.OnHit -= ExecuteAttack;
+    }
+
+
+
+
     public void ExecuteAttack(GameObject targetObject)
     {
-        if (targetObject != null)
-        {
-            Damageable damageableComponent = targetObject.GetComponent<Damageable>();
-            if (damageableComponent != null && targetObject.tag != gameObject.tag)  // Evite atacar objetos com a mesma tag
-            {
-                damageableComponent.TakeDamage(attackPoints);
-                Debug.Log(targetObject.name + " foi atacado!");
-            }
-            else
-            {
-                Debug.LogWarning("Não foi possível acessar o script Damageable ou tentando atacar objeto com a mesma tag");
-            }
-        }
+        // if (targetObject != null)
+        // {
+        //     Damageable damageableComponent = targetObject.GetComponent<Damageable>();
+        //     if (damageableComponent != null && targetObject.tag != gameObject.tag)  // Evite atacar objetos com a mesma tag
+        //     {
+        //         damageableComponent.TakeDamage(attackPoints);
+        //         Debug.Log(targetObject.name + " foi atacado!");
+        //     }
+        //     else
+        //     {
+        //         Debug.LogWarning("Não foi possível acessar o script Damageable ou tentando atacar objeto com a mesma tag");
+        //     }
+        // }
+
     }
 }

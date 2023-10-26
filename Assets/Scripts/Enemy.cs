@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour, IUnit
     // Propriedades para controle de estado
     public bool IsPlaying { get; set; }
     public bool CanPlay { get; set; }
+    public bool IsUsingCard { get ; set; }
 
     private Vector2 lastTargetPosition; // Armazena a última posição do alvo
 

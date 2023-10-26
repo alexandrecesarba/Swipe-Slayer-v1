@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,14 +10,19 @@ public class GameManager : SingletonPersistent<GameManager>
     public float levelStartDelay = 2f;
     public float turnDelay = 0f;
     [HideInInspector] public bool playersTurn = true;
+    public GameObject player;
 
     private int level = 1;
+<<<<<<< Updated upstream:Assets/Scripts/GameManager.cs
+=======
     public GameObject player;
-    public List<Card> deck = new List<Card>();
+    private List<Card> deck = new();
     public List<Card> hands = new();
     public List<Vector3> cardSlots = new();
     public bool[] availableCardSlots;
+>>>>>>> Stashed changes:Assets/Scripts/Managers/GameManager.cs
 
+    private List<Enemy> enemies;
     public bool shouldChangeLevel = false;
 
     public LevelManager levelManager;
@@ -26,6 +33,8 @@ public class GameManager : SingletonPersistent<GameManager>
 
     void Awake()
     {
+<<<<<<< Updated upstream:Assets/Scripts/GameManager.cs
+=======
         player = GameObject.FindWithTag("Player");
 
         cardSlots.Add(new Vector3(-2.5f, -7, -1));
@@ -42,18 +51,9 @@ public class GameManager : SingletonPersistent<GameManager>
             Debug.LogWarning("Added card to Deck!  -> " + deck[i]);
         }
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 6; i++)
         {
             GameObject cardObject = Instantiate(Resources.Load<GameObject>("Cards/DoubleAttackCard"));
-            cardObject.SetActive(false);
-            cardObject.name = "Card " + i;
-            deck.Add(cardObject.GetComponent<Card>());
-            Debug.LogWarning("Added card to Deck!  -> " + deck[i]);
-        }
-
-        for (int i = 0; i < 5; i++)
-        {
-            GameObject cardObject = Instantiate(Resources.Load<GameObject>("Cards/NormalAttackCard"));
             cardObject.SetActive(false);
             cardObject.name = "Card " + i;
             deck.Add(cardObject.GetComponent<Card>());
@@ -66,36 +66,62 @@ public class GameManager : SingletonPersistent<GameManager>
         {
             Debug.LogWarning(deck[i].name);
         }
+>>>>>>> Stashed changes:Assets/Scripts/Managers/GameManager.cs
     }
 
     void Start()
     {
+<<<<<<< Updated upstream:Assets/Scripts/GameManager.cs
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        // levelLoader = GetComponent<LevelLoader>();
+        turnLoop = StartCoroutine(levelManager.TurnLoop());
+        Debug.Log("StartCoroutine(levelManager.Turnloop())");
+
+        player = GameObject.FindWithTag("Player");
+=======
         if (player == null)
+        {
             Debug.LogWarning("Não foi possível encontrar o Player no GameManager");
+        }
+        
+
         // Debug.LogWarning("Active scene: " + SceneManager.GetActiveScene().name);
         // levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         // levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
         // // levelLoader = GetComponent<LevelLoader>();
         // turnLoop = StartCoroutine(levelManager.TurnLoop());
         // Debug.Log("StartCoroutine(levelManager.Turnloop())");
+>>>>>>> Stashed changes:Assets/Scripts/Managers/GameManager.cs
     }
 
     public void SetUpNewLevel()
     {
+        levelManager.levelOver = false;
+        Debug.Log("OnLevelWasLoaded");
+        //level++; // Uncomment when you have more than one scene
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 
-        // InputManager.Instance.Reload();
-        levelManager.levelOver = false;
-        //level++; // Uncomment when you have more than one scene
-
         if (levelManager != null)
-        {   
+        {
             turnLoop = StartCoroutine(levelManager.TurnLoop());
+            Debug.Log("StartCoroutine(levelManager.Turnloop())");
         }
         else
         {
-            Debug.LogWarning("LevelManager not Found!");
+            Debug.Log("LevelManager not Found!");
         }
+        // Reactivate events
+        SwipeDetection swipeDetection = FindObjectOfType<SwipeDetection>();
+        if (swipeDetection != null)
+        {
+            //swipeDetection.ReactivateEvents();
+        }
+        else
+        {
+            Debug.LogError("SwipeDetection not found");
+        }
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
     }
 
 
@@ -107,12 +133,12 @@ public class GameManager : SingletonPersistent<GameManager>
 
     public void LevelEnded()
     {
-        if (levelManager != null)
-        {
         levelManager.EndLevel();
         Debug.Log("Ending level");
         StopCoroutine(turnLoop);
         Debug.Log("Stopping Coroutine");
+<<<<<<< Updated upstream:Assets/Scripts/GameManager.cs
+=======
         }
     }
 
@@ -131,7 +157,7 @@ public class GameManager : SingletonPersistent<GameManager>
                 }
             }
         }
-
+>>>>>>> Stashed changes:Assets/Scripts/Managers/GameManager.cs
     }
 
     public void ReplaceCards(int amount)
@@ -144,7 +170,6 @@ public class GameManager : SingletonPersistent<GameManager>
             }
         }
     }
-    
     [ContextMenu("DiscardCards")]
     public void DiscardCards()
     {
@@ -206,4 +231,5 @@ public class GameManager : SingletonPersistent<GameManager>
             Debug.LogWarning("DECK IS EMPTY! DECK COUNT ->" + deck.Count);
         }
     }
+
 }

@@ -6,7 +6,8 @@ public enum MovementResult
 {
     Moved,
     Blocked,
-    Hit
+    Hit,
+    Unable
 }
 
 public class MovingObject : MonoBehaviour
@@ -15,6 +16,10 @@ public class MovingObject : MonoBehaviour
     #region Events
     public delegate void HitHandler(GameObject hitObject);
     public event HitHandler OnHit;
+    public delegate void MoveHandler();
+    public event MoveHandler OnMove;
+    public event MoveHandler OnMoveEnd;
+
     #endregion
 
     [SerializeField]
@@ -32,23 +37,18 @@ public class MovingObject : MonoBehaviour
     #region Unity Methods
     void Update()
     {
-    if (isMoving)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
-        if (transform.position == movePoint)
+        if (isMoving)
         {
-            isMoving = false;
-            // AdjustPositionToGridCenter();
+            Debug.Log("isMoving:" + isMoving);
+            transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
+            if (transform.position == movePoint)
+            {
+                isMoving = false;
+                OnMoveEnd?.Invoke();
+                Debug.Log("OnMoveEnded");
+            }
         }
     }
-    }
-
-    // private void AdjustPositionToGridCenter()
-    // {
-    //     Vector3Int cellPosition = groundTilemap.WorldToCell(transform.position);
-    //     transform.position = groundTilemap.GetCellCenterWorld(cellPosition);
-    // }
-
 
     void Start()
     {
@@ -156,12 +156,14 @@ public class MovingObject : MonoBehaviour
             }
         }
         isMoving = true;
+        OnMove?.Invoke();
+        Debug.Log("OnMove");
         // circleRedGO.transform.position = targetPosition;
         return hitObject;
 
     }
 
-    private MovementResult EvaluateMove(Vector3 targetPosition, out GameObject hit)
+    public MovementResult EvaluateMove(Vector3 targetPosition, out GameObject hit)
     {
         if (CanMove(targetPosition, out GameObject hitObject))
         {
@@ -178,23 +180,28 @@ public class MovingObject : MonoBehaviour
             return MovementResult.Hit;
         }
         hit = null;
-        return MovementResult.Blocked;
+        return MovementResult.Unable;
     }
 
-    private bool CanMove(Vector3 targetPosition, out GameObject hit) {
-        
+    public bool CanMove(Vector3 targetPosition, out GameObject hit) {
         hit = null; // Inicializa o parâmetro de saída
+        
+        // Se já estiver movendo, não poderá mover
+        if (isMoving) {
+            return false;
+        }
 
         Vector3Int targetGridPosition = groundTilemap.WorldToCell(targetPosition);
         TileBase targetGroundTile = groundTilemap.GetTile(targetGridPosition);
         TileBase targetCollisionTile = collisionTilemap.GetTile(targetGridPosition);
         
-
+        // Se não tiver chão, ou houver algum tile da camada de colisão, retorna falso
         if (targetGroundTile == null || targetCollisionTile != null){
             Debug.Log("Não tem ground");
             return false;
         }
 
+        // Verifique se há um inimigo no tile para onde o jogador está se movendo
         Collider2D[] colliders = Physics2D.OverlapCircleAll(targetPosition, 0.2f);
 
         foreach (Collider2D collider in colliders) {
