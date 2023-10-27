@@ -10,7 +10,7 @@ public class LevelLoader : MonoBehaviour {
     public float transitionTime = 10f;
     public int currentBuildIndex = 0;
     private int lastSceneBuildIndex = 0;
-    private int levelCount = 7;
+    private int levelCount = 9;
     private int firstLevelBuildIndex = 2;
 
     #endregion
