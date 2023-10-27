@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class NormalAttack : Attack, IPower {
 
+    public int attackPoints = 1;
     public float Duration { get; set;} = 1f;
 
     public void Activate(GameObject user, Vector2 direction)

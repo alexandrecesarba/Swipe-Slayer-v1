@@ -16,7 +16,7 @@ public class Attack : MonoBehaviour {
             if (damageableComponent != null && targetObject.tag != attacker.tag)  // Evite atacar objetos com a mesma tag
             {
                 damageableComponent.TakeDamage(attackPoints);
-                Debug.Log(targetObject.name + " foi atacado!");
+                Debug.Log(targetObject.name + " foi atacado! Dano: " + attackPoints);
             }
             else if (damageableComponent == null) 
             {
