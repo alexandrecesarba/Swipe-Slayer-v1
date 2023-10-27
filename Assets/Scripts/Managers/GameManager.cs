@@ -28,10 +28,10 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         player = GameObject.FindWithTag("Player");
 
-        cardSlots.Add(new Vector3(-2.5f, -4, -1));
-        cardSlots.Add(new Vector3(-0.83f, -4, -1));
-        cardSlots.Add(new Vector3(0.83f, -4, -1));
-        cardSlots.Add(new Vector3(2.5f, -4, -1));
+        cardSlots.Add(new Vector3(-2.5f, -4.5f, -1));
+        cardSlots.Add(new Vector3(-0.83f, -4.5f, -1));
+        cardSlots.Add(new Vector3(0.83f, -4.5f, -1));
+        cardSlots.Add(new Vector3(2.5f, -4.5f, -1));
 
         for (int i = 0; i < 2; i++)
         {
