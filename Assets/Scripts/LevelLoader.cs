@@ -46,6 +46,8 @@ public class LevelLoader : MonoBehaviour {
     IEnumerator LoadLevel(int levelIndex)
     {
         GameManager.Instance.LevelEnded();
+        GameManager.Instance.DiscardCards();
+
         transition.SetTrigger("Start");
 
         yield return new WaitForSeconds(transitionTime);
