@@ -345,7 +345,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &4924565656592964033
 MonoBehaviour:
@@ -477,6 +477,7 @@ GameObject:
   - component: {fileID: 2345657044601512421}
   - component: {fileID: 8795840525037449028}
   - component: {fileID: 2307216108945883071}
+  - component: {fileID: -7376090082098998640}
   m_Layer: 0
   m_Name: Kiwi
   m_TagString: Enemy
@@ -540,7 +541,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 63d5e4e91d0624417ad242854423c14c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -612,10 +613,10 @@ MonoBehaviour:
   target: {fileID: 0}
   movement: {fileID: 0}
   circlePrefab: {fileID: 8985253743109134794, guid: cc54653deee0c4e50b7c537d37e8547b, type: 3}
-  bullet: {fileID: 0}
+  bullet: {fileID: 2393430398740486560, guid: 9668cde2d6b1e45b396a8783417a455a, type: 3}
   startShotCooldown: 0
   attackPlayer: {fileID: 0}
-  turnsToWait: 0
+  turnsToWait: 1
   rangedAttackPoints: 0
 --- !u!114 &2345657044601512421
 MonoBehaviour:
@@ -660,3 +661,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoints: 1
+--- !u!114 &-7376090082098998640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7876581759378586577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f997de8f4e5ba4c38b9b33d990a61c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 311
+  groundTilemap: {fileID: 0}
+  useRaycast: 0

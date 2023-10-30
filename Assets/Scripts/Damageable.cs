@@ -17,6 +17,7 @@ public class Damageable : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        Debug.LogWarning(gameObject.name + "TOMOU DANO!");
         CurrentHealth -= damage;
         healthBar.SetHealth(CurrentHealth);
 

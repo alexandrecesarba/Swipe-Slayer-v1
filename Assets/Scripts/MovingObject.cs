@@ -57,9 +57,14 @@ public class MovingObject : MonoBehaviour
     #endregion
 
     public MovementResult AttemptMove(Vector2 direction){
+     // Normaliza e arredonda a direção para garantir movimento ortogonal
+        Vector2 normalizedDirection = NormalizeDirection(direction);
+
         Vector3Int gridPosition = groundTilemap.WorldToCell(transform.position);
-        Vector3 targetPosition = transform.position + (Vector3)direction;
-    
+        Vector3 targetPosition = transform.position + (Vector3)normalizedDirection;
+
+
+
         if (CanMove(targetPosition, out GameObject hitObject))
         {
             isMoving = true;
@@ -73,6 +78,19 @@ public class MovingObject : MonoBehaviour
         }
         return MovementResult.Blocked;
     }
+
+    private Vector2 NormalizeDirection(Vector2 direction)
+    {
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            return new Vector2(Mathf.Sign(direction.x), 0);
+        }
+        else
+        {
+            return new Vector2(0, Mathf.Sign(direction.y));
+        }
+    }
+
 
     public MovementResult AttemptMoveInTiles(GridDirection direction, int numberOfTiles)
     {
@@ -205,5 +223,6 @@ public class MovingObject : MonoBehaviour
         collisionTilemap = collision;
 
     }
+
 
 }

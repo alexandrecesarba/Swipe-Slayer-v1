@@ -28,10 +28,10 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         player = GameObject.FindWithTag("Player");
 
-        cardSlots.Add(new Vector3(-2.5f, -5, -1));
-        cardSlots.Add(new Vector3(-0.83f, -5, -1));
-        cardSlots.Add(new Vector3(0.83f, -5, -1));
-        cardSlots.Add(new Vector3(2.5f, -5, -1));
+        cardSlots.Add(new Vector3(-2.5f, -4.5f, -1));
+        cardSlots.Add(new Vector3(-0.83f, -4.5f, -1));
+        cardSlots.Add(new Vector3(0.83f, -4.5f, -1));
+        cardSlots.Add(new Vector3(2.5f, -4.5f, -1));
 
         for (int i = 0; i < 2; i++)
         {
@@ -83,7 +83,6 @@ public class GameManager : SingletonPersistent<GameManager>
     public void SetUpNewLevel()
     {
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        GameManager.Instance.Draw4Cards();
 
         // InputManager.Instance.Reload();
         levelManager.levelOver = false;
@@ -110,10 +109,10 @@ public class GameManager : SingletonPersistent<GameManager>
     {
         if (levelManager != null)
         {
-            levelManager.EndLevel();
-            Debug.Log("Ending level");
-            StopCoroutine(turnLoop);
-            Debug.Log("Stopping Coroutine");
+        levelManager.EndLevel();
+        Debug.Log("Ending level");
+        StopCoroutine(turnLoop);
+        Debug.Log("Stopping Coroutine");
         }
     }
 

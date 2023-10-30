@@ -536,9 +536,10 @@ MonoBehaviour:
   target: {fileID: 0}
   movement: {fileID: 0}
   circlePrefab: {fileID: 8985253743109134794, guid: cc54653deee0c4e50b7c537d37e8547b, type: 3}
-  bullet: {fileID: 0}
+  bullet: {fileID: 2393430398740486560, guid: 9668cde2d6b1e45b396a8783417a455a, type: 3}
   startShotCooldown: 0
   attackPlayer: {fileID: 0}
+  turnsToWait: 1
   rangedAttackPoints: 2
 --- !u!114 &957370064452732058
 MonoBehaviour:
