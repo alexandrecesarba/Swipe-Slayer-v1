@@ -3,10 +3,15 @@ using UnityEngine;
 
 public class DoubleAttack : Attack, IPower
 {
-    public int attackPoints = 1;
+    // public int attackPoints = 1;
     readonly float interval = 1f;
 
     public float Duration { get; set;} = 2f;
+
+    public  DoubleAttack()
+    {
+        attackPoints = 1;
+    }
 
     public void Activate(GameObject user, Vector2 direction)
     {

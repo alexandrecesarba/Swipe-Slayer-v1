@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Attack : MonoBehaviour {
-    private int attackPoints;
+    protected int attackPoints;
 
     #region Variables
 
