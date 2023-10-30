@@ -53,6 +53,17 @@ public class Enemy : MonoBehaviour, IUnit
             raycastHandler = gameObject.AddComponent<RaycastHandler>();
 
         // Inicializa o sistema de pathfinding
+        StartCoroutine(InitializePathfinding());
+
+    }
+
+    IEnumerator InitializePathfinding()
+    {
+        while (movement.groundTilemap == null)
+        {
+            yield return null;
+        }
+
         pathfinding = new AStar(movement.groundTilemap, movement.collisionTilemap);
 
         lastTargetPosition = new Vector2(
