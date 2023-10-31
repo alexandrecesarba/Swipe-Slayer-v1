@@ -30,8 +30,9 @@ public class MovingObject : MonoBehaviour
     [SerializeField] 
     public float moveSpeed = 10f;
 
-    private Vector3 movePoint;
+    public Vector3 movePoint;
     public bool isMoving;
+    public Vector3 lastPosition;
     // private GameObject circleRedGO;
 
     #region Unity Methods
@@ -142,6 +143,7 @@ public class MovingObject : MonoBehaviour
         
         GameObject hitObject = null;
         tilesMoved = 0;
+        lastPosition = transform.position;
 
         // Verificar se o movimento é válido
         for (int i = 0; i < numberOfTiles; i++){
