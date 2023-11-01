@@ -75,16 +75,16 @@ public class Enemy : MonoBehaviour, IUnit
     // Atualiza a variável path a cada FixedUpdate
     private void FixedUpdate()
     {
-        Vector2 currentTargetPosition = new Vector2(target.position.x, target.position.y);
+        // Vector2 currentTargetPosition = new Vector2(target.position.x, target.position.y);
 
-        if (pathIndex >= path?.Count || currentTargetPosition != lastTargetPosition)
-        {
-            StopCoroutine("CalculatePath");
-            StartCoroutine(CalculatePath(currentTargetPosition));
-        }
+        // if (pathIndex >= path?.Count || currentTargetPosition != lastTargetPosition)
+        // {
+        //     StopCoroutine("CalculatePath");
+        //     StartCoroutine(CalculatePath(currentTargetPosition));
+        // }
 
-        // Atualiza a variável hasLineOfSight
-        hasLineOfSight = raycastHandler.HasLineOfSightTo(target);
+        // // Atualiza a variável hasLineOfSight
+        // hasLineOfSight = raycastHandler.HasLineOfSightTo(target);
     }
 
     private IEnumerator CalculatePath(Vector2 targetPos)
@@ -92,11 +92,12 @@ public class Enemy : MonoBehaviour, IUnit
         Vector2 startPos = new Vector2(transform.position.x, transform.position.y);
         List<Vector2> newPath = pathfinding.FindPath(startPos, targetPos);
 
-        yield return null;
 
         path = newPath;
         pathIndex = 0;
         lastTargetPosition = targetPos;
+        
+        yield return null;
     }
 
     // Atira na direção especificada
@@ -130,6 +131,20 @@ public class Enemy : MonoBehaviour, IUnit
         else
         {
             yield return new WaitForSeconds(time / 2);
+
+            Vector2 currentTargetPosition = new Vector2(target.position.x, target.position.y);
+
+            if (pathIndex >= path?.Count || currentTargetPosition != lastTargetPosition)
+            {
+                StartCoroutine(CalculatePath(currentTargetPosition));
+                yield return new WaitForSeconds(1f);
+                StopCoroutine("CalculatePath");
+            }
+
+            // Atualiza a variável hasLineOfSight
+            hasLineOfSight = raycastHandler.HasLineOfSightTo(target);
+
+
 
             float distanceToTarget = Vector2.Distance(transform.position, target.position);
             EnemyBullet bulletPrefabScript = bullet.GetComponent<EnemyBullet>();

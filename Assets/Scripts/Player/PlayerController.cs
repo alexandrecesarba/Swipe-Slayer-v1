@@ -106,8 +106,11 @@ public class PlayerController : MonoBehaviour, IUnit
         if (IsPlaying)
         {
             GameObject hit = movement.AttemptMoveInTiles(direction, 1, out _);
-            IsPlaying = false;
-            
+            while (movement.isMoving)
+            {
+                yield return null;
+            }
+            // IsPlaying = false;
             yield return new WaitForSeconds(1f);
         }
     
@@ -126,13 +129,13 @@ public class PlayerController : MonoBehaviour, IUnit
 
     private IEnumerator PlayCard(Card cardSelected, Vector2 direction)
     {
-        IsPlaying = false;
         IsUsingCard = true;
         cardSelected.Activate(this.gameObject, direction);
         cardSelected.UnselectCard();
 
         yield return new WaitForSeconds(cardSelected.power.Duration);
         IsUsingCard = false;
+        IsPlaying = false;
     }
 
     public IEnumerator Play(float time)

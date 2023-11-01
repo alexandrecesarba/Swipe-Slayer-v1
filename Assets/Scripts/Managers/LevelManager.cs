@@ -129,6 +129,13 @@ public class LevelManager : MonoBehaviour
                         yield return null;
                     }
                 }
+                if (unitMB.TryGetComponent<MovingObject>(out MovingObject unitMovement))
+                {
+                    while (unitMovement.isMoving)
+                    {
+                        yield return null;
+                    }
+                }
                 currentUnit.IsPlaying = false;
             }
 
