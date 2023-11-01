@@ -7,7 +7,7 @@ public class NormalAttack : Attack, IPower {
 
     public  NormalAttack()
     {
-        attackPoints = 2;
+        attackPoints = 1;
     }
 
     public void Activate(GameObject user, Vector2 direction)
