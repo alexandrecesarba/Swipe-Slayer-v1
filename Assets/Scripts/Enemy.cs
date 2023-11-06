@@ -137,7 +137,7 @@ public class Enemy : MonoBehaviour, IUnit
             Vector2 moveDirection;
             Vector2 altMoveDirection;
 
-            if (absX > absY || absY == 0)
+            if (absX > absY)
             {
                 moveDirection = posDif.x <0 ? Vector2.right : Vector2.left;
                 altMoveDirection = posDif.y <0 ? Vector2.up : Vector2.down;

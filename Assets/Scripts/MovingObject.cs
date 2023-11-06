@@ -39,13 +39,11 @@ public class MovingObject : MonoBehaviour
     {
         if (isMoving)
         {
-            Debug.Log("isMoving:" + isMoving);
             transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.deltaTime);
             if (transform.position == movePoint)
             {
                 isMoving = false;
                 OnMoveEnd?.Invoke();
-                Debug.Log("OnMoveEnded");
             }
         }
     }
@@ -151,7 +149,6 @@ public class MovingObject : MonoBehaviour
             if (moveCondition == MovementResult.Moved){
                 isMoving = true;
                 movePoint = targetPosition;
-                Debug.LogWarning(gameObject.name + "MovingObject MovePoint updated: " + movePoint);
                 tilesMoved++;
             }
             else{
@@ -159,7 +156,6 @@ public class MovingObject : MonoBehaviour
             }
         }
         OnMove?.Invoke();
-        Debug.Log("OnMove");
         // circleRedGO.transform.position = targetPosition;
         return hitObject;
 
