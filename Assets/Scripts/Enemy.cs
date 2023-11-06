@@ -148,16 +148,12 @@ public class Enemy : MonoBehaviour, IUnit
                 altMoveDirection = posDif.x <0 ? Vector2.right : Vector2.left;
             }
 
-            movement.AttemptMoveInTiles(moveDirection, 1, out int tilesMoved);
-            if (tilesMoved == 0)
+            MovementResult moveCondition = movement.AttemptMoveInTiles(moveDirection, 1, out int tilesMoved);
+            if (tilesMoved == 0 && moveCondition != MovementResult.Hit)
             {
                 Debug.LogWarning("Enemy trying to move in" + moveDirection + ". Trying Alt: " + altMoveDirection);
-                GameObject hit = movement.AttemptMoveInTiles(altMoveDirection, 1, out _);
+                movement.AttemptMoveInTiles(altMoveDirection, 1, out _);
                 Debug.LogWarning("Enemy moved to " + altMoveDirection + ". Tiles moved: " + tilesMoved);
-                if (hit != null)
-                {
-                    Debug.LogWarning("Hit: " + hit.name);
-                } 
                     
             }
             

@@ -131,7 +131,7 @@ public class MovingObject : MonoBehaviour
         
     }
 
-    public GameObject AttemptMoveInTiles(Vector2 directionVector, int numberOfTiles, out int tilesMoved)
+    public MovementResult AttemptMoveInTiles(Vector2 directionVector, int numberOfTiles, out int tilesMoved)
     {
         Vector2 tilemapCellSize = groundTilemap.cellSize;
         Vector3 targetPosition = transform.position;
@@ -155,9 +155,15 @@ public class MovingObject : MonoBehaviour
                 break;
             }
         }
+        if (moveCondition == MovementResult.Hit)
+        {
+            Debug.Log("HIT: " + hitObject.name);
+            OnHit?.Invoke(hitObject);
+        }
+
         OnMove?.Invoke();
         // circleRedGO.transform.position = targetPosition;
-        return hitObject;
+        return moveCondition;
 
     }
 
@@ -170,11 +176,7 @@ public class MovingObject : MonoBehaviour
         }
         else if (hitObject != null)
         {
-            // Podemos fazer algo em relação ao objeto atingido, se necessário.
-            Debug.Log("HIT: " + hitObject.name);
-            OnHit?.Invoke(hitObject);
             hit = hitObject;
-
             return MovementResult.Hit;
         }
         hit = null;
