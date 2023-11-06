@@ -147,15 +147,17 @@ public class MovingObject : MonoBehaviour
         for (int i = 0; i < numberOfTiles; i++){
             targetPosition += (Vector3)(directionVector * tilemapCellSize);
             moveCondition = EvaluateMove(targetPosition, out hitObject);
+            Debug.LogWarning("MoveCondition: " + moveCondition);
             if (moveCondition == MovementResult.Moved){
+                isMoving = true;
                 movePoint = targetPosition;
+                Debug.LogWarning(gameObject.name + "MovingObject MovePoint updated: " + movePoint);
                 tilesMoved++;
             }
             else{
                 break;
             }
         }
-        isMoving = true;
         OnMove?.Invoke();
         Debug.Log("OnMove");
         // circleRedGO.transform.position = targetPosition;
