@@ -16,6 +16,7 @@ public class PlayerHealthBar : MonoBehaviour {
         if (playerDamageable != null && healthBar != null) {
             playerDamageable.healthBar = GetComponent<HealthBar>();
             healthBar.SetHealth(playerDamageable.CurrentHealth);
+            healthBar.SetMaxHealth(playerDamageable.maxHealth);
         }
     }
 
