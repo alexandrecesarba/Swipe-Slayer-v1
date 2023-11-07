@@ -127,12 +127,22 @@ public class PlayerController : MonoBehaviour, IUnit
     private IEnumerator PlayCard(Card cardSelected, Vector2 direction)
     {
         IsPlaying = false;
-        IsUsingCard = true;
-        cardSelected.Activate(this.gameObject, direction);
-        cardSelected.UnselectCard();
+        if (IsUsingCard)
+        {
+            yield return null;
+        }
+        else
+        {
+            cardSelected.Activate(this.gameObject, direction);
+            IsUsingCard = true;
+            cardSelected.UnselectCard();
 
-        yield return new WaitForSeconds(cardSelected.power.Duration);
-        IsUsingCard = false;
+            yield return new WaitForSeconds(cardSelected.power.Duration);
+            IsUsingCard = false;
+            GameManager.Instance.DiscardCards();
+            GameManager.Instance.Draw4Cards();
+            
+        }
     }
 
     public IEnumerator Play(float time)

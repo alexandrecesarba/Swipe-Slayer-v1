@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonPersistent<GameManager>
 {
@@ -33,39 +31,35 @@ public class GameManager : SingletonPersistent<GameManager>
         cardSlots.Add(new Vector3(0.83f, -4.5f, -1));
         cardSlots.Add(new Vector3(2.5f, -4.5f, -1));
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             GameObject cardObject = Instantiate(Resources.Load<GameObject>("Cards/DoubleBootsCard"));
             cardObject.SetActive(false);
-            cardObject.name = "Card " + i;
             deck.Add(cardObject.GetComponent<Card>());
-            Debug.LogWarning("Added card to Deck!  -> " + deck[i]);
         }
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 2; i++)
         {
             GameObject cardObject = Instantiate(Resources.Load<GameObject>("Cards/DoubleAttackCard"));
             cardObject.SetActive(false);
-            cardObject.name = "Card " + i;
             deck.Add(cardObject.GetComponent<Card>());
-            Debug.LogWarning("Added card to Deck!  -> " + deck[i]);
         }
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 4; i++)
         {
             GameObject cardObject = Instantiate(Resources.Load<GameObject>("Cards/NormalAttackCard"));
             cardObject.SetActive(false);
-            cardObject.name = "Card " + i;
             deck.Add(cardObject.GetComponent<Card>());
-            Debug.LogWarning("Added card to Deck!  -> " + deck[i]);
         }
 
-        Debug.LogWarning("DECK INIT: =============================================");
+        deck.Shuffle();
 
-        for (int i = 0; i < 8; i++)
-        {
-            Debug.LogWarning(deck[i].name);
-        }
+        // Debug.LogWarning("DECK INIT: =============================================");
+
+        // for (int i = 0; i < 8; i++)
+        // {
+        //     Debug.LogWarning(deck[i].name);
+        // }
     }
 
     void Start()
@@ -87,6 +81,8 @@ public class GameManager : SingletonPersistent<GameManager>
         // InputManager.Instance.Reload();
         levelManager.levelOver = false;
         //level++; // Uncomment when you have more than one scene
+
+        Draw4Cards();
 
         if (levelManager != null)
         {   
