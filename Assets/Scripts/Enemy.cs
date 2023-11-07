@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class Enemy : MonoBehaviour, IUnit
 {
@@ -48,9 +49,9 @@ public class Enemy : MonoBehaviour, IUnit
             meleeComponent = gameObject.AddComponent<Melee>();
 
         // Inicializa a referência para o script RaycastHandler
-        // raycastHandler = GetComponent<RaycastHandler>();
-        // if (raycastHandler == null)
-        //     raycastHandler = gameObject.AddComponent<RaycastHandler>();
+        raycastHandler = GetComponent<RaycastHandler>();
+        if (raycastHandler == null)
+            raycastHandler = gameObject.AddComponent<RaycastHandler>();
 
         // Inicializa o sistema de pathfinding
         // StartCoroutine(InitializePathfinding());
@@ -73,19 +74,11 @@ public class Enemy : MonoBehaviour, IUnit
     // }
 
     // Atualiza a variável path a cada FixedUpdate
-    // private void FixedUpdate()
-    // {
-    //     Vector2 currentTargetPosition = new Vector2(target.position.x, target.position.y);
-
-    //     if (pathIndex >= path?.Count || currentTargetPosition != lastTargetPosition)
-    //     {
-    //         StopCoroutine("CalculatePath");
-    //         StartCoroutine(CalculatePath(currentTargetPosition));
-    //     }
-
-    //     // Atualiza a variável hasLineOfSight
-    //     hasLineOfSight = raycastHandler.HasLineOfSightTo(target);
-    // }
+    private void FixedUpdate()
+    {
+        // Atualiza a variável hasLineOfSight
+        hasLineOfSight = raycastHandler.HasLineOfSightTo(target);
+    }
 
     // private IEnumerator CalculatePath(Vector2 targetPos)
     // {
@@ -100,38 +93,28 @@ public class Enemy : MonoBehaviour, IUnit
     // }
 
     // Atira na direção especificada
-    // private void Shoot(Vector2 direction)
-    // {
-    //     if (shotCooldown <= 0)
-    //     {
-    //         GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
-    //         Debug.Log("Bullet instantiated"); // Adicionado para depuração
-
-    //         EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
-    //         bulletScript.SetDirection(direction);
-
-    //         bulletScript.OnMaxDistanceReached += HandleBulletMaxDistanceReached;
-
-    //         shotCooldown = startShotCooldown;
-    //     }
-    //     else
-    //     {
-    //         shotCooldown -= Time.deltaTime;
-    //     }
-    // }
-
-    // Controla o comportamento do inimigo durante sua "jogada"
-    public IEnumerator Play(float time)
+    private void Shoot(Vector2 direction)
     {
-        if (currentTurnsToWait >= 1)
+        if (shotCooldown <= 0)
         {
-            currentTurnsToWait--;
+            GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
+            Debug.Log("Bullet instantiated"); // Adicionado para depuração
+
+            EnemyBullet bulletScript = bulletInstance.GetComponent<EnemyBullet>();
+            bulletScript.SetDirection(direction);
+
+            bulletScript.OnMaxDistanceReached += HandleBulletMaxDistanceReached;
+
+            shotCooldown = startShotCooldown;
         }
         else
         {
-            yield return new WaitForSeconds(time / 2);
+            shotCooldown -= Time.deltaTime;
+        }
+    }
 
-            Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
+    private void AttemptMoveTowardsPlayer() {
+        Vector2 posDif = new Vector2(transform.position.x - target.position.x, transform.position.y - target.position.y);
             float absX = Mathf.Abs(posDif.x);
             float absY = Mathf.Abs(posDif.y);
             Vector2 moveDirection;
@@ -156,6 +139,35 @@ public class Enemy : MonoBehaviour, IUnit
                 Debug.LogWarning("Enemy moved to " + altMoveDirection + ". Tiles moved: " + tilesMoved);
                     
             }
+    }
+
+
+    // Controla o comportamento do inimigo durante sua "jogada"
+    public IEnumerator Play(float time)
+    {
+        if (currentTurnsToWait >= 1)
+        {
+            currentTurnsToWait--;
+        }
+        else
+        {
+            yield return new WaitForSeconds(time / 2);
+
+            float distanceToTarget = Vector2.Distance(transform.position, target.position);
+
+            EnemyBullet bulletPrefabScript = bullet.GetComponent<EnemyBullet>();
+
+            if (hasLineOfSight && distanceToTarget <= bulletPrefabScript.MaxDistance) {
+                 Vector2 raycastDirection = raycastHandler.LastRaycastDirection;
+                 Shoot(raycastDirection);
+            }
+            else {
+                AttemptMoveTowardsPlayer();
+            }
+
+
+
+            
             
             // float distanceToTarget = Vector2.Distance(transform.position, target.position);
             // EnemyBullet bulletPrefabScript = bullet.GetComponent<EnemyBullet>();
@@ -182,11 +194,11 @@ public class Enemy : MonoBehaviour, IUnit
     }
 
     // Método que será chamado quando o projétil atingir sua distância máxima
-    // private void HandleBulletMaxDistanceReached()
-    // {
-    //     Debug.Log("Bullet reached its max distance!");
+    private void HandleBulletMaxDistanceReached()
+    {
+        Debug.Log("Bullet reached its max distance!");
 
-    //     EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();
-    //     bulletScript.OnMaxDistanceReached -= HandleBulletMaxDistanceReached;
-    // }
+        EnemyBullet bulletScript = bullet.GetComponent<EnemyBullet>();
+        bulletScript.OnMaxDistanceReached -= HandleBulletMaxDistanceReached;
+    }
 }
