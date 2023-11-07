@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DoubleBoots : MonoBehaviour, IPower {
@@ -6,7 +7,17 @@ public class DoubleBoots : MonoBehaviour, IPower {
     
     public void Activate(GameObject user, Vector2 direction)
     {
-        user.GetComponent<MovingObject>().AttemptMoveInTiles(direction, 2, out _);
+        Debug.LogWarning("Activating DoubleBoots!");
+        StartCoroutine(DoubleMove(user, direction));
     }
 
+    IEnumerator DoubleMove(GameObject user, Vector2 direction)
+    {
+        user.GetComponent<MovingObject>().AttemptMoveInTiles(direction, 1, out _);
+        while (user.GetComponent<MovingObject>().isMoving)
+        {
+            yield return null;
+        }
+        user.GetComponent<MovingObject>().AttemptMoveInTiles(direction, 1, out _);
+    }
 }
