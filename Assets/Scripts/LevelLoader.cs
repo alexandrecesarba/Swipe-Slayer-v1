@@ -103,6 +103,7 @@ public class LevelLoader : MonoBehaviour {
     public void ReloadGame()
     {
         lastSceneBuildIndex = currentBuildIndex;
+        currentBuildIndex = 2;
         Debug.LogWarning("RELOADING GAME");
         StartCoroutine(LoadAsynchronously(2));
     }
