@@ -691,5 +691,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a45c65d48ead448a8885795fc242daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageMaterial: {fileID: 0}
+  damageMaterial: {fileID: 2100000, guid: ef63f04a8213a4903bc99a498bc65fa8, type: 2}
   flashDuration: 0.15
