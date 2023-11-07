@@ -68,7 +68,7 @@ public class GameManager : SingletonPersistent<GameManager>
             Debug.LogWarning("Não foi possível encontrar o Player no GameManager");
         // Debug.LogWarning("Active scene: " + SceneManager.GetActiveScene().name);
         // levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        // levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
         // // levelLoader = GetComponent<LevelLoader>();
         // turnLoop = StartCoroutine(levelManager.TurnLoop());
         // Debug.Log("StartCoroutine(levelManager.Turnloop())");

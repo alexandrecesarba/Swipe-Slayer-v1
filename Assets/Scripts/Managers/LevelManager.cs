@@ -28,10 +28,13 @@ public class LevelManager : MonoBehaviour
     private int kills;
 
     private bool isInitialized = false;
+    private bool hasReloadedGame = false;
+    private LevelLoader levelLoader;
 
 
     void Start()
     {
+        levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoader>();
         StartCoroutine(InitializeAndStartLevel());
     }
 
@@ -155,11 +158,17 @@ public class LevelManager : MonoBehaviour
         if (unit is PlayerController)
         {
             levelOver = true;
+            if (!hasReloadedGame)
+            {
+                hasReloadedGame = true;
+                levelLoader.ReloadGame();
+            }
         }
     }
 
     public void EndLevel()
     {
         levelOver = true;
+        GameManager.Instance.player.GetComponent<Damageable>().OnDeath -= HandleUnitDied;
     }
 }

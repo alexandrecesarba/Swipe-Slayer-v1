@@ -44,7 +44,10 @@ public class Card : MonoBehaviour {
     }
     void SelectCard()
     {
-        GameManager.Instance.player.GetComponent<PlayerController>().cardSelected.UnselectCard();
+        if (GameManager.Instance.player.GetComponent<PlayerController>().cardSelected != null)
+        {
+            GameManager.Instance.player.GetComponent<PlayerController>().cardSelected.UnselectCard();
+        }
         GameManager.Instance.player.GetComponent<PlayerController>().cardSelected = this;
         if(!selected){
             movePoint = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);

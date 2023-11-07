@@ -77,7 +77,7 @@ public class LevelLoader : MonoBehaviour {
 
     IEnumerator LoadAsynchronously (int sceneIndex)
     {
-        {
+
         transition.SetTrigger("Start");
 
         yield return new WaitForSeconds(transitionTime);
@@ -100,5 +100,10 @@ public class LevelLoader : MonoBehaviour {
 
     }
 
+    public void ReloadGame()
+    {
+        lastSceneBuildIndex = currentBuildIndex;
+        Debug.LogWarning("RELOADING GAME");
+        StartCoroutine(LoadAsynchronously(2));
     }
 }
