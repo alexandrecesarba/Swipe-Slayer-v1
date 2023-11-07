@@ -145,6 +145,7 @@ public class GameManager : SingletonPersistent<GameManager>
     public void DiscardCards()
     {
         int total = hands.Count;
+        hands.Shuffle();
         for (int i =0; i < total; i++)
         {
             deck.Add(hands[0]);
